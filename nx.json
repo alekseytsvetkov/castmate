@@ -16,15 +16,25 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "accessToken": "OTU4YmM4NTctYTRkZi00MmFmLTlkNGYtMmU3YTY0ZGM3MDcxfHJlYWQtd3JpdGU=",
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
       }
     }
   },
   "projects": {
     "castmate-api": {
       "tags": []
+    },
+    "castmate-client": {
+      "tags": []
+    },
+    "castmate-client-e2e": {
+      "tags": [],
+      "implicitDependencies": ["castmate-client"]
     }
   }
 }
