@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "projects": {
+    "castmate-api": {
+      "root": "apps/castmate-api",
+      "sourceRoot": "apps/castmate-api/src",
+      "projectType": "application",
+      "prefix": "castmate-api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/castmate-api",
+            "main": "apps/castmate-api/src/main.ts",
+            "tsConfig": "apps/castmate-api/tsconfig.app.json",
+            "assets": ["apps/castmate-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/castmate-api/src/environments/environment.ts",
+                  "with": "apps/castmate-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "castmate-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/castmate-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/castmate-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "castmate-api"
+}
