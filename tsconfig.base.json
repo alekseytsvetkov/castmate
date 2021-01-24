@@ -20,7 +20,8 @@
       "@castmate/prisma": ["libs/prisma/src/index.ts"],
       "@castmate/utils/*": ["libs/utils/src/lib/*"],
       "@castmate/ui": ["libs/ui/src/index.ts"],
-      "@castmate/containers": ["libs/containers/src/index.ts"]
+      "@castmate/ui/*": ["libs/ui/src/lib/*"],
+      "@castmate/containers/*": ["libs/containers/src/lib/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
