@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     background: #1e2532;
     height: 100%;
     overflow: hidden;
+    font-family: ${({ theme }) => theme.fonts.body};
   }
 `;
 

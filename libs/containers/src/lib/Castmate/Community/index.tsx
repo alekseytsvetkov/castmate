@@ -7,11 +7,35 @@ const Box = styled.div`
   height: 100%;
   overflow: hidden;
   background: ${({ theme }) => theme.dark2};
+  display: flex;
+`;
+
+const Sidebar = styled(Flex)`
+  max-width: 80px;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border-right: 1px solid ${({ theme }) => theme.colors.accent1};
+`;
+
+const Main = styled.div`
+  flex: 1;
+`;
+
+const Header = styled(Flex)`
+  align-items: center;
+  height: 70px;
+  width: 100%;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.accent1};
 `;
 
 const Content = styled.div`
   height: 100%;
   display: flex;
+  margin: 30px;
 `;
 
 const Middle = styled(Flex)`
@@ -21,40 +45,40 @@ const Middle = styled(Flex)`
   position: relative;
 `;
 
-const Header = styled(Flex)`
+const LogoBox = styled.div`
+  height: 70px;
+  display: flex;
   align-items: center;
-  height: 40px;
+  justify-content: center;
 `;
 
-const Board = styled.div`
-  height: calc(100% - 32px - 50px);
-  padding: 0 20px;
-`;
-
-const Right = styled.div`
-  height: 100%;
-  width: 340px;
-  background: ${({ theme }) => theme.dark1};
+const Menu = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
 `;
 
 export const Community = () => {
   return (
     <CastmateLayout>
       <Box>
-        <Header px="12px" bg="dark2">
-          <Logo />
-          <Flex flex="1"></Flex>
-        </Header>
-        <Content>
-          <Middle p="12px">
-            <div>Test</div>
-          </Middle>
-          <Right>
-            <Flex height="100%">
-              <div>Section</div>
-            </Flex>
-          </Right>
-        </Content>
+        <Sidebar>
+          <LogoBox>
+            <Logo />
+          </LogoBox>
+          <Menu><div>Home</div></Menu>
+        </Sidebar>
+        <Main>
+          <Header px="12px" bg="dark2">
+            <Flex flex="1"></Flex>
+          </Header>
+          <Content>
+            <Middle>
+              <div>Content</div>
+            </Middle>
+          </Content>
+        </Main>
       </Box>
     </CastmateLayout>
   );
