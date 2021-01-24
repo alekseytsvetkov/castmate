@@ -1,0 +1,105 @@
+import * as jwt from 'jsonwebtoken';
+import { PrismaService } from '@castmate/prisma';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private readonly config: ConfigService,
+    private prisma: PrismaService
+  ) {}
+
+  accessTokenFromHeader = (authorization: string) => {
+    if (!authorization) return null;
+
+    const authHeader = authorization.split(' ');
+
+    if (authHeader[0].toLowerCase() !== 'bearer') {
+      return null;
+    }
+
+    return authHeader[1];
+  };
+
+  jwtValidation = (token: string) => {
+    try {
+      const payload = jwt.verify(token, this.config.get('auth.secretKey'));
+
+      if (typeof payload === 'object') {
+        return payload;
+      }
+
+      return undefined;
+    } catch (err) {
+      return undefined;
+    }
+  };
+
+  async createToken(userId: string, withCode = false) {
+    const user = { userId };
+
+    const accessToken = jwt.sign(user, this.config.get('auth.secretKey'), {
+      expiresIn: '15s',
+    });
+
+    const token = await this.prisma.token.create({
+      data: {
+        accessToken,
+        code: withCode ? undefined : null,
+        user: { connect: { id: userId } },
+      },
+    });
+
+    const refreshToken = token.id;
+
+    return { accessToken, refreshToken, code: token.code };
+  }
+
+  async getTokens(authCode: string) {
+    const tokens = await this.prisma.token.findFirst({
+      where: {
+        code: authCode,
+      },
+    });
+
+    if (!tokens) {
+      throw 'auth code is invalid';
+    }
+
+    await this.prisma.token.update({
+      where: { id: tokens.id },
+      data: { code: null },
+    });
+
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.id,
+    };
+  }
+
+  async refreshTokens(refreshToken: string) {
+    const tokens = await this.prisma.token.findUnique({
+      where: {
+        id: refreshToken,
+      },
+    });
+
+    if (!tokens) {
+      throw 'refresh token is invalid';
+    }
+
+    const newTokens = await this.createToken(tokens.userId);
+
+    await this.prisma.token.delete({
+      where: {
+        id: refreshToken,
+      },
+    });
+
+    return {
+      accessToken: newTokens.accessToken,
+      refreshToken: newTokens.refreshToken,
+    };
+  }
+}

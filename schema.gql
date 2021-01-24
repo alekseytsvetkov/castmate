@@ -1,0 +1,13 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthTokens {
+  refreshToken: String!
+  accessToken: String!
+}
+
+type Query {
+  tokens(authCode: String!): AuthTokens!
+  refresh(refreshToken: String!): AuthTokens!
+}

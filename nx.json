@@ -35,6 +35,12 @@
     "castmate-client-e2e": {
       "tags": [],
       "implicitDependencies": ["castmate-client"]
+    },
+    "auth": {
+      "tags": []
+    },
+    "prisma": {
+      "tags": []
     }
   }
 }
