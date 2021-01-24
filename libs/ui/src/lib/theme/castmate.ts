@@ -5,6 +5,7 @@ export default {
     text1: '#fff',
     accent1: '#394158',
     accent2: '#8a919d',
+    red: '#E03E3E',
     green: '#009688',
     gold: '#cdb826',
     danger: '#af5959',
