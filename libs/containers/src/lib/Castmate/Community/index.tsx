@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Flex, CastmateLayout } from '@castmate/ui';
 import { Logo } from './Logo';
+import { UserMenu } from './UserMenu';
 
 const Box = styled.div`
   height: 100%;
@@ -72,6 +73,7 @@ export const Community = () => {
         <Main>
           <Header px="12px" bg="dark2">
             <Flex flex="1"></Flex>
+            <UserMenu />
           </Header>
           <Content>
             <Middle>

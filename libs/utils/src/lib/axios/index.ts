@@ -4,7 +4,7 @@ import { initializeApollo } from '../apollo';
 
 const apolloClient = initializeApollo(
   null,
-  'https://localhost:3333/graphql'
+  'http://localhost:3333/graphql'
 );
 
 const getAccessToken = async () => {

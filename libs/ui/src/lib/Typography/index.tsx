@@ -31,7 +31,7 @@ type Props = TypographyProps &
 export const Typography = styled.span<Props>(
   {
     boxSizing: 'border-box',
-    fontSize: '12.5px',
+    fontSize: '14px',
   },
   typography,
   space,

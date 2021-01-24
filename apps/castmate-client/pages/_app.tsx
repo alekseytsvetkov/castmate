@@ -6,7 +6,7 @@ import { useApollo } from '@castmate/utils/apollo';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo({
-    uri: 'https://localhost:3333/graphql',
+    uri: 'http://localhost:3333/graphql',
     pageProps,
   });
 

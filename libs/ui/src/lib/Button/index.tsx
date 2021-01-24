@@ -28,13 +28,13 @@ export const Button = styled.button<ButtonProps>`
   justify-content: center;
   text-align: center;
   padding: 0 14px;
-  height: 32px;
-  font-size: 12.5px;
-  background: ${({ mainColor, theme }) => theme.colors[mainColor || 'accent1']};
-  border-radius: ${(props) => getBorderRadius(props, '3px')};
+  height: 50px;
+  font-size: 14px;
+  background: ${({ mainColor, theme }) => theme.colors[mainColor || 'castmate']};
+  border-radius: ${(props) => getBorderRadius(props, '12px')};
   cursor: pointer;
   color: ${({ mainColor, theme }) =>
-    lighten(1.5, theme.colors[mainColor || 'accent1'])};
+    lighten(1.5, theme.colors[mainColor || 'castmate'])};
   border: none;
   ${({ isGroup, isLast }) =>
     (isGroup || !isLast) && `margin-right: 1px;`} outline: none;
@@ -45,11 +45,11 @@ export const Button = styled.button<ButtonProps>`
   }
   :focus {
     background: ${({ mainColor, theme }) =>
-      lighten(0.1, theme.colors[mainColor || 'accent1'])};
+      lighten(0.1, theme.colors[mainColor || 'castmate'])};
   }
   :hover {
     background: ${({ mainColor, theme }) =>
-      lighten(0.2, theme.colors[mainColor || 'accent1'])};
+      lighten(0.05, theme.colors[mainColor || 'castmate'])};
   }
 `;
 
