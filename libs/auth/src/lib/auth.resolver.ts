@@ -1,4 +1,6 @@
-import { Query, Resolver, Args } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Query, Resolver, Args, Mutation, Context } from '@nestjs/graphql';
+import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { AuthTokens } from './models/AuthTokens';
 
@@ -11,8 +13,17 @@ export class AuthResolver {
     return this.authService.getTokens(authCode);
   }
 
-  @Query(() => AuthTokens)
+  @Query(() => String)
   async refresh(@Args('refreshToken') refreshToken: string) {
-    return this.authService.refreshTokens(refreshToken);
+    return this.authService.refreshToken(refreshToken);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => Boolean)
+  async logout(
+    @Args('refreshToken') refreshToken: string,
+    @Context('userId') userId
+  ) {
+    return this.authService.logout(refreshToken, userId);
   }
 }

@@ -7,5 +7,7 @@ module.exports = {
     '<rootDir>/libs/utils',
     '<rootDir>/libs/ui',
     '<rootDir>/libs/containers',
+    '<rootDir>/libs/user',
+    '<rootDir>/libs/connection',
   ],
 };

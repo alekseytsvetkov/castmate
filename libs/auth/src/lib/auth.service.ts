@@ -36,12 +36,18 @@ export class AuthService {
     }
   };
 
-  async createToken(userId: string, withCode = false) {
+  async createAccessToken(userId: string) {
     const user = { userId };
 
     const accessToken = jwt.sign(user, this.config.get('auth.secretKey'), {
       expiresIn: '15s',
     });
+
+    return accessToken;
+  }
+
+  async createToken(userId: string, withCode = false) {
+    const accessToken = await this.createAccessToken(userId);
 
     const token = await this.prisma.token.create({
       data: {
@@ -69,7 +75,7 @@ export class AuthService {
 
     await this.prisma.token.update({
       where: { id: tokens.id },
-      data: { code: null },
+      data: { code: null, accessToken: null },
     });
 
     return {
@@ -78,28 +84,31 @@ export class AuthService {
     };
   }
 
-  async refreshTokens(refreshToken: string) {
-    const tokens = await this.prisma.token.findUnique({
-      where: {
-        id: refreshToken,
-      },
+  async refreshToken(refreshToken: string) {
+    const token = await this.prisma.token.findFirst({
+      where: { id: refreshToken },
     });
 
-    if (!tokens) {
+    if (!token) {
       throw 'refresh token is invalid';
     }
 
-    const newTokens = await this.createToken(tokens.userId);
+    const accessToken = await this.createAccessToken(token.userId);
 
-    await this.prisma.token.delete({
-      where: {
-        id: refreshToken,
-      },
+    return accessToken;
+  }
+
+  async logout(refreshToken: string, userId: string) {
+    const token = await this.prisma.token.findFirst({
+      where: { id: refreshToken, userId },
     });
 
-    return {
-      accessToken: newTokens.accessToken,
-      refreshToken: newTokens.refreshToken,
-    };
+    if (!token) {
+      throw 'refresh token or user is invalid';
+    }
+
+    await this.prisma.token.delete({ where: { id: refreshToken } });
+
+    return true;
   }
 }

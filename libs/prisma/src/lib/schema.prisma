@@ -21,12 +21,13 @@ model Profile {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  profile   Profile?
-  Token     Token[]
+  id         String       @id @default(cuid())
+  name       String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now()) @updatedAt
+  profile    Profile?
+  Token      Token[]
+  Connection Connection[]
 }
 
 model Token {
@@ -40,7 +41,19 @@ model Token {
 }
 
 model Instance {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id         String       @id @default(cuid())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now()) @updatedAt
+  Connection Connection[]
+}
+
+model Connection {
+  id         String   @id @default(cuid())
+  instanceId String
+  userId     String?
+  ipHash     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  instance   Instance @relation(fields: [instanceId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id])
 }

@@ -31,6 +31,8 @@
     "prisma": { "tags": [] },
     "utils": { "tags": [] },
     "ui": { "tags": [] },
-    "containers": { "tags": [] }
+    "containers": { "tags": [] },
+    "user": { "tags": [] },
+    "connection": { "tags": [] }
   }
 }
