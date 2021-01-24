@@ -4,5 +4,8 @@ module.exports = {
     '<rootDir>/apps/castmate-client',
     '<rootDir>/libs/auth',
     '<rootDir>/libs/prisma',
+    '<rootDir>/libs/utils',
+    '<rootDir>/libs/ui',
+    '<rootDir>/libs/containers',
   ],
 };

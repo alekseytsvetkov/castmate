@@ -1,25 +1,27 @@
 import React from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { ReactComponent as NxLogo } from '../public/nx-logo-white.svg';
-import './styles.css';
+import { ApolloProvider } from '@apollo/client';
+import { useApollo } from '@castmate/utils/apollo';
 
 function CustomApp({ Component, pageProps }: AppProps) {
+  const apolloClient = useApollo({
+    uri: 'https://localhost:3333/graphql',
+    pageProps,
+  });
+
   return (
-    <>
+    <ApolloProvider client={apolloClient}>
       <Head>
-        <title>Welcome to castmate-client!</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet"
+        />
+        <title>Castmate</title>
       </Head>
-      <div className="app">
-        <header className="flex">
-          <NxLogo width="75" height="50" />
-          <h1>Welcome to castmate-client!</h1>
-        </header>
-        <main>
-          <Component {...pageProps} />
-        </main>
-      </div>
-    </>
+      <Component {...pageProps} />
+    </ApolloProvider>
   );
 }
 
