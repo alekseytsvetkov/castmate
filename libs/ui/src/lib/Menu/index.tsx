@@ -9,6 +9,6 @@ export const Menu = styled(Flex)`
 
 export const MenuItem = styled(Flex)`
   align-items: center;
-  padding: 0 12px;
+  padding: 0 20px;
   height: 32px;
 `;

@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Flex, CastmateLayout } from '@castmate/ui';
+import { Flex, CastmateLayout, MenuItem } from '@castmate/ui';
 import { Logo } from './Logo';
 import { UserMenu } from './UserMenu';
+import { Home, Compass, Users, Settings } from 'react-feather';
 
 const Box = styled.div`
   height: 100%;
@@ -20,6 +21,7 @@ const Sidebar = styled(Flex)`
   overflow: hidden;
   position: relative;
   border-right: 1px solid ${({ theme }) => theme.colors.accent1};
+  justify-content: space-between;
 `;
 
 const Main = styled.div`
@@ -33,10 +35,8 @@ const Header = styled(Flex)`
   border-bottom: 1px solid ${({ theme }) => theme.colors.accent1};
 `;
 
-const Content = styled.div`
+const Content = styled(Flex)`
   height: 100%;
-  display: flex;
-  margin: 30px;
 `;
 
 const Middle = styled(Flex)`
@@ -57,10 +57,14 @@ const Menu = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
+  flex-direction: column;
+  margin-top: 20px;
 `;
 
-export const Community = () => {
+const Title = styled.div`
+`;
+
+export const Community = ({title, children}) => {
   return (
     <CastmateLayout>
       <Box>
@@ -68,16 +72,24 @@ export const Community = () => {
           <LogoBox>
             <Logo />
           </LogoBox>
-          <Menu><div>Home</div></Menu>
+          <Menu>
+            <MenuItem href="/" icon={<Home size={22} />} />
+            <MenuItem href="/feed" icon={<Compass size={22} />} />
+            <MenuItem href="/users" icon={<Users size={22} />} />
+          </Menu>
+          <Menu>
+            <MenuItem href="/settings" icon={<Settings size={22} />} />
+          </Menu>
         </Sidebar>
         <Main>
-          <Header px="12px" bg="dark2">
+          <Header px="20px" bg="dark2">
+            <Title>{title}</Title>
             <Flex flex="1"></Flex>
             <UserMenu />
           </Header>
-          <Content>
+          <Content p="20px">
             <Middle>
-              <div>Content</div>
+              {children}
             </Middle>
           </Content>
         </Main>

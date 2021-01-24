@@ -2,13 +2,11 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AuthModule, AuthService } from '@castmate/auth';
 import { UserModule } from '@castmate/user';
-import { ConnectionModule, ConnectionService } from '@castmate/connection';
 import { ConfigModule } from '@nestjs/config';
 import dbConfig from './config/db.config';
 import baseConfig from './config/base.config';
 import authConfig from './config/auth.config';
 import authGoogleConfig from './config/authGoogle.config';
-import { SharedModule } from './shared.module';
 
 @Module({
   imports: [
@@ -16,13 +14,11 @@ import { SharedModule } from './shared.module';
       isGlobal: true,
       load: [dbConfig, baseConfig, authConfig, authGoogleConfig],
     }),
-    SharedModule,
     GraphQLModule.forRootAsync({
-      imports: [AuthModule, ConnectionModule],
-      inject: [AuthService, ConnectionService],
+      imports: [AuthModule],
+      inject: [AuthService],
       useFactory: async (
         authService: AuthService,
-        connectionService: ConnectionService
       ) => ({
         installSubscriptionHandlers: true,
         autoSchemaFile: 'schema.gql',
@@ -79,15 +75,9 @@ import { SharedModule } from './shared.module';
             }
 
             if (!tokenIsInvalid) {
-              const { id: connectionId } = await connectionService.create({
-                userId,
-                ipHash,
-              });
-
               return {
                 userId,
                 ipHash,
-                connectionId,
                 tokenIsInvalid,
               };
             }
@@ -96,14 +86,12 @@ import { SharedModule } from './shared.module';
           },
           onDisconnect: async (_webSocket, context) => {
             const data = await context.initPromise;
-            await connectionService.remove(data.connectionId);
           },
         },
       }),
     }),
     AuthModule,
     UserModule,
-    ConnectionModule,
   ],
   controllers: [],
   providers: [],

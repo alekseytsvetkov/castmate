@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as session from 'express-session';
 
 import { AppModule } from './app/app.module';
 
@@ -9,6 +10,14 @@ async function bootstrap() {
       origin: '*',
     },
   });
+
+  app.use(
+    session({
+      secret: 'my-castmate-secret',
+      resave: false,
+      saveUninitialized: false,
+    })
+  );
 
   const port = process.env.PORT || 3333;
   await app.listen(port, () => {

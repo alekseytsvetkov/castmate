@@ -73,10 +73,10 @@ export class AuthService {
       throw 'auth code is invalid';
     }
 
-    await this.prisma.token.update({
-      where: { id: tokens.id },
-      data: { code: null, accessToken: null },
-    });
+    // await this.prisma.token.update({
+    //   where: { id: tokens.id },
+    //   data: { code: null, accessToken: null },
+    // });
 
     return {
       accessToken: tokens.accessToken,

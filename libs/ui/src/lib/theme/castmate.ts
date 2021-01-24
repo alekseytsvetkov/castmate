@@ -2,7 +2,7 @@ export default {
   colors: {
     dark1: '#1e2532',
     dark2: '#293042',
-    text1: '#e4e4e4',
+    text1: '#fff',
     accent1: '#394158',
     accent2: '#8a919d',
     green: '#009688',

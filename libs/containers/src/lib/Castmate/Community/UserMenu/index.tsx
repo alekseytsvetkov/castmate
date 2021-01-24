@@ -4,6 +4,7 @@ import { Menu, MenuItem } from '@castmate/ui/Menu';
 import { getRefreshToken } from '@castmate/utils/token';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { LogIn } from 'react-feather';
 
 const Box = styled.div`
   background: ${({ theme }) => theme.dark2};
@@ -61,7 +62,7 @@ export const UserMenu = ({
   const GuestMenu = () => {
     return (
       <Button onClick={login}>
-        <Typography>Login with Google</Typography>
+        <LogIn size={22} />
       </Button>
     );
   };
