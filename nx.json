@@ -1,14 +1,9 @@
 {
   "npmScope": "castmate",
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
@@ -26,21 +21,13 @@
     }
   },
   "projects": {
-    "castmate-api": {
-      "tags": []
-    },
-    "castmate-client": {
-      "tags": []
-    },
+    "castmate-api": { "tags": [] },
+    "castmate-client": { "tags": [] },
     "castmate-client-e2e": {
       "tags": [],
       "implicitDependencies": ["castmate-client"]
     },
-    "auth": {
-      "tags": []
-    },
-    "prisma": {
-      "tags": []
-    }
+    "auth": { "tags": [] },
+    "prisma": { "tags": [] }
   }
 }
