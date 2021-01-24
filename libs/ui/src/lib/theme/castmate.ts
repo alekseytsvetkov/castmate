@@ -17,5 +17,5 @@ export default {
     siteStaff: '#c27979',
     roomStaff: '#79c2bc',
   },
-  fonts: { body: "'Roboto', sans-serif", logo: "'Orbitron', sans-serif" },
+  fonts: { body: "'Inter', sans-serif" },
 };

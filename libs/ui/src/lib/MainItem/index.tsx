@@ -41,7 +41,7 @@ const ItemIcon = styled(Flex)`
 const ItemText = styled.div``;
 
 const ItemTitle = styled.div`
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const ItemDescription = styled.div`
