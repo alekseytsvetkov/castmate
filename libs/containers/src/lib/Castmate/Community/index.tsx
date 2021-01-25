@@ -4,6 +4,7 @@ import { Flex, CastmateLayout, MenuItem } from '@castmate/ui';
 import { Logo } from './Logo';
 import { UserMenu } from './UserMenu';
 import { Home, Compass, Users, Settings } from 'react-feather';
+import { SearchBox } from './Search';
 
 const Box = styled.div`
   height: 100%;
@@ -82,9 +83,10 @@ export const Community = ({title, children}) => {
           </Menu>
         </Sidebar>
         <Main>
-          <Header px="20px" bg="dark2">
+          <Header px="20px" bg="dark1">
             <Title>{title}</Title>
             <Flex flex="1"></Flex>
+            <SearchBox />
             <UserMenu />
           </Header>
           <Content p="20px">

@@ -6,3 +6,4 @@ export * from './lib/Typography';
 export * from './lib/MenuItem';
 export * from './lib/MainItem';
 export * from './lib/Player';
+export * from './lib/Input';
