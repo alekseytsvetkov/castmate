@@ -48,7 +48,45 @@ const RightSidebar = styled.div`
   padding: 20px;
 `;
 
+const Members = styled.div``;
+
 const Chat = styled.div``;
+
+const SidebarTitle = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.colors.accent1};
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+`;
+
+const MembersList = styled.ul`
+  padding: 0;
+  list-style: none;
+  max-height: 185px;
+  overflow-x: scroll;
+`;
+
+const MemberItem = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  margin-bottom: 10px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  img {
+    border-radius: 8px;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+  }
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.colors.accent1};
+    background: ${({ theme }) => theme.colors.dark2};
+    cursor: pointer;
+  }
+`;
 
 export function Room() {
   return (
@@ -62,9 +100,46 @@ export function Room() {
             </RoomActions>
           </RoomContent>
           <RightSidebar>
-            <Chat />
-            <div>Members</div>
-            <div>Chat</div>
+            <Members>
+              <SidebarTitle>Members</SidebarTitle>
+              <MembersList>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/women/44.jpg" />
+                  <div>Kelly Turner</div>
+                </MemberItem>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/women/11.jpg" />
+                  <div>Sharlene Hale</div>
+                </MemberItem>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/men/11.jpg" />
+                  <div>Lee Montgomery</div>
+                </MemberItem>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/men/42.jpg" />
+                  <div>Juan Barrett</div>
+                </MemberItem>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/women/44.jpg" />
+                  <div>Kelly Turner</div>
+                </MemberItem>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/women/11.jpg" />
+                  <div>Sharlene Hale</div>
+                </MemberItem>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/men/11.jpg" />
+                  <div>Lee Montgomery</div>
+                </MemberItem>
+                <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/men/42.jpg" />
+                  <div>Juan Barrett</div>
+                </MemberItem>
+              </MembersList>
+            </Members>
+            <Chat>
+              <SidebarTitle>Chat</SidebarTitle>
+            </Chat>
           </RightSidebar>
         </RoomBox>
       </Community>
