@@ -5,6 +5,7 @@ import { Logo } from './Logo';
 import { UserMenu } from './UserMenu';
 import { Home, Compass, Users, Settings } from 'react-feather';
 import { SearchBox } from './Search';
+import { useRouter } from 'next/router'
 
 const Box = styled.div`
   height: 100%;
@@ -66,6 +67,8 @@ const Title = styled.div`
 `;
 
 export const Community = ({title, children}) => {
+  const router = useRouter();
+
   return (
     <CastmateLayout>
       <Box>
@@ -89,7 +92,7 @@ export const Community = ({title, children}) => {
             <SearchBox />
             <UserMenu />
           </Header>
-          <Content p="20px">
+          <Content p={router.pathname !== "/room" ? "20px" : "0px"}>
             <Middle>
               {children}
             </Middle>

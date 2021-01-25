@@ -5,8 +5,10 @@ import styled from 'styled-components';
 import { lighten } from 'polished';
 
 const RoomBox = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const RoomActions = styled.div`
@@ -33,15 +35,37 @@ const LeaveRoom = styled.div`
   }
 `;
 
+const RoomContent = styled.div`
+  min-width: 70%;
+  padding: 20px;
+`;
+
+const RightSidebar = styled.div`
+  width: 30%;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-left: 1px solid ${({ theme }) => theme.colors.accent1};
+  padding: 20px;
+`;
+
+const Chat = styled.div``;
+
 export function Room() {
   return (
     <CastmateLayout>
       <Community title="Room">
         <RoomBox>
-          <Player />
-          <RoomActions>
-            <LeaveRoom>Leave Room</LeaveRoom>
-          </RoomActions>
+          <RoomContent>
+            <Player height="500px" />
+            <RoomActions>
+              <LeaveRoom>Leave Room</LeaveRoom>
+            </RoomActions>
+          </RoomContent>
+          <RightSidebar>
+            <Chat />
+            <div>Members</div>
+            <div>Chat</div>
+          </RightSidebar>
         </RoomBox>
       </Community>
     </CastmateLayout>

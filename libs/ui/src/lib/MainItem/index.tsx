@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Flex } from '../base';
 import { lighten } from 'polished';
+import { useRouter } from 'next/router';
 
 const Item = styled(Flex)`
   display: flex;
@@ -49,8 +50,15 @@ const ItemDescription = styled.div`
   font-size: 14px;
 `;
 
-export const MainItem = ({ icon, title, description }) => (
-  <Item>
+export const MainItem = ({ icon, title, description, href }) => {
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push(href)
+  }
+
+  return <Item onClick={handleClick}>
     <ItemIcon>
       {icon}
     </ItemIcon>
@@ -59,4 +67,4 @@ export const MainItem = ({ icon, title, description }) => (
       <ItemDescription>{description}</ItemDescription>
     </ItemText>
   </Item>
-);
+};

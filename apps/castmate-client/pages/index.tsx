@@ -9,12 +9,13 @@ const ControlList = styled.div`
 `;
 
 export function Index() {
+
   return (
     <CastmateLayout>
       <Community title="Home">
         <ControlList>
-          <MainItem icon={<Box size={22} />} title="New room" description="set up new room" />
-          <MainItem icon={<PlusSquare size={22} />} title="Join room" description="via invitation link" />
+          <MainItem href="/room" icon={<Box size={22} />} title="New room" description="set up new room" />
+          <MainItem  href="/room" icon={<PlusSquare size={22} />} title="Join room" description="via invitation link" />
         </ControlList>
       </Community>
     </CastmateLayout>
