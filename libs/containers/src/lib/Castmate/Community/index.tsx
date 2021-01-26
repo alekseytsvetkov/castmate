@@ -5,7 +5,9 @@ import { Logo } from './Logo';
 import { UserMenu } from './UserMenu';
 import { Home, Compass, Users, Settings } from 'react-feather';
 import { SearchBox } from './Search';
+import { VersionBox } from './Version';
 import { useRouter } from 'next/router'
+import { FeedbackBox } from './Feedback';
 
 const Box = styled.div`
   height: 100%;
@@ -89,6 +91,8 @@ export const Community = ({title, children}) => {
           <Header px="20px" bg="dark1">
             <Title>{title}</Title>
             <Flex flex="1"></Flex>
+            <FeedbackBox />
+            <VersionBox />
             <SearchBox />
             <UserMenu />
           </Header>

@@ -46,6 +46,7 @@ const RightSidebar = styled.div`
   padding-right: 20px;
   border-left: 1px solid ${({ theme }) => theme.colors.accent1};
   padding: 20px;
+  height: 100%;
 `;
 
 const Members = styled.div``;
@@ -61,7 +62,7 @@ const SidebarTitle = styled.div`
 const MembersList = styled.ul`
   padding: 0;
   list-style: none;
-  max-height: 185px;
+  max-height: 125px;
   overflow-x: scroll;
 `;
 
@@ -70,6 +71,9 @@ const MemberItem = styled.li`
   align-items: center;
   padding: 6px;
   margin-bottom: 10px;
+  &:last-child {
+    margin-bottom: 0;
+  }
   color: rgba(255,255,255,0.6);
   font-weight: 400;
   font-size: 14px;
@@ -85,6 +89,69 @@ const MemberItem = styled.li`
     border: 1px solid ${({ theme }) => theme.colors.accent1};
     background: ${({ theme }) => theme.colors.dark2};
     cursor: pointer;
+  }
+`;
+
+const ChatMessages = styled.div`
+  max-height: 290px;
+  overflow-x: scroll;
+  margin-bottom: 20px;
+`;
+
+const ChatMessage = styled.div`
+  display: flex;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 5px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const MessageAuthor = styled.div`
+  color: rgba(255,255,255,0.8);
+  margin-right: 5px;
+`;
+
+const MessageText = styled.div``;
+
+const ChatForm = styled.div`
+  padding-top: 10px;
+  border-top: 1px solid ${({ theme }) => theme.colors.accent1};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ChatInput = styled.input`
+  border: none;
+  background: ${({ theme }) => theme.colors.dark1};
+  color: ${({ theme }) => theme.colors.accent2};
+  font-size: 14px;
+  margin-right: 20px;
+  padding: 20px;
+  padding-left: 0;
+  padding-right: 0;
+  outline: none;
+  width: 100%;
+`;
+
+const ChatButton = styled.button`
+  border: none;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.castmate};
+  color: ${({ theme }) => theme.colors.text1};
+  outline: none;
+  cursor: pointer;
+  padding: 12px 16px;
+  height: 100%;
+  :focus {
+    background: ${({ theme }) =>
+      lighten(0.1, theme.colors['castmate'])};
+  }
+  :hover {
+    background: ${({ theme }) =>
+      lighten(0.05, theme.colors['castmate'])};
   }
 `;
 
@@ -139,6 +206,92 @@ export function Room() {
             </Members>
             <Chat>
               <SidebarTitle>Chat</SidebarTitle>
+              <ChatMessages>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Something medium size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Small size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Something medium size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Small size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Something medium size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Small size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Something medium size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Small size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Small size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
+                  <MessageText>Something medium size message</MessageText>
+                </ChatMessage>
+                <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>Hello</MessageText>
+                </ChatMessage>
+              </ChatMessages>
+              <ChatForm>
+                <ChatInput type="text" placeholder="Type to write a message" />
+                <ChatButton>Send</ChatButton>
+              </ChatForm>
             </Chat>
           </RightSidebar>
         </RoomBox>

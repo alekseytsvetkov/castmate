@@ -38,6 +38,8 @@ export const Button = styled.button<ButtonProps>`
   border: none;
   ${({ isGroup, isLast }) =>
     (isGroup || !isLast) && `margin-right: 1px;`} outline: none;
+  ${({ isLast }) =>
+    isLast && `margin-right: 20px;`};
   transition: background 0.12s ease-in, color 0.12s ease-in,
     box-shadow 0.12s ease-in;
   i {
