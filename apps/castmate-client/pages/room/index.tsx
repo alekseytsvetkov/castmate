@@ -1,8 +1,9 @@
 import React from 'react';
-import { CastmateLayout, Player } from '@castmate/ui';
+import { Button, CastmateLayout, Input, Player } from '@castmate/ui';
 import { Community } from '@castmate/containers/Castmate/Community';
 import styled from 'styled-components';
 import { lighten } from 'polished';
+import { Plus, Youtube } from 'react-feather';
 
 const RoomBox = styled.div`
   width: 100%;
@@ -11,13 +12,13 @@ const RoomBox = styled.div`
   justify-content: space-between;
 `;
 
-const RoomActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 100%;
-`;
+// const RoomActions = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   margin-top: 20px;
+//   margin-bottom: 20px;
+//   width: 100%;
+// `;
 
 const LeaveRoom = styled.div`
   padding: 16px 20px;
@@ -155,6 +156,13 @@ const ChatButton = styled.button`
   }
 `;
 
+const RoomPlaylist = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
 export function Room() {
   return (
     <CastmateLayout>
@@ -162,9 +170,15 @@ export function Room() {
         <RoomBox>
           <RoomContent>
             <Player height="500px" />
-            <RoomActions>
+            <RoomPlaylist>
+              <Input isFirst isFull placeholder="Paste YouTube link here" icon={<Youtube size={20} color="#8a919d" />} />
+              <Button mainColor="accent1">
+                <Plus size={22} />
+              </Button>
+            </RoomPlaylist>
+            {/* <RoomActions>
               <LeaveRoom>Leave Room</LeaveRoom>
-            </RoomActions>
+            </RoomActions> */}
           </RoomContent>
           <RightSidebar>
             <Members>

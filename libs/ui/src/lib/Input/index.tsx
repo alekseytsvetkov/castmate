@@ -1,34 +1,42 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const InputWrap = styled.div`
+type InputProps = {
+  isFirst?: boolean;
+  isFull?: boolean;
+}
+
+const InputWrap = styled.div<InputProps>`
   position: relative;
   display: flex;
   align-items: center;
+  ${({ isFull }) =>
+    isFull && `width: 100%;`};
 `;
-
 
 const IconWrap = styled.div`
   position: absolute;
   left: 20px;
 `;
 
-const InputBox = styled.input`
+export const InputBox = styled.input<InputProps>`
   border: none;
   background: ${({ theme }) => theme.colors.dark2};
   color: ${({ theme }) => theme.colors.accent2};
   font-size: 14px;
-  margin-right: 20px;
   border-radius: 12px;
   padding: 17px;
   padding-left: 50px;
   padding-right: 20px;
   outline: none;
+  width: 100%;
+  ${({ isFirst }) =>
+    isFirst && `margin-right: 20px;`};
 `;
 
-export const Input = ({ placeholder, icon }) => (
-  <InputWrap>
+export const Input = ({ placeholder, icon, isFirst, isFull }) => (
+  <InputWrap isFull={isFull}>
     <IconWrap>{icon}</IconWrap>
-    <InputBox type="text" placeholder={placeholder} />
+    <InputBox type="text" placeholder={placeholder} isFirst={isFirst} />
   </InputWrap>
 );
