@@ -1,10 +1,19 @@
 import React from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import Router from 'next/router';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@castmate/utils/apollo';
+import NProgress from 'nprogress';
+import { version } from '../../../package.json';
+import { GlobalStyle } from '@castmate/utils/global';
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 function CustomApp({ Component, pageProps }: AppProps) {
+  console.log(`Version: ${version}`);
   const apolloClient = useApollo({
     uri: 'http://localhost:3333/graphql',
     pageProps,
@@ -21,6 +30,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>Castmate - Early Access Alpha</title>
       </Head>
       <Component {...pageProps} />
+      <GlobalStyle />
     </ApolloProvider>
   );
 }
