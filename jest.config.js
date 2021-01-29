@@ -9,5 +9,6 @@ module.exports = {
     '<rootDir>/libs/containers',
     '<rootDir>/libs/user',
     '<rootDir>/libs/connection',
+    '<rootDir>/libs/room',
   ],
 };

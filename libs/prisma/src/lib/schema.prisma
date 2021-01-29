@@ -28,6 +28,8 @@ model User {
   profile    Profile?
   Token      Token[]
   Connection Connection[]
+  Room       Room?        @relation(name: "authorRoom")
+  Rooms      Room[]       @relation(name: "membersRoom")
 }
 
 model Token {
@@ -56,4 +58,12 @@ model Connection {
   updatedAt  DateTime @default(now()) @updatedAt
   instance   Instance @relation(fields: [instanceId], references: [id])
   user       User?    @relation(fields: [userId], references: [id])
+}
+
+model Room {
+  id           String @id @default(cuid())
+  userId       String @unique
+  author       User   @relation(name: "authorRoom", fields: [userId], references: [id])
+  currentMedia String
+  members      User[] @relation(name: "membersRoom")
 }

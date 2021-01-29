@@ -274,6 +274,27 @@
           }
         }
       }
+    },
+    "room": {
+      "root": "libs/room",
+      "sourceRoot": "libs/room/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/room/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/room"],
+          "options": {
+            "jestConfig": "libs/room/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

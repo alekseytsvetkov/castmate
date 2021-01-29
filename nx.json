@@ -33,6 +33,7 @@
     "ui": { "tags": [] },
     "containers": { "tags": [] },
     "user": { "tags": [] },
-    "connection": { "tags": [] }
+    "connection": { "tags": [] },
+    "room": { "tags": [] }
   }
 }
