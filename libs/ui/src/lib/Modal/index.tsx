@@ -87,7 +87,7 @@ const Header = styled('div')<{
   display: ${({ minimal }) => (minimal ? 'none' : 'flex')};
   align-items: center;
   height: 46px;
-  background: ${({ theme }) => darken(0.1, theme.colors.castmate)};
+  background: ${({ theme }) => theme.colors.dark2};
   border-radius: 10px 10px 0 0;
   @media (max-width: 700px) {
     border-radius: 0;

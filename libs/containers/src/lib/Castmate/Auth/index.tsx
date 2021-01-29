@@ -115,13 +115,6 @@ export const Auth: FC = () => (
         title="Google"
       />
       <SocialButton
-        bgColor={'#000000'}
-        color={'#fff'}
-        path="apple"
-        icon={<Box size="18px" color="#fff"/>}
-        title="Apple"
-      />
-      <SocialButton
         bgColor={'#E8453C'}
         color={'#fff'}
         path="youtube"
@@ -135,9 +128,16 @@ export const Auth: FC = () => (
         icon={<Box size="18px" color="#fff"/>}
         title="Twitch"
       />
-      <SocialButton
-        bgColor={'#1e2532'}
+      {/* <SocialButton
+        bgColor={'#191308'}
         color={'#fff'}
+        path="apple"
+        icon={<Box size="18px" color="#fff"/>}
+        title="Apple"
+      /> */}
+      <SocialButton
+        bgColor={'#F8F7FF'}
+        color={'#1e2532'}
         path="phone"
         icon={<Box size="18px" color="#fff"/>}
         title="Phone"
