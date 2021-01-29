@@ -4,6 +4,7 @@ import { Community } from '@castmate/containers/Castmate/Community';
 import styled from 'styled-components';
 import { lighten } from 'polished';
 import { Plus, Youtube } from 'react-feather';
+import { useRouter } from 'next/router';
 
 const RoomBox = styled.div`
   width: 100%;
@@ -164,6 +165,8 @@ const RoomPlaylist = styled.div`
 `;
 
 export function Room() {
+  const router = useRouter();
+
   return (
     <CastmateLayout>
       <Community title="Room">

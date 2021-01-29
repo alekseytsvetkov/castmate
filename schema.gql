@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthTokens {
-  refreshToken: String!
-  accessToken: String!
-}
-
 type Profile {
   id: String!
   name: String
@@ -26,12 +21,56 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type AuthTokens {
+  refreshToken: String!
+  accessToken: String!
+}
+
+type RoomMessage {
+  id: String!
+  content: String!
+  roomId: String!
+  authorId: String!
+  author: User!
+  createdAt: String!
+}
+
+type Room {
+  id: String!
+  userId: String!
+  author: User!
+  currentMedia: String!
+  members: User!
+  roomMessages: RoomMessage!
+  createdAt: String!
+}
+
 type Query {
   tokens(authCode: String!): AuthTokens!
   refresh(refreshToken: String!): String!
   me: User!
+  rooms(roomId: ID!): [Room!]!
+  room(roomId: ID!): Room!
+  roomMessages(roomId: ID!): [RoomMessage!]!
 }
 
 type Mutation {
   logout(refreshToken: String!): Boolean!
+  createRoom(input: RoomCreateInput!): Boolean!
+  createRoomMessage(input: RoomMessageCreateInput!): Boolean!
+}
+
+input RoomCreateInput {
+  currentMedia: String!
+}
+
+input RoomMessageCreateInput {
+  text: String!
+  roomId: String!
+}
+
+type Subscription {
+  roomMessageCreated(roomId: ID!): RoomMessage!
+  roomCreated(roomId: ID!): Room!
+  roomMessageDeleted(roomId: ID!): RoomMessage!
 }

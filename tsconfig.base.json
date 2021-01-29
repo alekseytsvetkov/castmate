@@ -24,7 +24,8 @@
       "@castmate/containers/*": ["libs/containers/src/lib/*"],
       "@castmate/user": ["libs/user/src/index.ts"],
       "@castmate/connection": ["libs/connection/src/index.ts"],
-      "@castmate/room": ["libs/room/src/index.ts"]
+      "@castmate/room/*": ["libs/room/src/*"],
+      "@castmate/types": ["libs/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

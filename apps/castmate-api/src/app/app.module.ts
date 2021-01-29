@@ -1,3 +1,4 @@
+import { RoomModule } from '@castmate/room/api';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AuthModule, AuthService } from '@castmate/auth';
@@ -104,6 +105,7 @@ import { SharedModule } from './shared.module';
     AuthModule,
     UserModule,
     ConnectionModule,
+    RoomModule
   ],
   controllers: [],
   providers: [],

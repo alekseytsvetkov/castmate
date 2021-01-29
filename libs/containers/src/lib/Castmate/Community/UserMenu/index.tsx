@@ -2,12 +2,12 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { Flex, Button, Typography } from '@castmate/ui';
 import { Menu, MenuItem } from '@castmate/ui/Menu';
 import { getRefreshToken } from '@castmate/utils/token';
-import { Modal } from '@castmate/ui';
+// import { Modal } from '@castmate/ui';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import Auth from '../../Auth';
-import Link from 'next/link';
+// import Auth from '../../Auth';
+// import Link from 'next/link';
 // import { LogIn } from 'react-feather';
 
 const Box = styled.div`

@@ -1,0 +1,76 @@
+query rooms {
+  rooms {
+    ...RoomFields
+  }
+}
+
+query room($roomId: ID!) {
+  room(roomId: $roomId) {
+    ...RoomFields
+  }
+}
+
+query roomMessages($roomId: ID!) {
+  roomMessages(roomId: $roomId) {
+    ...RoomMessageFields
+  }
+}
+
+mutation createRoom($input: RoomCreateInput!) {
+  createRoom(input: $input)
+}
+
+mutation createRoomMessage($input: RoomMessageCreateInput!) {
+  createRoomMessage(input: $input)
+}
+
+subscription roomCreated($roomId: ID!) {
+  roomCreated(roomId: $roomId) {
+    ...RoomFields
+  }
+}
+
+subscription roomMessageCreated($roomId: ID!) {
+  roomMessageCreated(roomId: $roomId) {
+    ...RoomMessageFields
+  }
+}
+
+subscription roomMessageDeleted($roomId: ID!) {
+  roomMessageDeleted(roomId: $roomId) {
+    ...RoomMessageFields
+  }
+}
+
+fragment RoomMessageFields on RoomMessage {
+  id
+  content
+  createdAt
+  author {
+    id
+    name
+  }
+}
+
+fragment RoomFields on Room {
+  id
+  createdAt
+  currentMedia
+  author {
+    id
+    name
+  }
+  members {
+    id
+    name
+  }
+  roomMessages {
+    id
+    createdAt
+    author {
+      id
+      name
+    }
+    content
+  }
+}
