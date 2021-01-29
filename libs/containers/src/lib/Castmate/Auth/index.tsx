@@ -1,5 +1,4 @@
 import React from 'react';
-import { darken } from 'polished';
 import { FC } from 'react';
 import styled from 'styled-components';
 import getConfig from 'next/config';
@@ -21,7 +20,7 @@ const AuthTitle = styled.div`
   text-align: center;
   font-size: 15px;
   padding: 20px;
-  color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.text1};
 `;
 
 const AuthDescription = styled.div`
@@ -137,10 +136,10 @@ export const Auth: FC = () => (
         title="Twitch"
       />
       <SocialButton
-        bgColor={'#F2F2F2'}
-        color={'#575757'}
+        bgColor={'#1e2532'}
+        color={'#fff'}
         path="phone"
-        icon={<Box size="18px" color="#575757"/>}
+        icon={<Box size="18px" color="#fff"/>}
         title="Phone"
       />
     </SocialForm>

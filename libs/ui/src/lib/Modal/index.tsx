@@ -144,7 +144,7 @@ const CloseOut = styled.div`
 const Content = styled('div')<{
   minimal: boolean;
 }>`
-  background: ${({ theme }) => theme.colors.text1};
+  background: ${({ theme }) => theme.colors.dark2};
   padding: ${({ minimal }) => (minimal ? '0' : '15px')};
   display: flex;
 `;
