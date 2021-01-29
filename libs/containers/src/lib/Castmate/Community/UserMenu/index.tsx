@@ -30,24 +30,24 @@ const Skeleton = styled(Flex)`
 `;
 
 export const UserMenu = ({
-  codeHandler = 'http://localhost:3333/auth/success?',
+  codeHandler = 'http://localhost:4200/auth/success?',
   redirectUri = 'http://localhost:4200/',
 }) => {
   const router = useRouter();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const toggleMenuIsOpen = () => setMenuIsOpen(!menuIsOpen);
 
-  // const login = () => {
-  //   const params = new URLSearchParams();
-  //   params.set('code_handler', codeHandler);
-  //   params.set('redirect_uri', redirectUri);
-  //   const url =
-  //     'http://localhost:3333/auth/google?' + params.toString();
+  const login = () => {
+    const params = new URLSearchParams();
+    params.set('code_handler', codeHandler);
+    params.set('redirect_uri', redirectUri);
+    const url =
+      'http://localhost:3333/auth/google?' + params.toString();
 
-  //   console.log(url);
+    console.log(url);
 
-  //   window.location.href = url;
-  // };
+    window.location.href = url;
+  };
 
   const [logout] = useMutation(
     gql`
@@ -66,31 +66,34 @@ export const UserMenu = ({
 
   const GuestMenu = () => {
     return (
-      <>
-      <Link
-          as={`/auth?continue=${router.asPath}`}
-          href={{
-            pathname: router.route,
-            query: {
-              ...router.query,
-              authModal: 1
-            }
-          }}
-          passHref
-        >
-         <Button>
-          {/* <LogIn size={22} /> */}
-          Sign In
-        </Button>
-        </Link>
-        <Modal
-          minimal
-          visible={router.query.authModal === '1'}
-          onClose={() => router.back()}
-        >
-          <Auth />
-        </Modal>
-      </>
+      // <>
+      // <Link
+      //     as={`/auth?continue=${router.asPath}`}
+      //     href={{
+      //       pathname: router.route,
+      //       query: {
+      //         ...router.query,
+      //         authModal: 1
+      //       }
+      //     }}
+      //     passHref
+      //   >
+      //   <Button>
+      //     {/* <LogIn size={22} /> */}
+      //     Sign In
+      //   </Button>
+      //   </Link>
+      //   <Modal
+      //     minimal
+      //     visible={router.query.authModal === '1'}
+      //     onClose={() => router.back()}
+      //   >
+      //     <Auth />
+      //   </Modal>
+      // </>
+      <Button onClick={login}>
+        Sign In
+      </Button>
     );
   };
 
