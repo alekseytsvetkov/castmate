@@ -72,6 +72,7 @@ const Box = styled('div')<{
 const ModalB = styled('div')<{
   noBackgroud: boolean;
 }>`
+  position: relative;
   background: ${({ theme, noBackgroud }) =>
     noBackgroud
       ? 'transparent'
@@ -84,15 +85,11 @@ const ModalB = styled('div')<{
 const Header = styled('div')<{
   minimal: boolean;
 }>`
-  display: ${({ minimal }) => (minimal ? 'none' : 'flex')};
   align-items: center;
-  height: 46px;
   background: ${({ theme }) => theme.colors.dark2};
   border-radius: 10px 10px 0 0;
-  @media (max-width: 700px) {
-    border-radius: 0;
-    display: flex;
-  }
+  border-radius: 0;
+  display: flex;
 `;
 
 const Title = styled.div`
@@ -103,41 +100,15 @@ const Title = styled.div`
 
 const CloseBox = styled.div`
   background: none;
-  border: none;
-  margin-left: auto;
-  padding: 0 20px;
-  font-size: 22px;
-  color: ${({ theme }) => theme.colors.text};
-  cursor: pointer;
-  color: ${({ theme }) => lighten(0.3, theme.colors.castmate)};
-  :hover {
-    color: ${({ theme }) => theme.colors.text};
-  }
-  @media (max-width: 700px) {
-    top: 0;
-    right: 0;
-  }
-`;
-
-const CloseOut = styled.div`
-  display: flex;
   position: absolute;
-  top: 10px;
-  right: 0;
-  background: none;
   border: none;
-  margin-left: auto;
-  width: 60px;
-  justify-content: center;
-  font-size: 30px;
-  color: ${({ theme }) =>
-    theme.colors.accent && rgba(theme.colors.accent, 0.5)};
+  right: 20px;
+  top: 20px;
+  font-size: 22px;
+  color: ${({ theme }) => theme.colors.text1};
   cursor: pointer;
   :hover {
-    color: ${({ theme }) => theme.colors.accent};
-  }
-  @media (max-width: 700px) {
-    display: none;
+    color: ${({ theme }) => theme.colors.text1};
   }
 `;
 
@@ -212,7 +183,7 @@ export const Modal: FC<IModalProps> & {
               <Header minimal={minimal}>
                 <Title>{title}</Title>
                 <CloseBox onClick={close}>
-                  <X size="28px" />
+                  <X size="24px" />
                 </CloseBox>
               </Header>
               <Content minimal={minimal}>{children}</Content>
@@ -223,11 +194,6 @@ export const Modal: FC<IModalProps> & {
               </BoxNav>
             )}
           </Box>
-          {minimal && (
-            <CloseOut onClick={close}>
-              <X size="28px" color="#fff" />
-            </CloseOut>
-          )}
         </BoxW>
       </BG>
     </Portal>
