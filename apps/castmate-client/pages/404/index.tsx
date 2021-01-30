@@ -1,4 +1,4 @@
-import { Community } from "@castmate/containers/Castmate/Community";
+import { Community } from "@castmate/community";
 import { CastmateLayout } from "@castmate/ui";
 import React from "react";
 

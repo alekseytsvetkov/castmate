@@ -32,8 +32,11 @@
     "utils": { "tags": [] },
     "ui": { "tags": [] },
     "containers": { "tags": [] },
-    "user": { "tags": [] },
-    "connection": { "tags": [] },
-    "room": { "tags": [] }
+    "community": { "tags": [] },
+    "room": { "tags": [] },
+    "room-api": { "tags": [] },
+    "user-api": { "tags": [] },
+    "auth-api": { "tags": [] },
+    "connection-api": { "tags": [] }
   }
 }

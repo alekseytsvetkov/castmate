@@ -1,9 +1,9 @@
-import { RoomModule } from '@castmate/room/api';
+import { RoomModule } from '@castmate/room-api';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { AuthModule, AuthService } from '@castmate/auth';
-import { UserModule } from '@castmate/user';
-import { ConnectionModule, ConnectionService } from '@castmate/connection';
+import { AuthModule, AuthService } from '@castmate/auth-api';
+import { UserModule } from '@castmate/user-api';
+import { ConnectionModule, ConnectionService } from '@castmate/connection-api';
 import { ConfigModule } from '@nestjs/config';
 import dbConfig from './config/db.config';
 import baseConfig from './config/base.config';

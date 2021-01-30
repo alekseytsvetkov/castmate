@@ -1,6 +1,6 @@
 import React from 'react';
 import { CastmateLayout } from '@castmate/ui';
-import { Community } from '@castmate/containers/Castmate/Community';
+import { Community } from '@castmate/community';
 
 export function Settings() {
   return (

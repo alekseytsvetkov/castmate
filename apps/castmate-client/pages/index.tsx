@@ -1,6 +1,6 @@
 import React from 'react';
 import { CastmateLayout, MainItem } from '@castmate/ui';
-import { Community } from '@castmate/containers/Castmate/Community';
+import { Community } from '@castmate/community';
 import styled from 'styled-components';
 import { Box, PlusSquare } from 'react-feather';
 

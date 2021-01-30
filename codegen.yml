@@ -1,8 +1,8 @@
 overwrite: true
 schema: './schema.gql'
 generates:
-  libs/room/src/types/index.tsx:
-    documents: 'libs/room/src/ui/**/*.graphql'
+  libs/room/src/lib/types/index.tsx:
+    documents: 'libs/room/src/lib/**/*.graphql'
     plugins:
       - 'typescript'
       - 'typescript-operations'

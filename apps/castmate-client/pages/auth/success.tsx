@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Auth } from '@castmate/containers/Castmate/Auth';
+import { Auth } from '@castmate/containers/Auth';
 import { CastmateLayout } from '@castmate/ui';
 
 export function AuthSuccess() {
