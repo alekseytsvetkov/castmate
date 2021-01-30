@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import {
   useRoomQuery
 } from '@castmate/room/types';
+import Loader from '@castmate/ui/Loader';
 
 const RoomBox = styled.div`
   width: 100%;
@@ -140,7 +141,7 @@ const ChatInput = styled.input`
   padding-left: 0;
   padding-right: 0;
   outline: none;
-  width: 100%;
+  min-width: 276px;
 `;
 
 const ChatButton = styled.button`
@@ -178,26 +179,30 @@ export function Room() {
     return null;
   }
 
-  const roomQuery = useRoomQuery({
+  const { data, loading } = useRoomQuery({
     variables: { roomId },
   });
 
-  if(!roomQuery.data) {
+  if(loading) {
+    return <CastmateLayout>
+      <Community title={`Room`}>
+        <Loader  />
+      </Community>
+      </CastmateLayout>
+  }
+
+  if(!data) {
     return <div>Такой комнаты не существет (Оформить страницу)</div>
   }
 
-  if(!roomQuery.data.room) {
-    return <div>Загрузка... (Оформить прелодер)</div>
-  }
-
-  console.log('roomQuery.data.room', roomQuery.data.room)
+  console.log('data.room', data.room)
 
   return (
     <CastmateLayout>
       <Community title={`Room`}>
         <RoomBox>
           <RoomContent>
-            <Player height="500px" url={roomQuery.data.room.currentMedia}/>
+            <Player height="500px" url={data.room.currentMedia}/>
             <RoomPlaylist>
               <Input isFirst isFull placeholder="Paste YouTube link here" icon={<Youtube size={20} color="#8a919d" />} />
               <Button mainColor="accent1">
@@ -213,7 +218,7 @@ export function Room() {
               <SidebarTitle>Members</SidebarTitle>
               <MembersList>
                 {/* @ts-ignore */}
-                {roomQuery.data.room.members.map(member => {
+                {data.room.members.map(member => {
                   return <MemberItem>
                   <img src="https://randomuser.me/api/portraits/women/44.jpg" />
                   <div>{member.id}</div>
@@ -257,7 +262,7 @@ export function Room() {
               <SidebarTitle>Chat</SidebarTitle>
               <ChatMessages>
                 {/* @ts-ignore */}
-                {roomQuery.data.room.roomMessages.map(message => {
+                {data.room.roomMessages.map(message => {
                   return <ChatMessage>
                   <MessageAuthor>Kelly Turner:</MessageAuthor>
                   <MessageText>{message.content}</MessageText>

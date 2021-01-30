@@ -96,7 +96,7 @@ export const Community = ({title, children}) => {
             <SearchBox />
             <UserMenu />
           </Header>
-          <Content p={router.pathname !== "/room" ? "20px" : "0px"}>
+          <Content p={router.pathname !== "/room/[roomId]" ? "20px" : "0px"}>
             <Middle>
               {children}
             </Middle>
