@@ -192,7 +192,15 @@ export function Room() {
   }
 
   if(!data) {
-    return <div>Такой комнаты не существет (Оформить страницу)</div>
+    return <CastmateLayout>
+    <Community title="Settings">
+      <RoomBox>
+        <RoomContent>
+          <div>Room Not Found</div>
+        </RoomContent>
+      </RoomBox>
+    </Community>
+  </CastmateLayout>
   }
 
   console.log('data.room', data.room)
