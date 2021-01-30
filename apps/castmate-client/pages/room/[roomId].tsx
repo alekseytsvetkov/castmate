@@ -8,7 +8,8 @@ import { useRouter } from 'next/router';
 import {
   useRoomQuery
 } from '@castmate/room/types';
-import Loader from '@castmate/ui/Loader';
+// import Loader from '@castmate/ui/Loader';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const RoomBox = styled.div`
   width: 100%;
@@ -62,7 +63,7 @@ const Chat = styled.div``;
 const SidebarTitle = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.accent1};
   padding-bottom: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 `;
 
 const MembersList = styled.ul`
@@ -100,8 +101,8 @@ const MemberItem = styled.li`
 `;
 
 const ChatMessages = styled.div`
-  min-height: 290px;
-  max-height: 290px;
+  min-height: 250px;
+  max-height: 250px;
   overflow-x: scroll;
   margin-bottom: 20px;
 `;
@@ -183,12 +184,44 @@ export function Room() {
     variables: { roomId },
   });
 
+  // const loading = true;
+
   if(loading) {
     return <CastmateLayout>
       <Community title={`Room`}>
-        <Loader  />
+        {/* <Loader  /> */}
+        <RoomBox>
+          <RoomContent>
+            <SkeletonTheme color="#293042" highlightColor="#0E78F9"><Skeleton height="500px" />
+            </SkeletonTheme>
+            <RoomPlaylist>
+              <Input isFirst isFull placeholder="Paste YouTube link here" icon={<Youtube size={20} color="#8a919d" />} />
+              <Button mainColor="accent1">
+                <Plus size={22} />
+              </Button>
+            </RoomPlaylist>
+          </RoomContent>
+          <RightSidebar>
+            <Members>
+              <MembersList>
+                <SidebarTitle>Members</SidebarTitle>
+                <SkeletonTheme color="#293042" highlightColor="#0E78F9">
+                  <Skeleton height="125px" />
+                </SkeletonTheme>
+              </MembersList>
+            </Members>
+            <Chat>
+              <SidebarTitle>Chat</SidebarTitle>
+              <ChatMessages>
+                <SkeletonTheme color="#293042" highlightColor="#0E78F9">
+                  <Skeleton height="290px" />
+                </SkeletonTheme>
+              </ChatMessages>
+            </Chat>
+          </RightSidebar>
+        </RoomBox>
       </Community>
-      </CastmateLayout>
+    </CastmateLayout>
   }
 
   if(!data) {
@@ -232,38 +265,6 @@ export function Room() {
                   <div>{member.id}</div>
                 </MemberItem>
                 })}
-                {/* <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/women/44.jpg" />
-                  <div>Kelly Turner</div>
-                </MemberItem>
-                <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/women/11.jpg" />
-                  <div>Sharlene Hale</div>
-                </MemberItem>
-                <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/men/11.jpg" />
-                  <div>Lee Montgomery</div>
-                </MemberItem>
-                <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/men/42.jpg" />
-                  <div>Juan Barrett</div>
-                </MemberItem>
-                <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/women/44.jpg" />
-                  <div>Kelly Turner</div>
-                </MemberItem>
-                <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/women/11.jpg" />
-                  <div>Sharlene Hale</div>
-                </MemberItem>
-                <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/men/11.jpg" />
-                  <div>Lee Montgomery</div>
-                </MemberItem>
-                <MemberItem>
-                  <img src="https://randomuser.me/api/portraits/men/42.jpg" />
-                  <div>Juan Barrett</div>
-                </MemberItem> */}
               </MembersList>
             </Members>
             <Chat>
@@ -276,86 +277,6 @@ export function Room() {
                   <MessageText>{message.content}</MessageText>
                 </ChatMessage>
                 })}
-                {/* <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Something medium size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Small size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Something medium size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Small size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Something medium size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Small size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Something medium size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Small size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Small size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Sharlene Hale:</MessageAuthor>
-                  <MessageText>Something medium size message</MessageText>
-                </ChatMessage>
-                <ChatMessage>
-                  <MessageAuthor>Kelly Turner:</MessageAuthor>
-                  <MessageText>Hello</MessageText>
-                </ChatMessage> */}
               </ChatMessages>
               <ChatForm>
                 <ChatInput type="text" placeholder="Type to write a message" />
