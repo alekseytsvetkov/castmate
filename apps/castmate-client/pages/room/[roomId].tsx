@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { lighten } from 'polished';
 import { Plus, Youtube } from 'react-feather';
 import { useRouter } from 'next/router';
+import {
+  useRoomQuery
+} from '@castmate/room/types';
 
 const RoomBox = styled.div`
   width: 100%;
@@ -64,6 +67,7 @@ const SidebarTitle = styled.div`
 const MembersList = styled.ul`
   padding: 0;
   list-style: none;
+  min-height: 125px;
   max-height: 125px;
   overflow-x: scroll;
 `;
@@ -95,6 +99,7 @@ const MemberItem = styled.li`
 `;
 
 const ChatMessages = styled.div`
+  min-height: 290px;
   max-height: 290px;
   overflow-x: scroll;
   margin-bottom: 20px;
@@ -167,12 +172,32 @@ const RoomPlaylist = styled.div`
 export function Room() {
   const router = useRouter();
 
+  const roomId = router.query.roomId;
+
+  if (typeof roomId !== 'string') {
+    return null;
+  }
+
+  const roomQuery = useRoomQuery({
+    variables: { roomId },
+  });
+
+  if(!roomQuery.data) {
+    return <div>Такой комнаты не существет (Оформить страницу)</div>
+  }
+
+  if(!roomQuery.data.room) {
+    return <div>Загрузка... (Оформить прелодер)</div>
+  }
+
+  console.log('roomQuery.data.room', roomQuery.data.room)
+
   return (
     <CastmateLayout>
-      <Community title="Room">
+      <Community title={`Room`}>
         <RoomBox>
           <RoomContent>
-            <Player height="500px" />
+            <Player height="500px" url={roomQuery.data.room.currentMedia}/>
             <RoomPlaylist>
               <Input isFirst isFull placeholder="Paste YouTube link here" icon={<Youtube size={20} color="#8a919d" />} />
               <Button mainColor="accent1">
@@ -187,7 +212,14 @@ export function Room() {
             <Members>
               <SidebarTitle>Members</SidebarTitle>
               <MembersList>
-                <MemberItem>
+                {/* @ts-ignore */}
+                {roomQuery.data.room.members.map(member => {
+                  return <MemberItem>
+                  <img src="https://randomuser.me/api/portraits/women/44.jpg" />
+                  <div>{member.id}</div>
+                </MemberItem>
+                })}
+                {/* <MemberItem>
                   <img src="https://randomuser.me/api/portraits/women/44.jpg" />
                   <div>Kelly Turner</div>
                 </MemberItem>
@@ -218,13 +250,20 @@ export function Room() {
                 <MemberItem>
                   <img src="https://randomuser.me/api/portraits/men/42.jpg" />
                   <div>Juan Barrett</div>
-                </MemberItem>
+                </MemberItem> */}
               </MembersList>
             </Members>
             <Chat>
               <SidebarTitle>Chat</SidebarTitle>
               <ChatMessages>
-                <ChatMessage>
+                {/* @ts-ignore */}
+                {roomQuery.data.room.roomMessages.map(message => {
+                  return <ChatMessage>
+                  <MessageAuthor>Kelly Turner:</MessageAuthor>
+                  <MessageText>{message.content}</MessageText>
+                </ChatMessage>
+                })}
+                {/* <ChatMessage>
                   <MessageAuthor>Kelly Turner:</MessageAuthor>
                   <MessageText>Hello</MessageText>
                 </ChatMessage>
@@ -303,7 +342,7 @@ export function Room() {
                 <ChatMessage>
                   <MessageAuthor>Kelly Turner:</MessageAuthor>
                   <MessageText>Hello</MessageText>
-                </ChatMessage>
+                </ChatMessage> */}
               </ChatMessages>
               <ChatForm>
                 <ChatInput type="text" placeholder="Type to write a message" />

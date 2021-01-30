@@ -12,9 +12,9 @@ export class Room {
 
   @Field() currentMedia: string;
 
-  @Field((type) => User) members: User[];
+  @Field((type) => [User]) members: User[];
 
-  @Field((type) => RoomMessage) roomMessages: RoomMessage[];
+  @Field((type) => [RoomMessage]) roomMessages: RoomMessage[];
 
   @Field() createdAt: string;
 }

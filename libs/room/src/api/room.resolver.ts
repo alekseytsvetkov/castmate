@@ -25,13 +25,13 @@ export class RoomResolver {
   ) {}
 
   @Query(() => [Room])
-  async rooms(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+  async rooms() {
     const rooms = await this.prisma.room.findMany({
       orderBy: {
         createdAt: 'desc',
       },
       include: {
-        author: true,
+        author: true
       },
     });
 
@@ -40,13 +40,15 @@ export class RoomResolver {
 
   @Query(() => Room)
   async room(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
-    const room = await this.prisma.room.findMany({
+    const room = await this.prisma.room.findFirst({
       where: {
         id: roomId,
       },
       include: {
         author: true,
-      },
+        members: true,
+        roomMessages: true
+      }
     });
 
     return room;

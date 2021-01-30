@@ -67,10 +67,10 @@ fragment RoomFields on Room {
   roomMessages {
     id
     createdAt
-    author {
-      id
-      name
-    }
+    # author {
+    #   id
+    #   name
+    # }
     content
   }
 }
