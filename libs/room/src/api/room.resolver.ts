@@ -47,7 +47,7 @@ export class RoomResolver {
       include: {
         author: true,
         members: true,
-        roomMessages: true
+        messages: true
       }
     });
 

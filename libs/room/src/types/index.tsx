@@ -55,7 +55,7 @@ export type Room = {
   author: User;
   currentMedia: Scalars['String'];
   members: Array<User>;
-  roomMessages: Array<RoomMessage>;
+  messages: Array<RoomMessage>;
   createdAt: Scalars['String'];
 };
 
@@ -253,10 +253,14 @@ export type RoomFieldsFragment = (
   & { author: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
+    & { profile?: Maybe<(
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'id' | 'name'>
+    )> }
   ), members: Array<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
-  )>, roomMessages: Array<(
+  )>, messages: Array<(
     { __typename?: 'RoomMessage' }
     & Pick<RoomMessage, 'id' | 'createdAt' | 'content'>
   )> }
@@ -281,12 +285,16 @@ export const RoomFieldsFragmentDoc = gql`
   author {
     id
     name
+    profile {
+      id
+      name
+    }
   }
   members {
     id
     name
   }
-  roomMessages {
+  messages {
     id
     createdAt
     content

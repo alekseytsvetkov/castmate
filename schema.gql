@@ -41,7 +41,7 @@ type Room {
   author: User!
   currentMedia: String!
   members: [User!]!
-  roomMessages: [RoomMessage!]!
+  messages: [RoomMessage!]!
   createdAt: String!
 }
 

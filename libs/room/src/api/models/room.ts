@@ -14,7 +14,7 @@ export class Room {
 
   @Field((type) => [User]) members: User[];
 
-  @Field((type) => [RoomMessage]) roomMessages: RoomMessage[];
+  @Field((type) => [RoomMessage]) messages: RoomMessage[];
 
   @Field() createdAt: string;
 }

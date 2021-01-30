@@ -270,7 +270,7 @@ export function Room() {
               <SidebarTitle>Chat</SidebarTitle>
               <ChatMessages>
                 {/* @ts-ignore */}
-                {data.room.roomMessages.map(message => {
+                {data.room.messages.map(message => {
                   return <ChatMessage>
                   <MessageAuthor>Kelly Turner:</MessageAuthor>
                   <MessageText>{message.content}</MessageText>

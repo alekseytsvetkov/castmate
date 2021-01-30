@@ -59,12 +59,16 @@ fragment RoomFields on Room {
   author {
     id
     name
+    profile {
+      id
+      name
+    }
   }
   members {
     id
     name
   }
-  roomMessages {
+  messages {
     id
     createdAt
     # author {

@@ -26,11 +26,11 @@ model User {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now()) @updatedAt
   profile     Profile?
-  Token       Token[]
-  Connection  Connection[]
-  Rooms       Room[]        @relation(name: "membersRoom")
-  RoomMessage RoomMessage[]
-  Room        Room[]
+  token       Token[]
+  connection  Connection[]
+  rooms       Room[]        @relation(name: "roomMembers")
+  roomMessage RoomMessage[]
+  room        Room[]
 }
 
 model Token {
@@ -47,7 +47,7 @@ model Instance {
   id         String       @id @default(cuid())
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @default(now()) @updatedAt
-  Connection Connection[]
+  connection Connection[]
 }
 
 model Connection {
@@ -67,19 +67,27 @@ model Room {
   updatedAt    DateTime      @default(now()) @updatedAt
   userId       String
   author       User          @relation(fields: [userId], references: [id])
+  members      User[]        @relation(name: "roomMembers")
+  messages     RoomMessage[]
   currentMedia String
-  members      User[]        @relation(name: "membersRoom")
-  roomMessages RoomMessage[]
+  playlist     RoomMedia[]
 }
 
 model RoomMessage {
   id        String   @id @default(cuid())
   roomId    String
   userId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  author    User     @relation(fields: [userId], references: [id])
   content   String
   deleted   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  room      Room     @relation(fields: [roomId], references: [id])
-  author    User     @relation(fields: [userId], references: [id])
+}
+
+model RoomMedia {
+  id     String @id @default(cuid())
+  roomId String
+  room   Room   @relation(fields: [roomId], references: [id])
+  link   String
 }
