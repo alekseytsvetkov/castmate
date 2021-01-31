@@ -244,6 +244,10 @@ export type RoomMessageFieldsFragment = (
   & { author: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
+    & { profile?: Maybe<(
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'id' | 'name' | 'avatar'>
+    )> }
   ) }
 );
 
@@ -255,14 +259,26 @@ export type RoomFieldsFragment = (
     & Pick<User, 'id' | 'name'>
     & { profile?: Maybe<(
       { __typename?: 'Profile' }
-      & Pick<Profile, 'id' | 'name'>
+      & Pick<Profile, 'id' | 'name' | 'avatar'>
     )> }
   ), members: Array<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
+    & { profile?: Maybe<(
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'id' | 'name' | 'avatar'>
+    )> }
   )>, messages: Array<(
     { __typename?: 'RoomMessage' }
     & Pick<RoomMessage, 'id' | 'createdAt' | 'content'>
+    & { author: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+      & { profile?: Maybe<(
+        { __typename?: 'Profile' }
+        & Pick<Profile, 'id' | 'name' | 'avatar'>
+      )> }
+    ) }
   )> }
 );
 
@@ -274,6 +290,11 @@ export const RoomMessageFieldsFragmentDoc = gql`
   author {
     id
     name
+    profile {
+      id
+      name
+      avatar
+    }
   }
 }
     `;
@@ -288,15 +309,30 @@ export const RoomFieldsFragmentDoc = gql`
     profile {
       id
       name
+      avatar
     }
   }
   members {
     id
     name
+    profile {
+      id
+      name
+      avatar
+    }
   }
   messages {
     id
     createdAt
+    author {
+      id
+      name
+      profile {
+        id
+        name
+        avatar
+      }
+    }
     content
   }
 }

@@ -40,8 +40,6 @@ export const Button = styled.button<ButtonProps>`
     (isGroup || !isLast) && `margin-right: 1px;`} outline: none;
   ${({ isLast }) =>
     isLast && `margin-right: 20px;`};
-  ${({ isFull }) =>
-    isFull && `width: 100%`};
   transition: background 0.12s ease-in, color 0.12s ease-in,
     box-shadow 0.12s ease-in;
   i {

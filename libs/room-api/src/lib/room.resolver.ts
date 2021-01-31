@@ -30,9 +30,6 @@ export class RoomResolver {
       orderBy: {
         createdAt: 'desc',
       },
-      include: {
-        author: true
-      },
     });
 
     return rooms;
@@ -45,9 +42,25 @@ export class RoomResolver {
         id: roomId,
       },
       include: {
-        author: true,
-        members: true,
-        messages: true
+        author: {
+          include: {
+            profile: true
+          }
+        },
+        members: {
+          include: {
+            profile: true
+          }
+        },
+        messages: {
+          include: {
+            author: {
+              include: {
+                profile: true
+              }
+            },
+          }
+        }
       }
     });
 

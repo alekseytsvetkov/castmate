@@ -49,6 +49,11 @@ fragment RoomMessageFields on RoomMessage {
   author {
     id
     name
+    profile {
+      id
+      name
+      avatar
+    }
   }
 }
 
@@ -62,19 +67,30 @@ fragment RoomFields on Room {
     profile {
       id
       name
+      avatar
     }
   }
   members {
     id
     name
+    profile {
+      id
+      name
+      avatar
+    }
   }
   messages {
     id
     createdAt
-    # author {
-    #   id
-    #   name
-    # }
+    author {
+      id
+      name
+      profile {
+        id
+        name
+        avatar
+      }
+    }
     content
   }
 }

@@ -166,7 +166,7 @@ const RoomPlaylist = styled.div`
 `;
 
 type IRoomProps = {
-  data: object;
+  data: any;
   loading: boolean;
 };
 
@@ -215,6 +215,8 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading }) => {
     )
   }
 
+  console.log('data', data)
+
   return (
     <RoomBox>
       <RoomContent>
@@ -235,7 +237,7 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading }) => {
           <MembersList>
             {/* @ts-ignore */}
             {data.room.members.map(member => {
-              return <MemberItem>
+              return <MemberItem key={member.id}>
               <img src="https://randomuser.me/api/portraits/women/44.jpg" />
               <div>{member.id}</div>
             </MemberItem>
@@ -247,7 +249,7 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading }) => {
           <ChatMessages>
             {/* @ts-ignore */}
             {data.room.messages.map(message => {
-              return <ChatMessage>
+              return <ChatMessage key={message.id}>
               <MessageAuthor>Kelly Turner:</MessageAuthor>
               <MessageText>{message.content}</MessageText>
             </ChatMessage>
