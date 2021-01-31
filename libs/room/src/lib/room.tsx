@@ -146,7 +146,7 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId }) => 
   return (
     <RoomBox>
       <RoomContent>
-        <Player height="500px" url={data.room.currentMedia}/>
+        <Player height="500px" roomId={data.room.id} url={data.room.currentMedia} playing={data.room.mediaStatus}/>
         <RoomPlaylist>
           <Input isFirst isFull placeholder="Paste YouTube link here" icon={<Youtube size={20} color="#8a919d" />} />
           <Button mainColor="accent1">

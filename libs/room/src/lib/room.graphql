@@ -20,8 +20,18 @@ mutation createRoom($input: RoomCreateInput!) {
   createRoom(input: $input)
 }
 
+mutation toggleMediaStatus($input: mediaStatusChangeInput!) {
+  toggleMediaStatus(input: $input)
+}
+
 mutation createRoomMessage($input: RoomMessageCreateInput!) {
   createRoomMessage(input: $input)
+}
+
+subscription roomMediaStatusChanged($roomId: ID!) {
+  roomMediaStatusChanged(roomId: $roomId) {
+    mediaStatus
+  }
 }
 
 subscription roomCreated($roomId: ID!) {
@@ -61,6 +71,7 @@ fragment RoomFields on Room {
   id
   createdAt
   currentMedia
+  mediaStatus
   author {
     id
     name

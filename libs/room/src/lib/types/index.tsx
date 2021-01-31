@@ -54,6 +54,7 @@ export type Room = {
   userId: Scalars['String'];
   author: User;
   currentMedia: Scalars['String'];
+  mediaStatus: Scalars['String'];
   members: Array<User>;
   messages: Array<RoomMessage>;
   createdAt: Scalars['String'];
@@ -93,6 +94,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
   createRoom: Scalars['Boolean'];
+  toggleMediaStatus: Scalars['Boolean'];
   createRoomMessage: Scalars['Boolean'];
 };
 
@@ -107,12 +109,22 @@ export type MutationCreateRoomArgs = {
 };
 
 
+export type MutationToggleMediaStatusArgs = {
+  input: MediaStatusChangeInput;
+};
+
+
 export type MutationCreateRoomMessageArgs = {
   input: RoomMessageCreateInput;
 };
 
 export type RoomCreateInput = {
   currentMedia: Scalars['String'];
+};
+
+export type MediaStatusChangeInput = {
+  roomId: Scalars['String'];
+  mediaStatus: Scalars['String'];
 };
 
 export type RoomMessageCreateInput = {
@@ -123,12 +135,18 @@ export type RoomMessageCreateInput = {
 export type Subscription = {
   __typename?: 'Subscription';
   roomMessageCreated: RoomMessage;
+  roomMediaStatusChanged: Room;
   roomCreated: Room;
   roomMessageDeleted: RoomMessage;
 };
 
 
 export type SubscriptionRoomMessageCreatedArgs = {
+  roomId: Scalars['ID'];
+};
+
+
+export type SubscriptionRoomMediaStatusChangedArgs = {
   roomId: Scalars['ID'];
 };
 
@@ -189,6 +207,16 @@ export type CreateRoomMutation = (
   & Pick<Mutation, 'createRoom'>
 );
 
+export type ToggleMediaStatusMutationVariables = Exact<{
+  input: MediaStatusChangeInput;
+}>;
+
+
+export type ToggleMediaStatusMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'toggleMediaStatus'>
+);
+
 export type CreateRoomMessageMutationVariables = Exact<{
   input: RoomMessageCreateInput;
 }>;
@@ -197,6 +225,19 @@ export type CreateRoomMessageMutationVariables = Exact<{
 export type CreateRoomMessageMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'createRoomMessage'>
+);
+
+export type RoomMediaStatusChangedSubscriptionVariables = Exact<{
+  roomId: Scalars['ID'];
+}>;
+
+
+export type RoomMediaStatusChangedSubscription = (
+  { __typename?: 'Subscription' }
+  & { roomMediaStatusChanged: (
+    { __typename?: 'Room' }
+    & Pick<Room, 'mediaStatus'>
+  ) }
 );
 
 export type RoomCreatedSubscriptionVariables = Exact<{
@@ -253,7 +294,7 @@ export type RoomMessageFieldsFragment = (
 
 export type RoomFieldsFragment = (
   { __typename?: 'Room' }
-  & Pick<Room, 'id' | 'createdAt' | 'currentMedia'>
+  & Pick<Room, 'id' | 'createdAt' | 'currentMedia' | 'mediaStatus'>
   & { author: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
@@ -303,6 +344,7 @@ export const RoomFieldsFragmentDoc = gql`
   id
   createdAt
   currentMedia
+  mediaStatus
   author {
     id
     name
@@ -465,6 +507,36 @@ export function useCreateRoomMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateRoomMutationHookResult = ReturnType<typeof useCreateRoomMutation>;
 export type CreateRoomMutationResult = Apollo.MutationResult<CreateRoomMutation>;
 export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<CreateRoomMutation, CreateRoomMutationVariables>;
+export const ToggleMediaStatusDocument = gql`
+    mutation toggleMediaStatus($input: mediaStatusChangeInput!) {
+  toggleMediaStatus(input: $input)
+}
+    `;
+export type ToggleMediaStatusMutationFn = Apollo.MutationFunction<ToggleMediaStatusMutation, ToggleMediaStatusMutationVariables>;
+
+/**
+ * __useToggleMediaStatusMutation__
+ *
+ * To run a mutation, you first call `useToggleMediaStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useToggleMediaStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [toggleMediaStatusMutation, { data, loading, error }] = useToggleMediaStatusMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useToggleMediaStatusMutation(baseOptions?: Apollo.MutationHookOptions<ToggleMediaStatusMutation, ToggleMediaStatusMutationVariables>) {
+        return Apollo.useMutation<ToggleMediaStatusMutation, ToggleMediaStatusMutationVariables>(ToggleMediaStatusDocument, baseOptions);
+      }
+export type ToggleMediaStatusMutationHookResult = ReturnType<typeof useToggleMediaStatusMutation>;
+export type ToggleMediaStatusMutationResult = Apollo.MutationResult<ToggleMediaStatusMutation>;
+export type ToggleMediaStatusMutationOptions = Apollo.BaseMutationOptions<ToggleMediaStatusMutation, ToggleMediaStatusMutationVariables>;
 export const CreateRoomMessageDocument = gql`
     mutation createRoomMessage($input: RoomMessageCreateInput!) {
   createRoomMessage(input: $input)
@@ -495,6 +567,35 @@ export function useCreateRoomMessageMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateRoomMessageMutationHookResult = ReturnType<typeof useCreateRoomMessageMutation>;
 export type CreateRoomMessageMutationResult = Apollo.MutationResult<CreateRoomMessageMutation>;
 export type CreateRoomMessageMutationOptions = Apollo.BaseMutationOptions<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>;
+export const RoomMediaStatusChangedDocument = gql`
+    subscription roomMediaStatusChanged($roomId: ID!) {
+  roomMediaStatusChanged(roomId: $roomId) {
+    mediaStatus
+  }
+}
+    `;
+
+/**
+ * __useRoomMediaStatusChangedSubscription__
+ *
+ * To run a query within a React component, call `useRoomMediaStatusChangedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRoomMediaStatusChangedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoomMediaStatusChangedSubscription({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useRoomMediaStatusChangedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RoomMediaStatusChangedSubscription, RoomMediaStatusChangedSubscriptionVariables>) {
+        return Apollo.useSubscription<RoomMediaStatusChangedSubscription, RoomMediaStatusChangedSubscriptionVariables>(RoomMediaStatusChangedDocument, baseOptions);
+      }
+export type RoomMediaStatusChangedSubscriptionHookResult = ReturnType<typeof useRoomMediaStatusChangedSubscription>;
+export type RoomMediaStatusChangedSubscriptionResult = Apollo.SubscriptionResult<RoomMediaStatusChangedSubscription>;
 export const RoomCreatedDocument = gql`
     subscription roomCreated($roomId: ID!) {
   roomCreated(roomId: $roomId) {

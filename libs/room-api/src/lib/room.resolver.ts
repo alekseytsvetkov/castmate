@@ -110,10 +110,12 @@ export class RoomResolver {
   ) {
     let { roomId, mediaStatus } = input;
 
+    const status = mediaStatus === "PAUSE" ? "PLAY" : "PAUSE";
+
     const room = await this.prisma.room.update({
       where: { id: roomId },
       data: {
-        mediaStatus: mediaStatus === "PAUSE" ? "PLAY" : "PAUSE"
+        mediaStatus: status
       },
     });
 
