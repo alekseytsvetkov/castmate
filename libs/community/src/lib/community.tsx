@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Flex, CastmateLayout, MenuItem } from '@castmate/ui';
 import { Logo } from './Logo';
 import { UserMenu } from '@castmate/containers/Community/UserMenu';
-import { Home, Compass, Users, Settings } from 'react-feather';
+import { Home, Grid, Compass, Users, Settings } from 'react-feather';
 import { SearchBox } from '@castmate/containers/Community/Search';
 import { VersionBox } from '@castmate/containers/Community/Version';
 import { useRouter } from 'next/router'
@@ -12,7 +12,7 @@ import { FeedbackBox } from '@castmate/containers/Community/Feedback';
 const Box = styled.div`
   height: 100%;
   overflow: hidden;
-  background: ${({ theme }) => theme.dark2};
+  background: ${({ theme }) => theme.colors.dark1};
   display: flex;
 `;
 
@@ -40,7 +40,7 @@ const Header = styled(Flex)`
 `;
 
 const Content = styled(Flex)`
-  height: 100%;
+  /* height: 100%; */
 `;
 
 const Middle = styled(Flex)`
@@ -80,6 +80,7 @@ export const Community = ({title, children}) => {
           </LogoBox>
           <Menu>
             <MenuItem href="/" icon={<Home size={22} />} />
+            <MenuItem href="/rooms" icon={<Grid size={22} />} />
             <MenuItem href="/feed" icon={<Compass size={22} />} />
             <MenuItem href="/users" icon={<Users size={22} />} />
           </Menu>

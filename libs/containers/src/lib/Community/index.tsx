@@ -12,7 +12,7 @@ import { FeedbackBox } from './Feedback';
 const Box = styled.div`
   height: 100%;
   overflow: hidden;
-  background: ${({ theme }) => theme.dark2};
+  background: ${({ theme }) => theme.colors.dark2};
   display: flex;
 `;
 
