@@ -40,6 +40,7 @@ type Room {
   userId: String!
   author: User!
   currentMedia: String!
+  mediaStatus: String!
   members: [User!]!
   messages: [RoomMessage!]!
   createdAt: String!
@@ -57,11 +58,17 @@ type Query {
 type Mutation {
   logout(refreshToken: String!): Boolean!
   createRoom(input: RoomCreateInput!): Boolean!
+  toggleMediaStatus(input: mediaStatusChangeInput!): Boolean!
   createRoomMessage(input: RoomMessageCreateInput!): Boolean!
 }
 
 input RoomCreateInput {
   currentMedia: String!
+}
+
+input mediaStatusChangeInput {
+  roomId: String!
+  mediaStatus: String!
 }
 
 input RoomMessageCreateInput {
@@ -71,6 +78,7 @@ input RoomMessageCreateInput {
 
 type Subscription {
   roomMessageCreated(roomId: ID!): RoomMessage!
+  roomMediaStatusChanged(roomId: ID!): Room!
   roomCreated(roomId: ID!): Room!
   roomMessageDeleted(roomId: ID!): RoomMessage!
 }

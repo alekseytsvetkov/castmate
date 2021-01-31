@@ -33,6 +33,7 @@ const RoomDescription = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 14px;
+  color: ${({theme}) => theme.colors.accent2};
 `;
 
 const RoomMembersList = styled.ul`

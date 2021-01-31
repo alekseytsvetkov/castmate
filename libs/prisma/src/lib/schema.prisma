@@ -61,6 +61,11 @@ model Connection {
   user       User?    @relation(fields: [userId], references: [id])
 }
 
+enum MediaStatus {
+  PAUSE
+  PLAY
+}
+
 model Room {
   id           String        @id @default(cuid())
   createdAt    DateTime      @default(now())
@@ -70,6 +75,7 @@ model Room {
   members      User[]        @relation(name: "roomMembers")
   messages     RoomMessage[]
   currentMedia String
+  mediaStatus  MediaStatus   @default(PAUSE)
   playlist     RoomMedia[]
 }
 

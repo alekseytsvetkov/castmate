@@ -92,6 +92,7 @@ export const Community = ({title, children}) => {
           <Header px="20px" bg="dark1">
             <Title>{title}</Title>
             <Flex flex="1"></Flex>
+            <div></div>
             <FeedbackBox />
             <VersionBox />
             <SearchBox />

@@ -1,6 +1,16 @@
 import { RoomMessage } from './roomMessage';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { User } from '@castmate/user-api';
+
+enum MediaStatus {
+  PAUSE = 'PAUSE',
+  PLAY = 'PLAY',
+}
+
+registerEnumType(MediaStatus, {
+  name: 'MediaStatus',
+  description: 'Media status',
+});
 
 @ObjectType()
 export class Room {
@@ -11,6 +21,8 @@ export class Room {
   @Field((type) => User) author: User;
 
   @Field() currentMedia: string;
+
+  @Field() mediaStatus: MediaStatus;
 
   @Field((type) => [User]) members: User[];
 

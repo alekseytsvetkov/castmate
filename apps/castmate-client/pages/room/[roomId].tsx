@@ -10,7 +10,7 @@ import {
 export function RoomPage() {
   const router = useRouter();
 
-  const roomId = router.query.id;
+  const roomId = router.query.roomId;
 
   if (typeof roomId !== 'string') {
     return null;

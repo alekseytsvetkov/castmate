@@ -15,6 +15,7 @@ import { AuthGuard } from '@castmate/auth-api';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { Room } from './models/room';
 import { RoomCreateInput } from './dto/room.create.input';
+import { mediaStatusChangeInput } from './dto/mediaStatus.input';
 
 @Resolver((of) => RoomMessage)
 export class RoomResolver {
@@ -102,6 +103,28 @@ export class RoomResolver {
     return true;
   }
 
+  @Mutation((returns) => Boolean)
+  @UseGuards(AuthGuard)
+  async toggleMediaStatus(
+    @Args('input') input: mediaStatusChangeInput,
+  ) {
+    let { roomId, mediaStatus } = input;
+
+    const room = await this.prisma.room.update({
+      where: { id: roomId },
+      data: {
+        mediaStatus: mediaStatus === "PAUSE" ? "PLAY" : "PAUSE"
+      },
+    });
+
+    this.pubsub.publish('roomMediaStatusChanged', {
+      roomMediaStatusChanged: room,
+    });
+
+    return true;
+  }
+
+
   @Query(() => [RoomMessage])
   async roomMessages(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
     const messages = await this.prisma.roomMessage.findMany({
@@ -171,6 +194,14 @@ export class RoomResolver {
   })
   roomMessageCreated(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
     return this.pubsub.asyncIterator('roomMessageCreated');
+  }
+
+  @Subscription((returns) => Room, {
+    filter: ({ roomMediaStatusChanged }, { id }) =>
+    roomMediaStatusChanged.roomId === id,
+  })
+  roomMediaStatusChanged(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    return this.pubsub.asyncIterator('roomMediaStatusChanged');
   }
 
   @Subscription((returns) => Room, {
