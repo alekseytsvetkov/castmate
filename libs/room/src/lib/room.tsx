@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Input, Player } from '@castmate/ui';
 import styled from 'styled-components';
-import { lighten } from 'polished';
 import { Plus, Youtube } from 'react-feather';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import ChatBox from './ChatBox'
 
 const RoomBox = styled.div`
   width: 100%;
@@ -52,8 +52,6 @@ const RightSidebar = styled.div`
 
 const Members = styled.div``;
 
-const Chat = styled.div``;
-
 const SidebarTitle = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.accent1};
   padding-bottom: 20px;
@@ -94,70 +92,6 @@ const MemberItem = styled.li`
   }
 `;
 
-const ChatMessages = styled.div`
-  min-height: 250px;
-  max-height: 250px;
-  overflow-x: scroll;
-  margin-bottom: 20px;
-`;
-
-const ChatMessage = styled.div`
-  display: flex;
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 5px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-const MessageAuthor = styled.div`
-  color: rgba(255,255,255,0.8);
-  margin-right: 5px;
-`;
-
-const MessageText = styled.div``;
-
-const ChatForm = styled.div`
-  padding-top: 10px;
-  border-top: 1px solid ${({ theme }) => theme.colors.accent1};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ChatInput = styled.input`
-  border: none;
-  background: ${({ theme }) => theme.colors.dark1};
-  color: ${({ theme }) => theme.colors.accent2};
-  font-size: 14px;
-  margin-right: 20px;
-  padding: 20px;
-  padding-left: 0;
-  padding-right: 0;
-  outline: none;
-  min-width: 276px;
-`;
-
-const ChatButton = styled.button`
-  border: none;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.colors.castmate};
-  color: ${({ theme }) => theme.colors.text1};
-  outline: none;
-  cursor: pointer;
-  padding: 12px 16px;
-  height: 100%;
-  :focus {
-    background: ${({ theme }) =>
-      lighten(0.1, theme.colors['castmate'])};
-  }
-  :hover {
-    background: ${({ theme }) =>
-      lighten(0.05, theme.colors['castmate'])};
-  }
-`;
-
 const RoomPlaylist = styled.div`
   margin-top: 20px;
   width: 100%;
@@ -168,9 +102,10 @@ const RoomPlaylist = styled.div`
 type IRoomProps = {
   data: any;
   loading: boolean;
+  roomId: string;
 };
 
-export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading }) => {
+export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId }) => {
   if (loading) {
     return (
       <RoomBox>
@@ -193,14 +128,7 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading }) => {
               </SkeletonTheme>
             </MembersList>
           </Members>
-          <Chat>
-            <SidebarTitle>Chat</SidebarTitle>
-            <ChatMessages>
-              <SkeletonTheme color="#293042" highlightColor="#0E78F9">
-                <Skeleton height="290px" />
-              </SkeletonTheme>
-            </ChatMessages>
-          </Chat>
+          <ChatBox roomId={roomId} />
         </RightSidebar>
       </RoomBox>)
   }
@@ -214,8 +142,6 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading }) => {
       </RoomBox>
     )
   }
-
-  console.log('data', data)
 
   return (
     <RoomBox>
@@ -238,28 +164,13 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading }) => {
             {/* @ts-ignore */}
             {data.room.members.map(member => {
               return <MemberItem key={member.id}>
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" />
-              <div>{member.id}</div>
+              <img src={member.profile.avatar} />
+              <div>{member.profile.name}</div>
             </MemberItem>
             })}
           </MembersList>
         </Members>
-        <Chat>
-          <SidebarTitle>Chat</SidebarTitle>
-          <ChatMessages>
-            {/* @ts-ignore */}
-            {data.room.messages.map(message => {
-              return <ChatMessage key={message.id}>
-              <MessageAuthor>Kelly Turner:</MessageAuthor>
-              <MessageText>{message.content}</MessageText>
-            </ChatMessage>
-            })}
-          </ChatMessages>
-          <ChatForm>
-            <ChatInput type="text" placeholder="Type to write a message" />
-            <ChatButton>Send</ChatButton>
-          </ChatForm>
-        </Chat>
+        <ChatBox roomId={roomId} />
       </RightSidebar>
     </RoomBox>
   );

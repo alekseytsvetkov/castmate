@@ -114,7 +114,11 @@ export class RoomResolver {
       },
       take: 50,
       include: {
-        author: true,
+        author: {
+          include: {
+            profile: true
+          }
+        }
       },
     });
 

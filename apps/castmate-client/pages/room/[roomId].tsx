@@ -4,7 +4,8 @@ import { CastmateLayout } from '@castmate/ui';
 import { Community } from '@castmate/community';
 import { useRouter } from 'next/router';
 import {
-  useRoomQuery
+  useRoomQuery,
+  useRoomMessageCreatedSubscription
 } from '@castmate/room';
 
 export function RoomPage() {
@@ -25,7 +26,7 @@ export function RoomPage() {
   return (
     <CastmateLayout>
       <Community title={`Room`}>
-        <CurrentRoom data={data} loading={loading} />
+        <CurrentRoom data={data} loading={loading} roomId={roomId} />
       </Community>
     </CastmateLayout>
   )
