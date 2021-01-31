@@ -3,15 +3,12 @@ import { CastmateLayout, MainItem } from '@castmate/ui';
 import { Community } from '@castmate/community';
 import styled from 'styled-components';
 import { Tv, PlusSquare } from 'react-feather';
-import { useRouter } from 'next/router';
 
 const ControlList = styled.div`
   display: flex;
 `;
 
 export function Index() {
-  const router = useRouter();
-
   return (
     <>
       <CastmateLayout>

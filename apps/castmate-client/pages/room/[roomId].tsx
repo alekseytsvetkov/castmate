@@ -4,14 +4,13 @@ import { CastmateLayout } from '@castmate/ui';
 import { Community } from '@castmate/community';
 import { useRouter } from 'next/router';
 import {
-  useRoomQuery,
-  useRoomMessageCreatedSubscription
+  useRoomQuery
 } from '@castmate/room';
 
 export function RoomPage() {
   const router = useRouter();
 
-  const roomId = router.query.roomId;
+  const roomId = router.query.id;
 
   if (typeof roomId !== 'string') {
     return null;
