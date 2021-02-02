@@ -11,4 +11,6 @@ export const MenuItem = styled(Flex)`
   align-items: center;
   padding: 0 20px;
   height: 32px;
+  cursor: pointer;
+  z-index: 1000;
 `;
