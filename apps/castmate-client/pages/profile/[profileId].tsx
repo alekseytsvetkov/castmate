@@ -3,7 +3,6 @@ import { CastmateLayout } from '@castmate/ui';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
 import React from 'react';
-// import { useRouter } from 'next/router';
 
 const Profile = () => {
   const router = useRouter();
@@ -33,8 +32,6 @@ const Profile = () => {
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
-
-
 
   const profile = data?.user?.profile;
 
