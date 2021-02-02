@@ -1,4 +1,4 @@
-import { Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from '@castmate/prisma';
 import { User } from './models/user.model';
 import { UseGuards } from '@nestjs/common';
@@ -19,5 +19,23 @@ export class UserResolver {
         profile: true,
       },
     });
+  }
+
+  @Query((returns) => User)
+  async user(@Args({ name: 'userId', type: () => ID }) userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      include: {
+        profile: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error('This user does not exist');
+    }
+
+    return user;
   }
 }

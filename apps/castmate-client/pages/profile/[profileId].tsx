@@ -1,22 +1,48 @@
 import { Community } from '@castmate/community';
 import { CastmateLayout } from '@castmate/ui';
+import { useRouter } from 'next/router';
+import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 // import { useRouter } from 'next/router';
 
 const Profile = () => {
-  // const router = useRouter();
+  const router = useRouter();
 
-  // let userId;
+  let userId;
 
-  // if (typeof router.query.id === 'string') {
-  //   userId = router.query.id;
-  // }
+  if (typeof router.query.profileId === 'string') {
+    userId = router.query.profileId;
+  }
+
+  const userQuery = gql`
+    query user($userId: ID!) {
+      user(userId: $userId) {
+        id
+        profile {
+          id
+          name
+          avatar
+        }
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(userQuery, {
+    variables: { userId },
+  });
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
+
+
+  const profile = data?.user?.profile;
 
   return (
     <CastmateLayout>
       <Community title="Home">
-        <div>Avatar</div>
-        <div>Name</div>
+        <img src={profile.avatar} alt={profile.name} />
+        <div>{profile.name}</div>
       </Community>
     </CastmateLayout>
   )

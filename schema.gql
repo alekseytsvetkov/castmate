@@ -50,6 +50,7 @@ type Query {
   tokens(authCode: String!): AuthTokens!
   refresh(refreshToken: String!): String!
   me: User!
+  user(userId: ID!): User!
   rooms: [Room!]!
   room(roomId: ID!): Room!
   roomMessages(roomId: ID!): [RoomMessage!]!
