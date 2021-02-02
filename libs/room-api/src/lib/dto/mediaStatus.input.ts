@@ -1,8 +1,8 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql';
 
 enum MediaStatus {
-  PAUSE = 'PAUSE',
-  PLAY = 'PLAY',
+  PAUSED = 'PAUSED',
+  PLAYING = 'PLAYING',
 }
 
 registerEnumType(MediaStatus, {

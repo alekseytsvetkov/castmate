@@ -3,8 +3,8 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { User } from '@castmate/user-api';
 
 enum MediaStatus {
-  PAUSE = 'PAUSE',
-  PLAY = 'PLAY',
+  PAUSED = 'PAUSED',
+  PLAYING = 'PLAYING',
 }
 
 registerEnumType(MediaStatus, {

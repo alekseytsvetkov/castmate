@@ -62,8 +62,11 @@ model Connection {
 }
 
 enum MediaStatus {
-  PAUSE
-  PLAY
+  ENDED
+  PLAYING
+  PAUSED
+  BUFFERING
+  CUED
 }
 
 model Room {
@@ -75,7 +78,7 @@ model Room {
   members      User[]        @relation(name: "roomMembers")
   messages     RoomMessage[]
   currentMedia String
-  mediaStatus  MediaStatus   @default(PAUSE)
+  mediaStatus  MediaStatus   @default(CUED)
   playlist     RoomMedia[]
 }
 
