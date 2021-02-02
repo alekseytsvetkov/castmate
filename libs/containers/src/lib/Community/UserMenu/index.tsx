@@ -110,6 +110,7 @@ export const UserMenu = ({
     }
   `);
 
+  const userId = meQuery?.data?.me?.id;
   const profile = meQuery?.data?.me?.profile;
 
   if (meQuery.loading) {
@@ -139,6 +140,14 @@ export const UserMenu = ({
         {menuIsOpen && (
           <Flex position="absolute" right="0px" top="100%">
             <Menu mt="10px">
+              <MenuItem
+                onClick={(e) => {
+                  e.preventDefault()
+                  router.push(`/profile/${userId}`)
+                }}
+              >
+                <Typography>Profile</Typography>
+              </MenuItem>
               <MenuItem
                 onClick={() => {
                   logout({
