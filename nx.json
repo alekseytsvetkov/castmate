@@ -37,6 +37,7 @@
     "room-api": { "tags": [] },
     "user-api": { "tags": [] },
     "auth-api": { "tags": [] },
-    "connection-api": { "tags": [] }
+    "connection-api": { "tags": [] },
+    "castmate-discord": { "tags": [] }
   }
 }

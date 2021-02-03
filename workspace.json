@@ -358,6 +358,57 @@
           }
         }
       }
+    },
+    "castmate-discord": {
+      "root": "apps/castmate-discord",
+      "sourceRoot": "apps/castmate-discord/src",
+      "projectType": "application",
+      "prefix": "castmate-discord",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/castmate-discord",
+            "main": "apps/castmate-discord/src/main.ts",
+            "tsConfig": "apps/castmate-discord/tsconfig.app.json",
+            "assets": ["apps/castmate-discord/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/castmate-discord/src/environments/environment.ts",
+                  "with": "apps/castmate-discord/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "castmate-discord:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/castmate-discord/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/castmate-discord"],
+          "options": {
+            "jestConfig": "apps/castmate-discord/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

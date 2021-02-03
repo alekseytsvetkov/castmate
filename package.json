@@ -45,6 +45,7 @@
     "apollo-server-express": "^2.19.2",
     "class-validator": "^0.13.1",
     "core-js": "^3.6.5",
+    "discord.js": "^12.5.1",
     "document-register-element": "1.14.10",
     "express-session": "^1.17.1",
     "framer-motion": "^3.2.2-rc.1",
