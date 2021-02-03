@@ -21,17 +21,27 @@ model Profile {
 }
 
 model User {
-  id          String        @id @default(cuid())
+  id          String          @id @default(cuid())
   name        String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @default(now()) @updatedAt
-  verified    Boolean       @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now()) @updatedAt
+  verified    Boolean         @default(false)
   profile     Profile?
   token       Token[]
   connection  Connection[]
-  rooms       Room[]        @relation(name: "roomMembers")
+  rooms       Room[]          @relation(name: "roomMembers")
   roomMessage RoomMessage[]
   room        Room[]
+  requests    FriendRequest[]
+  friends     User[]          @relation("UserToUser")
+  User        User?           @relation("UserToUser", fields: [userId], references: [id])
+  userId      String?
+}
+
+model FriendRequest {
+  id     String  @id @default(cuid())
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
 
 model Token {
