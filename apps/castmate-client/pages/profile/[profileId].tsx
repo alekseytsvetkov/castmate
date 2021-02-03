@@ -63,8 +63,6 @@ const Profile = () => {
   const user = data?.user;
   const profile = user?.profile;
 
-  console.log('user', user)
-
   return (
     <CastmateLayout>
       <Community title="Home">

@@ -6,7 +6,10 @@ export function Users() {
   return (
     <CastmateLayout>
       <Community title="Users">
-        <div>Users</div>
+        <div>
+          <div>user avatar</div>
+          <div>user name</div>
+        </div>
       </Community>
     </CastmateLayout>
   );

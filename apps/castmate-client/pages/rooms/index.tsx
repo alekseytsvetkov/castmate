@@ -100,10 +100,6 @@ export function Rooms() {
     },
   });
 
-  console.log('loading', loading)
-  console.log('error', error)
-  console.log('data', data)
-
   if (loading) {
     return <div>Loading...</div>
   }

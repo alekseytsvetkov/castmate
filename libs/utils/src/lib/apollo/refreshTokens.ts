@@ -19,7 +19,5 @@ export const refreshTokens = async () => {
 
   setAccessToken(newAccessToken);
 
-  console.log('Token refreshed');
-
   return newAccessToken;
 };

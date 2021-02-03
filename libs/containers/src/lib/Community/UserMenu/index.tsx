@@ -44,8 +44,6 @@ export const UserMenu = ({
     const url =
       'http://localhost:3333/auth/google?' + params.toString();
 
-    console.log(url);
-
     window.location.href = url;
   };
 

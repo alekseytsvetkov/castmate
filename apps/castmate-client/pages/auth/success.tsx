@@ -8,9 +8,6 @@ export function AuthSuccess() {
   const code = rotuer.query?.code;
   const redirect = rotuer.query?.redirect;
 
-  console.log('code', code)
-  console.log('redirect', redirect)
-
   return (
     <CastmateLayout>
       <Auth
