@@ -38,6 +38,7 @@ type RoomMessage {
 
 type Room {
   id: String!
+  name: String!
   userId: String!
   author: User!
   currentMedia: String!

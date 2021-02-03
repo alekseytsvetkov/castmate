@@ -31,6 +31,27 @@ export class RoomResolver {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        author: {
+          include: {
+            profile: true
+          }
+        },
+        members: {
+          include: {
+            profile: true
+          }
+        },
+        messages: {
+          include: {
+            author: {
+              include: {
+                profile: true
+              }
+            },
+          }
+        }
+      }
     });
 
     return rooms;

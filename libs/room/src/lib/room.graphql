@@ -70,6 +70,7 @@ fragment RoomMessageFields on RoomMessage {
 fragment RoomFields on Room {
   id
   createdAt
+  name
   currentMedia
   mediaStatus
   author {

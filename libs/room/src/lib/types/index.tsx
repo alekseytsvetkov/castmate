@@ -28,6 +28,7 @@ export type User = {
   name?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  verified: Scalars['Boolean'];
   profile?: Maybe<Profile>;
 };
 
@@ -51,6 +52,7 @@ export type RoomMessage = {
 export type Room = {
   __typename?: 'Room';
   id: Scalars['String'];
+  name: Scalars['String'];
   userId: Scalars['String'];
   author: User;
   currentMedia: Scalars['String'];
@@ -65,6 +67,7 @@ export type Query = {
   tokens: AuthTokens;
   refresh: Scalars['String'];
   me: User;
+  user: User;
   rooms: Array<Room>;
   room: Room;
   roomMessages: Array<RoomMessage>;
@@ -78,6 +81,11 @@ export type QueryTokensArgs = {
 
 export type QueryRefreshArgs = {
   refreshToken: Scalars['String'];
+};
+
+
+export type QueryUserArgs = {
+  userId: Scalars['ID'];
 };
 
 
@@ -294,7 +302,7 @@ export type RoomMessageFieldsFragment = (
 
 export type RoomFieldsFragment = (
   { __typename?: 'Room' }
-  & Pick<Room, 'id' | 'createdAt' | 'currentMedia' | 'mediaStatus'>
+  & Pick<Room, 'id' | 'createdAt' | 'name' | 'currentMedia' | 'mediaStatus'>
   & { author: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
@@ -343,6 +351,7 @@ export const RoomFieldsFragmentDoc = gql`
     fragment RoomFields on Room {
   id
   createdAt
+  name
   currentMedia
   mediaStatus
   author {

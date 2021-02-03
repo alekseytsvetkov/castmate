@@ -3,6 +3,10 @@ import { CastmateLayout } from '@castmate/ui';
 import { Community } from '@castmate/community';
 import styled from 'styled-components';
 import { lighten } from 'polished';
+import {
+  useRoomsQuery
+} from '@castmate/room';
+import { useRouter } from 'next/router';
 
 const RoomsList = styled.div`
   display: flex;
@@ -15,10 +19,14 @@ const Room = styled.div`
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.dark2};
   padding: 20px;
-  min-width: 430px;
+  min-width: 426px;
   border: 1px solid rgba(255,255,255,.1);
   margin-bottom: 20px;
   max-height: 100%;
+  margin-right: 20px;
+  :nth-child(3) {
+    margin-right: 0;
+  }
 `;
 
 const RoomContent = styled.div`
@@ -74,28 +82,58 @@ const RoomMemberAvatar = styled.img`
   overflow: hidden;
 `;
 
-const RoomMemberMore = styled.div`
-  height: 50px;
-  width: 50px;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.colors.dark2};
-  border: 1px solid rgba(255,255,255,.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+// const RoomMemberMore = styled.div`
+//   height: 50px;
+//   width: 50px;
+//   border-radius: 8px;
+//   background: ${({ theme }) => theme.colors.dark2};
+//   border: 1px solid rgba(255,255,255,.1);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// `;
 
 export function Rooms() {
+  const router = useRouter();
+  const { data, loading, error } = useRoomsQuery({
+    variables: {
+    },
+  });
+
+  console.log('loading', loading)
+  console.log('error', error)
+  console.log('data', data)
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  const rooms = data?.rooms;
+
+  const joinRoom = (e: string) => {
+    router.push(`room/${e}`);
+  }
+
   return (
     <CastmateLayout>
       <Community title="Rooms">
         <RoomsList>
-          <Room>
-            <RoomName>Room name</RoomName>
-            <RoomDescription>Room description</RoomDescription>
+          {rooms.map(room => {
+            return <Room key={room.id}>
+            <RoomName>{room.name}</RoomName>
+            <RoomDescription>Current playing: media title</RoomDescription>
             <RoomContent>
               <RoomMembersList>
-                <RoomMember>
+                {room.members.map(member => {
+                  return <RoomMember key={member.id}>
+                  <RoomMemberAvatar
+                    src={member.profile.avatar}
+                    alt={member.profile.name}
+                    onClick={() => console.log('user', member.profile.name)}
+                  />
+                </RoomMember>
+                })}
+                {/* <RoomMember>
                   <RoomMemberAvatar
                     src={"https://randomuser.me/api/portraits/men/79.jpg"}
                     alt={"user"}
@@ -118,73 +156,12 @@ export function Rooms() {
                 </RoomMember>
                 <RoomMember>
                   <RoomMemberMore><span>+3</span></RoomMemberMore>
-                </RoomMember>
+                </RoomMember> */}
               </RoomMembersList>
-              <RoomButton>Join</RoomButton>
+              <RoomButton onClick={() => joinRoom(room.id)}>Join</RoomButton>
             </RoomContent>
           </Room>
-          <Room>
-            <RoomName>Room name</RoomName>
-            <RoomDescription>Room description</RoomDescription>
-            <RoomContent>
-              <RoomMembersList>
-                <RoomMember>
-                  <RoomMemberAvatar
-                    src={"https://randomuser.me/api/portraits/men/79.jpg"}
-                    alt={"user"}
-                    onClick={() => console.log('user click')}
-                  />
-                </RoomMember>
-                <RoomMember>
-                  <RoomMemberAvatar
-                    src={"https://randomuser.me/api/portraits/women/65.jpg"}
-                    alt={"user"}
-                    onClick={() => console.log('user click')}
-                  />
-                </RoomMember>
-              </RoomMembersList>
-              <RoomButton>Join</RoomButton>
-            </RoomContent>
-          </Room>
-          <Room>
-            <RoomName>Room name</RoomName>
-            <RoomDescription>Room description</RoomDescription>
-            <RoomContent>
-              <RoomMembersList>
-                <RoomMember>
-                  <RoomMemberAvatar
-                    src={"https://randomuser.me/api/portraits/men/79.jpg"}
-                    alt={"user"}
-                    onClick={() => console.log('user click')}
-                  />
-                </RoomMember>
-              </RoomMembersList>
-              <RoomButton>Join</RoomButton>
-            </RoomContent>
-          </Room>
-          <Room>
-            <RoomName>Room name</RoomName>
-            <RoomDescription>Room description</RoomDescription>
-            <RoomContent>
-              <RoomMembersList>
-                <RoomMember>
-                  <RoomMemberAvatar
-                    src={"https://randomuser.me/api/portraits/men/79.jpg"}
-                    alt={"user"}
-                    onClick={() => console.log('user click')}
-                  />
-                </RoomMember>
-                <RoomMember>
-                  <RoomMemberAvatar
-                    src={"https://randomuser.me/api/portraits/women/65.jpg"}
-                    alt={"user"}
-                    onClick={() => console.log('user click')}
-                  />
-                </RoomMember>
-              </RoomMembersList>
-              <RoomButton>Join</RoomButton>
-            </RoomContent>
-          </Room>
+          })}
         </RoomsList>
       </Community>
     </CastmateLayout>

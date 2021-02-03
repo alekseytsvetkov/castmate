@@ -16,6 +16,8 @@ registerEnumType(MediaStatus, {
 export class Room {
   @Field() id: string;
 
+  @Field({defaultValue: "Room"}) name: string;
+
   @Field() userId: string;
 
   @Field((type) => User) author: User;
