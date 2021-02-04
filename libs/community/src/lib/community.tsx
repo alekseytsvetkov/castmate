@@ -81,11 +81,11 @@ export const Community = ({title, children}) => {
           <Menu>
             <MenuItem href="/" icon={<Home size={22} />} />
             <MenuItem href="/rooms" icon={<Grid size={22} />} />
-            <MenuItem href="/feed" icon={<Compass size={22} />} />
-            <MenuItem href="/users" icon={<Users size={22} />} />
+            {/* <MenuItem href="/feed" icon={<Compass size={22} />} />
+            <MenuItem href="/users" icon={<Users size={22} />} /> */}
           </Menu>
           <Menu>
-            <MenuItem href="/settings" icon={<Settings size={22} />} />
+            {/* <MenuItem href="/settings" icon={<Settings size={22} />} /> */}
           </Menu>
         </Sidebar>
         <Main>

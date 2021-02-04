@@ -110,6 +110,10 @@ export function Rooms() {
     router.push(`room/${e}`);
   }
 
+  const toProfile = (e: string) => {
+    router.push(`profile/${e}`);
+  }
+
   return (
     <CastmateLayout>
       <Community title="Rooms">
@@ -125,7 +129,7 @@ export function Rooms() {
                   <RoomMemberAvatar
                     src={member.profile.avatar}
                     alt={member.profile.name}
-                    onClick={() => console.log('user', member.profile.name)}
+                    onClick={() => toProfile(member.id)}
                   />
                 </RoomMember>
                 })}
