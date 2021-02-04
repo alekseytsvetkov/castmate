@@ -14,8 +14,8 @@ export function Index() {
       <CastmateLayout>
         <Community title="Home">
           <ControlList>
-            <MainItem href="/" icon={<Tv size={22} />} title="New room" description="set up new room" />
-            <MainItem href="/" icon={<PlusSquare size={22} />} title="Join room" description="via invitation link" />
+            <MainItem href="/create-room" icon={<Tv size={22} />} title="New room" description="set up new room" />
+            {/* <MainItem href="/join-room" icon={<PlusSquare size={22} />} title="Join room" description="via invitation link" /> */}
           </ControlList>
         </Community>
       </CastmateLayout>

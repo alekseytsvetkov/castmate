@@ -10,25 +10,25 @@ export const VersionBox = () => {
   return (
     <>
       <Link
-          as={`/version`}
-          href={{
-            pathname: router.route,
-            query: {
-              ...router.query,
-              versionModal: 1
-            }
-          }}
-          passHref
-        >
-        <Button mainColor="accent1" isLast>Supporter preview</Button>
-        </Link>
-        <Modal
-          minimal
-          visible={router.query.versionModal === '1'}
-          onClose={() => router.back()}
-        >
-          <SupporterPreview onClose={() => router.back()} />
-        </Modal>
-      </>
+        as={`/version`}
+        href={{
+          pathname: router.route,
+          query: {
+            ...router.query,
+            versionModal: 1
+          }
+        }}
+        passHref
+      >
+      <Button mainColor="accent1" isLast>Supporter preview</Button>
+      </Link>
+      <Modal
+        minimal
+        visible={router.query.versionModal === '1'}
+        onClose={() => router.back()}
+      >
+        <SupporterPreview onClose={() => router.back()} />
+      </Modal>
+    </>
   );
 };

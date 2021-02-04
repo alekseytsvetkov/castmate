@@ -4,6 +4,8 @@ import styled from 'styled-components';
 type InputProps = {
   isFirst?: boolean;
   isFull?: boolean;
+  mainColor?: string;
+  required?: boolean;
 }
 
 const InputWrap = styled.div<InputProps>`
@@ -21,7 +23,7 @@ const IconWrap = styled.div`
 
 export const InputBox = styled.input<InputProps>`
   border: none;
-  background: ${({ theme }) => theme.colors.dark2};
+  background: ${({ mainColor, theme }) => theme.colors[mainColor || 'dark2']};
   color: ${({ theme }) => theme.colors.accent2};
   font-size: 14px;
   border-radius: 12px;
@@ -34,9 +36,9 @@ export const InputBox = styled.input<InputProps>`
     isFirst && `margin-right: 20px;`};
 `;
 
-export const Input = ({ placeholder, icon, isFirst, isFull }) => (
+export const Input = ({ placeholder, icon, isFirst, isFull, mainColor, required }) => (
   <InputWrap isFull={isFull}>
     <IconWrap>{icon}</IconWrap>
-    <InputBox type="text" placeholder={placeholder} isFirst={isFirst} />
+    <InputBox type="text" placeholder={placeholder} isFirst={isFirst} mainColor={mainColor} required={required} />
   </InputWrap>
 );

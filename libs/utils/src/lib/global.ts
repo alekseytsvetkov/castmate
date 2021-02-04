@@ -58,4 +58,54 @@ export const GlobalStyle = createGlobalStyle`
     opacity: 1.0;
     transform: rotate(3deg) translate(0px, -4px);
   }
+  .rc-tabs-nav-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    background: #394158;
+    border-radius: 12px;
+    padding: 4px;
+    transition: none;
+  }
+  .rc-tabs-tab-btn {
+    text-align: center;
+    padding: 8px 16px;
+    outline: none;
+    align-self: center;
+    width: 100%;
+    :focus {
+      outline: none;
+    }
+  }
+  .rc-tabs-tab-btn[aria-disabled="true"] {
+    cursor: not-allowed
+  }
+  .rc-tabs-tab {
+    min-width: 144px;
+    background: #293042;
+    border-radius: 10px;
+    display: flex;
+    min-height: 50px;
+    cursor: pointer;
+  }
+  .rc-tabs-tab.rc-tabs-tab-active {
+    background: #1e2532;
+  }
+  .rc-tabs-tabpane {
+    outline: none;
+    :focus {
+      outline: none;
+    }
+    color: #fff;
+  }
+  .rc-tabs-ink-bar {
+    display: none;
+  }
+  .rc-tabs-nav-operations {
+    display: none;
+  }
+  .rc-tabs-content-holder {
+    padding: 20px 0;
+  }
 `;

@@ -6,8 +6,8 @@ import React from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ru';
-dayjs.locale('ru');
+import 'dayjs/locale/en';
+dayjs.locale('en');
 
 dayjs.extend(relativeTime);
 
@@ -73,7 +73,7 @@ const Profile = () => {
             {user.verified && <VerifiedIcon />}
           </ProfileNameBox>
           <ProfileDescriptionBox>
-            <div>Зарегистрирован {dayjs(user.createdAt).toNow(true)} назад</div>
+            <div>Registered {dayjs(user.createdAt).toNow(true)} ago</div>
           </ProfileDescriptionBox>
         </ProfileBox>
       </Community>

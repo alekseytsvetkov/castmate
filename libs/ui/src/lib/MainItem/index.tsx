@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Flex } from '../base';
 import { lighten } from 'polished';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import NewRoom from '@castmate/containers/Community/NewRoom';
+import { Modal } from '@castmate/ui';
 
 const Item = styled(Flex)`
   display: flex;
@@ -52,19 +55,36 @@ const ItemDescription = styled.div`
 
 export const MainItem = ({ icon, title, description, href }) => {
   const router = useRouter();
-
-  const handleClick = (e) => {
-    e.preventDefault()
-    router.push(href)
-  }
-
-  return <Item onClick={handleClick}>
-    <ItemIcon>
-      {icon}
-    </ItemIcon>
-    <ItemText>
-      <ItemTitle>{title}</ItemTitle>
-      <ItemDescription>{description}</ItemDescription>
-    </ItemText>
-  </Item>
+  return <>
+    <Link
+      as={`${href}`}
+      href={{
+        pathname: router.route,
+        query: {
+          ...router.query,
+          versionModal: 1
+        }
+      }}
+      passHref
+    >
+      <Item>
+        <ItemIcon>
+          {icon}
+        </ItemIcon>
+        <ItemText>
+          <ItemTitle>{title}</ItemTitle>
+          <ItemDescription>{description}</ItemDescription>
+        </ItemText>
+      </Item>
+    </Link>
+    {/* <Button mainColor="accent1" isLast>Supporter preview</Button>
+    </Link> */}
+    <Modal
+      minimal
+      visible={router.query.versionModal === '1'}
+      onClose={() => router.back()}
+    >
+      <NewRoom onClose={() => router.back()} />
+    </Modal>
+  </>
 };
