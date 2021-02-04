@@ -10,6 +10,7 @@ import baseConfig from './config/base.config';
 import authConfig from './config/auth.config';
 import authGoogleConfig from './config/authGoogle.config';
 import { SharedModule } from './shared.module';
+import { AppGateway } from './providers/app.gateway';
 
 @Module({
   imports: [
@@ -108,6 +109,6 @@ import { SharedModule } from './shared.module';
     RoomModule
   ],
   controllers: [],
-  providers: [],
+  providers: [AppGateway],
 })
 export class AppModule {}

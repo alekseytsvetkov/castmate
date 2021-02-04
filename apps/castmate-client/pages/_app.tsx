@@ -14,6 +14,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function CustomApp({ Component, pageProps }: AppProps) {
   console.log(`Version: ${version}`);
+
   const apolloClient = useApollo({
     uri: 'http://localhost:3333/graphql',
     pageProps,
