@@ -112,6 +112,11 @@ export class RoomResolver {
             id: userId,
           },
         },
+        members: {
+          connect: {
+            id: userId,
+          },
+        },
       },
       include: {
         author: true,

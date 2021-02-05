@@ -36,9 +36,9 @@ export const InputBox = styled.input<InputProps>`
     isFirst && `margin-right: 20px;`};
 `;
 
-export const Input = ({ placeholder, icon, isFirst, isFull, mainColor, required }) => (
+export const Input = ({ name, placeholder, onChange, onBlur, value, icon, isFirst, isFull, mainColor, required }) => (
   <InputWrap isFull={isFull}>
     <IconWrap>{icon}</IconWrap>
-    <InputBox type="text" placeholder={placeholder} isFirst={isFirst} mainColor={mainColor} required={required} />
+    <InputBox type="text" name={name} value={value} onChange={onChange} onBlur={onBlur} placeholder={placeholder} isFirst={isFirst} mainColor={mainColor} required={required} />
   </InputWrap>
 );

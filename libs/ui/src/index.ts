@@ -11,3 +11,4 @@ export * from './lib/Modal';
 export * from './lib/Loader';
 export * from './lib/icons/Verified';
 export * from './lib/Avatar';
+export * from './lib/Submit';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CastmateLayout } from '@castmate/ui';
 import { Community } from '@castmate/community';
 import styled from 'styled-components';

@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Flex, CastmateLayout, MenuItem } from '@castmate/ui';
+import { Flex, CastmateLayout, MenuItem, Button } from '@castmate/ui';
 import { Logo } from './Logo';
 import { UserMenu } from '@castmate/containers/Community/UserMenu';
 import { Home, Grid, Compass, Users, Settings } from 'react-feather';
 // import { SearchBox } from '@castmate/containers/Community/Search';
 import { VersionBox } from '@castmate/containers/Community/Version';
 import { useRouter } from 'next/router'
+import Link from 'next/link';
 // import { FeedbackBox } from '@castmate/containers/Community/Feedback';
 
 const Box = styled.div`
@@ -94,6 +95,18 @@ export const Community = ({title, children}) => {
             <Flex flex="1"></Flex>
             <div></div>
             {/* <FeedbackBox /> */}
+            <>
+              <Link
+                href={{
+                  pathname: 'https://discord.gg/hhjGZVYK',
+                }}
+                passHref
+              >
+              <a target="_blank">
+                <Button mainColor="accent1" isLast>Discord</Button>
+              </a>
+              </Link>
+            </>
             <VersionBox />
             {/* <SearchBox /> */}
             <UserMenu />

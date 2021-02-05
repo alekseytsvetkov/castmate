@@ -11,7 +11,7 @@ import styled from 'styled-components';
 // import { LogIn } from 'react-feather';
 
 const Box = styled.div`
-  background: ${({ theme }) => theme.colors.dark2};
+  background: ${({ theme }) => theme.colors.dark1};
 `;
 
 const Avatar = styled.img`

@@ -1,10 +1,13 @@
 import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
-import { Button, Input } from '@castmate/ui';
+import { Button, Input, Submit } from '@castmate/ui';
 import { Logo } from '../Logo';
 import Tabs, { TabPane } from 'rc-tabs';
 import { Youtube } from 'react-feather';
+import { Formik, Form } from 'formik';
+import { useCreateRoomMutation } from '@castmate/room';
+import { matchYoutubeUrl } from '@castmate/utils/matchYoutubeUrl';
 
 const NewRoomBox = styled.div`
   display: flex;
@@ -35,14 +38,23 @@ const LogoBox = styled.div`
   justify-content: center;
 `;
 
+const Error = styled.div`
+  margin-top: 20px;
+  color: ${({ theme }) => theme.colors.red};
+`;
+
 export type IVersionProps = {
   onClose: () => void;
 };
 
 const callback = function(key) {};
 
-export const NewRoom: FC<IVersionProps> = ({ onClose }) => (
-  <NewRoomBox>
+export const NewRoom: FC<IVersionProps> = ({ onClose }) => {
+  const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation();
+
+  const errorMessage = error?.message;
+
+  return <NewRoomBox>
     <LogoBox>
       <Logo />
     </LogoBox>
@@ -56,14 +68,55 @@ export const NewRoom: FC<IVersionProps> = ({ onClose }) => (
       }
     >
       <TabPane tab="Youtube" key="1">
-        <Input
-          isFirst={false}
-          isFull
-          placeholder="Paste YouTube link here"
-          mainColor="accent1"
-          icon={<Youtube size={20} color="#8a919d" />}
-          required
-        />
+        <Formik
+          initialValues={{ mediaLink: "" }}
+          onSubmit={async (values, { setErrors }) => {
+            const match = matchYoutubeUrl(values.mediaLink);
+            if(!match) {
+              setErrors({mediaLink:'Incorrect URL'})
+              return null;
+            } else {
+              console.log('values', values)
+              const response = await createRoomMutation({
+                variables: {
+                  input: {
+                    currentMedia: values.mediaLink
+                  }
+                }
+              });
+              if (response.data?.createRoom) {
+                onClose();
+              }
+            }
+          }}
+          >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            errors,
+            isSubmitting
+          }) => (
+            <Form>
+              <Input
+                name="mediaLink"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.mediaLink}
+                isFirst={false}
+                isFull
+                placeholder="Paste YouTube link here"
+                mainColor="accent1"
+                icon={<Youtube size={20} color="#8a919d" />}
+                required
+              />
+              {errors.mediaLink ? <Error>{errors.mediaLink}</Error> : ""}
+              <Submit disabled={values.mediaLink.length < 20}>
+                Create
+              </Submit>
+            </Form>
+          )}
+        </Formik>
       </TabPane>
       <TabPane tab="TikTok (soon)" key="2" disabled>
         TikTok (soon)
@@ -73,6 +126,6 @@ export const NewRoom: FC<IVersionProps> = ({ onClose }) => (
       </TabPane>
     </Tabs>
   </NewRoomBox>
-);
+};
 
 export default NewRoom;
