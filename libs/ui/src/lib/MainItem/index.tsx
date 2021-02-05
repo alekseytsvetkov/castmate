@@ -62,7 +62,7 @@ export const MainItem = ({ icon, title, description, href }) => {
         pathname: router.route,
         query: {
           ...router.query,
-          versionModal: 1
+          roomModal: 1
         }
       }}
       passHref
@@ -81,7 +81,7 @@ export const MainItem = ({ icon, title, description, href }) => {
     </Link> */}
     <Modal
       minimal
-      visible={router.query.versionModal === '1'}
+      visible={router.query.roomModal === '1'}
       onClose={() => router.back()}
     >
       <NewRoom onClose={() => router.back()} />

@@ -13,12 +13,14 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
 
+  wss;
+
   afterInit(server: any) {
     this.logger.log("Initialized");
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    client.emit('connection', 'Succesfuly connected!')
+    client.emit('connection', `Succesfuly connected ${client.id}!`)
     this.logger.log(`Client connected: ${client.id}`);
   }
 

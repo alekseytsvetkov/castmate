@@ -4,10 +4,10 @@ import { Flex, CastmateLayout, MenuItem } from '@castmate/ui';
 import { Logo } from './Logo';
 import { UserMenu } from '@castmate/containers/Community/UserMenu';
 import { Home, Grid, Compass, Users, Settings } from 'react-feather';
-import { SearchBox } from '@castmate/containers/Community/Search';
+// import { SearchBox } from '@castmate/containers/Community/Search';
 import { VersionBox } from '@castmate/containers/Community/Version';
 import { useRouter } from 'next/router'
-import { FeedbackBox } from '@castmate/containers/Community/Feedback';
+// import { FeedbackBox } from '@castmate/containers/Community/Feedback';
 
 const Box = styled.div`
   height: 100%;
@@ -93,9 +93,9 @@ export const Community = ({title, children}) => {
             <Title>{title}</Title>
             <Flex flex="1"></Flex>
             <div></div>
-            <FeedbackBox />
+            {/* <FeedbackBox /> */}
             <VersionBox />
-            <SearchBox />
+            {/* <SearchBox /> */}
             <UserMenu />
           </Header>
           <Content p={router.pathname !== "/room/[roomId]" ? "20px" : "0px"}>
