@@ -101,7 +101,7 @@ export type QueryRoomMessagesArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
-  createRoom: Scalars['Boolean'];
+  createRoom: Room;
   toggleMediaStatus: Scalars['Boolean'];
   createRoomMessage: Scalars['Boolean'];
 };
@@ -159,11 +159,6 @@ export type SubscriptionRoomMediaStatusChangedArgs = {
 };
 
 
-export type SubscriptionRoomCreatedArgs = {
-  roomId: Scalars['ID'];
-};
-
-
 export type SubscriptionRoomMessageDeletedArgs = {
   roomId: Scalars['ID'];
 };
@@ -212,7 +207,10 @@ export type CreateRoomMutationVariables = Exact<{
 
 export type CreateRoomMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createRoom'>
+  & { createRoom: (
+    { __typename?: 'Room' }
+    & RoomFieldsFragment
+  ) }
 );
 
 export type ToggleMediaStatusMutationVariables = Exact<{
@@ -248,9 +246,7 @@ export type RoomMediaStatusChangedSubscription = (
   ) }
 );
 
-export type RoomCreatedSubscriptionVariables = Exact<{
-  roomId: Scalars['ID'];
-}>;
+export type RoomCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RoomCreatedSubscription = (
@@ -488,9 +484,11 @@ export type RoomMessagesLazyQueryHookResult = ReturnType<typeof useRoomMessagesL
 export type RoomMessagesQueryResult = Apollo.QueryResult<RoomMessagesQuery, RoomMessagesQueryVariables>;
 export const CreateRoomDocument = gql`
     mutation createRoom($input: RoomCreateInput!) {
-  createRoom(input: $input)
+  createRoom(input: $input) {
+    ...RoomFields
+  }
 }
-    `;
+    ${RoomFieldsFragmentDoc}`;
 export type CreateRoomMutationFn = Apollo.MutationFunction<CreateRoomMutation, CreateRoomMutationVariables>;
 
 /**
@@ -606,8 +604,8 @@ export function useRoomMediaStatusChangedSubscription(baseOptions: Apollo.Subscr
 export type RoomMediaStatusChangedSubscriptionHookResult = ReturnType<typeof useRoomMediaStatusChangedSubscription>;
 export type RoomMediaStatusChangedSubscriptionResult = Apollo.SubscriptionResult<RoomMediaStatusChangedSubscription>;
 export const RoomCreatedDocument = gql`
-    subscription roomCreated($roomId: ID!) {
-  roomCreated(roomId: $roomId) {
+    subscription roomCreated {
+  roomCreated {
     ...RoomFields
   }
 }
@@ -625,11 +623,10 @@ export const RoomCreatedDocument = gql`
  * @example
  * const { data, loading, error } = useRoomCreatedSubscription({
  *   variables: {
- *      roomId: // value for 'roomId'
  *   },
  * });
  */
-export function useRoomCreatedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RoomCreatedSubscription, RoomCreatedSubscriptionVariables>) {
+export function useRoomCreatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<RoomCreatedSubscription, RoomCreatedSubscriptionVariables>) {
         return Apollo.useSubscription<RoomCreatedSubscription, RoomCreatedSubscriptionVariables>(RoomCreatedDocument, baseOptions);
       }
 export type RoomCreatedSubscriptionHookResult = ReturnType<typeof useRoomCreatedSubscription>;

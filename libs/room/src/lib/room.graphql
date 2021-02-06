@@ -17,7 +17,9 @@ query roomMessages($roomId: ID!) {
 }
 
 mutation createRoom($input: RoomCreateInput!) {
-  createRoom(input: $input)
+  createRoom(input: $input) {
+    ...RoomFields
+  }
 }
 
 mutation toggleMediaStatus($input: mediaStatusChangeInput!) {
@@ -34,8 +36,8 @@ subscription roomMediaStatusChanged($roomId: ID!) {
   }
 }
 
-subscription roomCreated($roomId: ID!) {
-  roomCreated(roomId: $roomId) {
+subscription roomCreated {
+  roomCreated {
     ...RoomFields
   }
 }

@@ -8,6 +8,7 @@ import { Youtube } from 'react-feather';
 import { Formik, Form } from 'formik';
 import { useCreateRoomMutation } from '@castmate/room';
 import { matchYoutubeUrl } from '@castmate/utils/matchYoutubeUrl';
+import { useRouter } from 'next/router';
 
 const NewRoomBox = styled.div`
   display: flex;
@@ -49,10 +50,9 @@ export type IVersionProps = {
 
 const callback = function(key) {};
 
-export const NewRoom: FC<IVersionProps> = ({ onClose }) => {
+export const NewRoom: FC<IVersionProps> = () => {
+  const router = useRouter();
   const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation();
-
-  const errorMessage = error?.message;
 
   return <NewRoomBox>
     <LogoBox>
@@ -85,7 +85,7 @@ export const NewRoom: FC<IVersionProps> = ({ onClose }) => {
                 }
               });
               if (response.data?.createRoom) {
-                onClose();
+                router.push(`room/${response.data?.createRoom.id}`);
               }
             }
           }}
@@ -112,7 +112,7 @@ export const NewRoom: FC<IVersionProps> = ({ onClose }) => {
               />
               {errors.mediaLink ? <Error>{errors.mediaLink}</Error> : ""}
               <Submit disabled={values.mediaLink.length < 20}>
-                Create
+                {!isSubmitting ? 'Create' : 'Loading'}
               </Submit>
             </Form>
           )}

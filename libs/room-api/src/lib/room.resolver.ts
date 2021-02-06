@@ -89,7 +89,7 @@ export class RoomResolver {
     return room;
   }
 
-  @Mutation((returns) => Boolean)
+  @Mutation((returns) => Room)
   @UseGuards(AuthGuard)
   async createRoom(
     @Args('input') input: RoomCreateInput,
@@ -119,14 +119,31 @@ export class RoomResolver {
         },
       },
       include: {
-        author: true,
-      },
+        author: {
+          include: {
+            profile: true
+          }
+        },
+        members: {
+          include: {
+            profile: true
+          }
+        },
+        messages: {
+          include: {
+            author: {
+              include: {
+                profile: true
+              }
+            },
+          }
+        }
+      }
     });
 
-    this.pubsub.publish('roomCreated', {
-      roomCreated: room,
-    });
-    return true;
+    this.pubsub.publish('roomCreated', { roomCreated: room });
+
+    return room;
   }
 
   @Mutation((returns) => Boolean)
@@ -232,11 +249,8 @@ export class RoomResolver {
     return this.pubsub.asyncIterator('roomMediaStatusChanged');
   }
 
-  @Subscription((returns) => Room, {
-    filter: ({ roomCreated }, { roomId }) =>
-      roomCreated.roomId === roomId,
-  })
-  roomCreated(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+  @Subscription((returns) => Room)
+  roomCreated() {
     return this.pubsub.asyncIterator('roomCreated');
   }
 

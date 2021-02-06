@@ -4,7 +4,8 @@ import { Community } from '@castmate/community';
 import styled from 'styled-components';
 import { lighten } from 'polished';
 import {
-  useRoomsQuery
+  useRoomsQuery,
+  useRoomCreatedSubscription
 } from '@castmate/room';
 import { useRouter } from 'next/router';
 
@@ -95,16 +96,26 @@ const RoomMemberAvatar = styled.img`
 
 export function Rooms() {
   const router = useRouter();
-  const { data, loading, error } = useRoomsQuery({
-    variables: {
+  const roomsQuery = useRoomsQuery();
+
+  useRoomCreatedSubscription({
+    onSubscriptionData: ({ subscriptionData }) => {
+      if (!subscriptionData.data) return;
+
+      const room = subscriptionData.data.roomCreated;
+
+      roomsQuery.updateQuery((prev) => {
+        if (prev.rooms.findIndex((c) => c.id === room.id) < 0) {
+          return {
+            ...prev,
+            rooms: [...prev.rooms.slice(-50), room],
+          };
+        }
+      });
     },
   });
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  const rooms = data?.rooms;
+  const rooms = roomsQuery.data?.rooms || [];
 
   const joinRoom = (e: string) => {
     router.push(`room/${e}`);
@@ -112,6 +123,10 @@ export function Rooms() {
 
   const toProfile = (e: string) => {
     router.push(`profile/${e}`);
+  }
+
+  if(!rooms) {
+    return 'Loading...'
   }
 
   return (

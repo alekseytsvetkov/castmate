@@ -84,7 +84,7 @@ export const MainItem = ({ icon, title, description, href }) => {
       visible={router.query.roomModal === '1'}
       onClose={() => router.back()}
     >
-      <NewRoom onClose={() => router.back()} />
+      <NewRoom />
     </Modal>
   </>
 };
