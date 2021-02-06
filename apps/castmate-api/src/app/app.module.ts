@@ -11,6 +11,8 @@ import authConfig from './config/auth.config';
 import authGoogleConfig from './config/authGoogle.config';
 import { SharedModule } from './shared.module';
 import { AppGateway } from './providers/app.gateway';
+import { RavenInterceptor, RavenModule } from 'nest-raven';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { AppGateway } from './providers/app.gateway';
       isGlobal: true,
       load: [dbConfig, baseConfig, authConfig, authGoogleConfig],
     }),
+    RavenModule,
     SharedModule,
     GraphQLModule.forRootAsync({
       imports: [AuthModule, ConnectionModule],
@@ -109,6 +112,12 @@ import { AppGateway } from './providers/app.gateway';
     RoomModule
   ],
   controllers: [],
-  providers: [AppGateway],
+  providers: [
+    AppGateway,
+    {
+      provide: APP_INTERCEPTOR,
+      useValue: new RavenInterceptor(),
+    },
+  ],
 })
 export class AppModule {}

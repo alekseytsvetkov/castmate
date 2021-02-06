@@ -7,7 +7,7 @@ import {
   Args,
   Context,
 } from '@nestjs/graphql';
-import { UseGuards, Inject } from '@nestjs/common';
+import { UseGuards, Inject, UseInterceptors } from '@nestjs/common';
 import { RoomMessageCreateInput } from './dto/roomMessage.create.input';
 import { RoomMessage } from './models/roomMessage';
 import { PrismaService } from '@castmate/prisma';
@@ -16,6 +16,7 @@ import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { Room } from './models/room';
 import { RoomCreateInput } from './dto/room.create.input';
 import { mediaStatusChangeInput } from './dto/mediaStatus.input';
+import { RavenInterceptor } from 'nest-raven';
 
 @Resolver((of) => RoomMessage)
 export class RoomResolver {
@@ -26,6 +27,7 @@ export class RoomResolver {
   ) {}
 
   @Query(() => [Room])
+  @UseInterceptors(new RavenInterceptor())
   async rooms() {
     const rooms = await this.prisma.room.findMany({
       orderBy: {
@@ -58,6 +60,7 @@ export class RoomResolver {
   }
 
   @Query(() => Room)
+  @UseInterceptors(new RavenInterceptor())
   async room(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
     const room = await this.prisma.room.findFirst({
       where: {
@@ -90,6 +93,7 @@ export class RoomResolver {
   }
 
   @Mutation((returns) => Room)
+  @UseInterceptors(new RavenInterceptor())
   @UseGuards(AuthGuard)
   async createRoom(
     @Args('input') input: RoomCreateInput,
@@ -147,6 +151,7 @@ export class RoomResolver {
   }
 
   @Mutation((returns) => Boolean)
+  @UseInterceptors(new RavenInterceptor())
   @UseGuards(AuthGuard)
   async toggleMediaStatus(
     @Args('input') input: mediaStatusChangeInput,
@@ -171,6 +176,7 @@ export class RoomResolver {
 
 
   @Query(() => [RoomMessage])
+  @UseInterceptors(new RavenInterceptor())
   async roomMessages(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
     const messages = await this.prisma.roomMessage.findMany({
       where: {
@@ -194,6 +200,7 @@ export class RoomResolver {
   }
 
   @Mutation((returns) => Boolean)
+  @UseInterceptors(new RavenInterceptor())
   @UseGuards(AuthGuard)
   async createRoomMessage(
     @Args('input') input: RoomMessageCreateInput,
@@ -233,6 +240,7 @@ export class RoomResolver {
     return true;
   }
 
+  @UseInterceptors(new RavenInterceptor())
   @Subscription((returns) => RoomMessage, {
     filter: ({ roomMessageCreated }, { roomId }) =>
       roomMessageCreated.roomId === roomId,
@@ -241,6 +249,7 @@ export class RoomResolver {
     return this.pubsub.asyncIterator('roomMessageCreated');
   }
 
+  @UseInterceptors(new RavenInterceptor())
   @Subscription((returns) => Room, {
     filter: ({ roomMediaStatusChanged }, { id }) =>
     roomMediaStatusChanged.roomId === id,
@@ -249,11 +258,13 @@ export class RoomResolver {
     return this.pubsub.asyncIterator('roomMediaStatusChanged');
   }
 
+  @UseInterceptors(new RavenInterceptor())
   @Subscription((returns) => Room)
   roomCreated() {
     return this.pubsub.asyncIterator('roomCreated');
   }
 
+  @UseInterceptors(new RavenInterceptor())
   @Subscription((returns) => RoomMessage, {
     filter: ({ roomMessageDeleted, roomId }) =>
       roomMessageDeleted.roomId === roomId,

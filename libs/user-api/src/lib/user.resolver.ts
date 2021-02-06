@@ -1,8 +1,9 @@
 import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from '@castmate/prisma';
 import { User } from './models/user.model';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@castmate/auth-api';
+import { RavenInterceptor } from 'nest-raven';
 
 @Resolver((of) => User)
 export class UserResolver {
@@ -12,6 +13,7 @@ export class UserResolver {
 
   @UseGuards(AuthGuard)
   @Query((returns) => User)
+  @UseInterceptors(new RavenInterceptor())
   me(@Context('userId') userId): Promise<User> {
     return this.prisma.user.findFirst({
       where: { id: userId },
@@ -22,6 +24,7 @@ export class UserResolver {
   }
 
   @Query((returns) => User)
+  @UseInterceptors(new RavenInterceptor())
   async user(@Args({ name: 'userId', type: () => ID }) userId: string) {
     const user = await this.prisma.user.findFirst({
       where: {

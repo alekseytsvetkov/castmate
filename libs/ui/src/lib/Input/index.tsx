@@ -6,6 +6,12 @@ type InputProps = {
   isFull?: boolean;
   mainColor?: string;
   required?: boolean;
+  onChange?: void;
+  onBlur?: void;
+  value?: string;
+  name?: string;
+  placeholder?: string;
+  icon?: any;
 }
 
 const InputWrap = styled.div<InputProps>`
