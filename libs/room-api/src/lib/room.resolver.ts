@@ -17,6 +17,7 @@ import { Room } from './models/room';
 import { RoomCreateInput } from './dto/room.create.input';
 import { mediaStatusChangeInput } from './dto/mediaStatus.input';
 import { RavenInterceptor } from 'nest-raven';
+import { RoomJoinInput } from './dto/room.join.input';
 
 @Resolver((of) => RoomMessage)
 export class RoomResolver {
@@ -150,6 +151,51 @@ export class RoomResolver {
     return room;
   }
 
+  @Mutation((returns) => Room)
+  @UseInterceptors(new RavenInterceptor())
+  @UseGuards(AuthGuard)
+  async joinRoom(
+    @Args('input') input: RoomJoinInput,
+    @Context('userId') userId: string
+  ) {
+    let { roomId } = input;
+
+    const userAlreadyInRoom = await this.prisma.room.findMany({
+      where: {
+        id: roomId,
+        members: {
+          none: {
+            id: userId
+          }
+        }
+      },
+    })
+
+    if (userAlreadyInRoom.length === 0) {
+      throw new Error('User has already joined the room');
+    }
+
+    const room = await this.prisma.room.update({
+      where: {
+        id: roomId
+      },
+      include: {
+        members: true
+      },
+      data: {
+        members: {
+          connect: {
+            id: userId
+          }
+        }
+      }
+    })
+
+    this.pubsub.publish('roomJoined', { roomJoined: room });
+
+    return room;
+  }
+
   @Mutation((returns) => Boolean)
   @UseInterceptors(new RavenInterceptor())
   @UseGuards(AuthGuard)
@@ -171,7 +217,6 @@ export class RoomResolver {
 
     return true;
   }
-
 
   @Query(() => [RoomMessage])
   @UseInterceptors(new RavenInterceptor())
@@ -260,6 +305,12 @@ export class RoomResolver {
   @Subscription((returns) => Room)
   roomCreated() {
     return this.pubsub.asyncIterator('roomCreated');
+  }
+
+  @UseInterceptors(new RavenInterceptor())
+  @Subscription((returns) => Room)
+  roomJoined() {
+    return this.pubsub.asyncIterator('roomJoined');
   }
 
   @UseInterceptors(new RavenInterceptor())
