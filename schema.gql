@@ -88,6 +88,6 @@ type Subscription {
   roomMessageCreated(roomId: ID!): RoomMessage!
   roomMediaStatusChanged(roomId: ID!): Room!
   roomCreated: Room!
-  roomJoined: Room!
+  userJoined: Room!
   roomMessageDeleted(roomId: ID!): RoomMessage!
 }
