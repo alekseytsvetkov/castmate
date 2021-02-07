@@ -172,46 +172,73 @@ export class RoomResolver {
     })
 
     if (userAlreadyInRoom.length === 0) {
-      throw new Error('User has already joined the room');
+      const room = await this.prisma.room.findFirst({
+        where: {
+          id: roomId
+        },
+        include: {
+          author: {
+            include: {
+              profile: true
+            }
+          },
+          members: {
+            include: {
+              profile: true
+            }
+          },
+          messages: {
+            include: {
+              author: {
+                include: {
+                  profile: true
+                }
+              },
+            }
+          }
+        }
+      })
+      return room;
+      // throw new Error('User has already joined the room');
+    } else {
+      const room = await this.prisma.room.update({
+        where: {
+          id: roomId
+        },
+        include: {
+          author: {
+            include: {
+              profile: true
+            }
+          },
+          members: {
+            include: {
+              profile: true
+            }
+          },
+          messages: {
+            include: {
+              author: {
+                include: {
+                  profile: true
+                }
+              },
+            }
+          }
+        },
+        data: {
+          members: {
+            connect: {
+              id: userId
+            }
+          }
+        }
+      })
+
+      this.pubsub.publish('userJoined', { userJoined: room });
+
+      return room;
     }
-
-    const room = await this.prisma.room.update({
-      where: {
-        id: roomId
-      },
-      include: {
-        author: {
-          include: {
-            profile: true
-          }
-        },
-        members: {
-          include: {
-            profile: true
-          }
-        },
-        messages: {
-          include: {
-            author: {
-              include: {
-                profile: true
-              }
-            },
-          }
-        }
-      },
-      data: {
-        members: {
-          connect: {
-            id: userId
-          }
-        }
-      }
-    })
-
-    this.pubsub.publish('userJoined', { userJoined: room });
-
-    return room;
   }
 
   @Mutation((returns) => Boolean)
