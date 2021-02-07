@@ -46,6 +46,8 @@
     "@sentry/node": "^6.1.0",
     "@sentry/react": "^6.1.0",
     "@sentry/tracing": "^6.1.0",
+    "@sentry/webpack-plugin": "^1.14.0",
+    "@zeit/next-source-maps": "0.0.4-canary.1",
     "apollo-server-express": "^2.19.2",
     "class-validator": "^0.13.1",
     "core-js": "^3.6.5",

@@ -9,12 +9,27 @@ import { version } from '../../../package.json';
 import { GlobalStyle } from '@castmate/utils/global';
 import LogRocket from 'logrocket';
 import setupLogRocketReact from 'logrocket-react';
+import * as Sentry from '@sentry/node';
+import { Integrations } from "@sentry/tracing";
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function CustomApp({ Component, pageProps }: AppProps) {
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  Sentry.init({
+    // enabled: process.env.ENVIRONMENT === 'production',
+    enabled: process.env.ENVIRONMENT === 'dev',
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+    integrations: [new Integrations.BrowserTracing()],
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    tracesSampleRate: 1.0,
+  });
+}
+
+function CustomApp({ Component, pageProps, err }) {
   console.log(`Version: ${version}`);
 
   if (typeof window !== 'undefined') {
@@ -39,7 +54,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         />
         <title>Castmate</title>
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} err={err} />
       <GlobalStyle />
     </ApolloProvider>
   );

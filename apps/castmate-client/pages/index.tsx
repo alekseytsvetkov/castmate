@@ -7,30 +7,11 @@ import {
   // PlusSquare
 } from 'react-feather';
 
-import { io } from "socket.io-client";
-const socket = io("http://localhost:4001");
-
 const ControlList = styled.div`
   display: flex;
 `;
 
 export function Index() {
-  socket.on('connect', function() {
-    console.log('Connected');
-  });
-
-  socket.on('connection', (data) => console.log(data));
-
-  socket.on('disconnect', function() {
-    console.log('Disconnected');
-  });
-
-  socket.emit('castmate', 'castmate');
-
-  socket.on('castmate', (data) => console.log(data));
-
-  console.log('Socket!')
-
   return (
     <>
       <CastmateLayout>
