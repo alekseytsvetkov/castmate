@@ -18,8 +18,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   Sentry.init({
-    // enabled: process.env.ENVIRONMENT === 'production',
-    enabled: process.env.ENVIRONMENT === 'dev',
+    enabled: process.env.ENVIRONMENT === 'production',
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
     integrations: [new Integrations.BrowserTracing()],

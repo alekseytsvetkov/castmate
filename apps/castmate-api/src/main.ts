@@ -16,6 +16,7 @@ async function bootstrap() {
     dsn: "https://01c6d7a9b96541f4bf06299265be3b2f@o486817.ingest.sentry.io/5626220",
     environment: process.env.ENVIRONMENT,
     release: process.env.RELEASE,
+    enabled: process.env.ENVIRONMENT === 'production',
 
     integrations: [
       // enable HTTP calls tracing
