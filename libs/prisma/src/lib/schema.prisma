@@ -110,8 +110,9 @@ model RoomMessage {
 }
 
 model RoomMedia {
-  id     String @id @default(cuid())
-  roomId String
-  room   Room   @relation(fields: [roomId], references: [id])
-  link   String
+  id             String @id @default(cuid())
+  roomId         String
+  room           Room   @relation(fields: [roomId], references: [id])
+  secondsElapsed Int
+  link           String
 }
