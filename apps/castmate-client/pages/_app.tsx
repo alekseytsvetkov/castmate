@@ -7,6 +7,8 @@ import { useApollo } from '@castmate/utils/apollo';
 import NProgress from 'nprogress';
 import { version } from '../../../package.json';
 import { GlobalStyle } from '@castmate/utils/global';
+import LogRocket from 'logrocket';
+import setupLogRocketReact from 'logrocket-react';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -14,6 +16,13 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function CustomApp({ Component, pageProps }: AppProps) {
   console.log(`Version: ${version}`);
+
+  if (typeof window !== 'undefined') {
+    LogRocket.init('jf3c52/castmate');
+    // plugins should also only be initialized when in the browser
+    setupLogRocketReact(LogRocket);
+  }
+
 
   const apolloClient = useApollo({
     uri: 'http://localhost:3333/graphql',
