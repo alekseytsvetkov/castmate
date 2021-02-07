@@ -102,6 +102,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
   createRoom: Room;
+  joinRoom: Room;
   toggleMediaStatus: Scalars['Boolean'];
   createRoomMessage: Scalars['Boolean'];
 };
@@ -117,6 +118,11 @@ export type MutationCreateRoomArgs = {
 };
 
 
+export type MutationJoinRoomArgs = {
+  input: RoomJoinInput;
+};
+
+
 export type MutationToggleMediaStatusArgs = {
   input: MediaStatusChangeInput;
 };
@@ -128,6 +134,10 @@ export type MutationCreateRoomMessageArgs = {
 
 export type RoomCreateInput = {
   currentMedia: Scalars['String'];
+};
+
+export type RoomJoinInput = {
+  roomId: Scalars['String'];
 };
 
 export type MediaStatusChangeInput = {
@@ -145,6 +155,7 @@ export type Subscription = {
   roomMessageCreated: RoomMessage;
   roomMediaStatusChanged: Room;
   roomCreated: Room;
+  userJoined: Room;
   roomMessageDeleted: RoomMessage;
 };
 
@@ -208,6 +219,19 @@ export type CreateRoomMutationVariables = Exact<{
 export type CreateRoomMutation = (
   { __typename?: 'Mutation' }
   & { createRoom: (
+    { __typename?: 'Room' }
+    & RoomFieldsFragment
+  ) }
+);
+
+export type JoinRoomMutationVariables = Exact<{
+  input: RoomJoinInput;
+}>;
+
+
+export type JoinRoomMutation = (
+  { __typename?: 'Mutation' }
+  & { joinRoom: (
     { __typename?: 'Room' }
     & RoomFieldsFragment
   ) }
@@ -514,6 +538,38 @@ export function useCreateRoomMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateRoomMutationHookResult = ReturnType<typeof useCreateRoomMutation>;
 export type CreateRoomMutationResult = Apollo.MutationResult<CreateRoomMutation>;
 export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<CreateRoomMutation, CreateRoomMutationVariables>;
+export const JoinRoomDocument = gql`
+    mutation joinRoom($input: RoomJoinInput!) {
+  joinRoom(input: $input) {
+    ...RoomFields
+  }
+}
+    ${RoomFieldsFragmentDoc}`;
+export type JoinRoomMutationFn = Apollo.MutationFunction<JoinRoomMutation, JoinRoomMutationVariables>;
+
+/**
+ * __useJoinRoomMutation__
+ *
+ * To run a mutation, you first call `useJoinRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinRoomMutation, { data, loading, error }] = useJoinRoomMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useJoinRoomMutation(baseOptions?: Apollo.MutationHookOptions<JoinRoomMutation, JoinRoomMutationVariables>) {
+        return Apollo.useMutation<JoinRoomMutation, JoinRoomMutationVariables>(JoinRoomDocument, baseOptions);
+      }
+export type JoinRoomMutationHookResult = ReturnType<typeof useJoinRoomMutation>;
+export type JoinRoomMutationResult = Apollo.MutationResult<JoinRoomMutation>;
+export type JoinRoomMutationOptions = Apollo.BaseMutationOptions<JoinRoomMutation, JoinRoomMutationVariables>;
 export const ToggleMediaStatusDocument = gql`
     mutation toggleMediaStatus($input: mediaStatusChangeInput!) {
   toggleMediaStatus(input: $input)

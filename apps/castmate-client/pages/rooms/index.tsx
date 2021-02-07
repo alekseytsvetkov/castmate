@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { lighten } from 'polished';
 import {
   useRoomsQuery,
-  useRoomCreatedSubscription
+  useRoomCreatedSubscription,
+  useJoinRoomMutation
 } from '@castmate/room';
 import { useRouter } from 'next/router';
 
@@ -117,8 +118,22 @@ export function Rooms() {
 
   const rooms = roomsQuery.data?.rooms || [];
 
-  const joinRoom = (e: string) => {
-    router.push(`room/${e}`);
+  const [joinRoomMutation, { data, loading, error }] = useJoinRoomMutation();
+
+  const joinRoom = async (roomId: string) => {
+    const response = await joinRoomMutation({
+      variables: {
+        input: {
+          roomId
+        }
+      },
+    })
+
+    // console.log('response', response);
+
+    if (response.data) {
+      router.push(`room/${roomId}`);
+    }
   }
 
   const toProfile = (e: string) => {

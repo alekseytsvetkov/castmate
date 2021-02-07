@@ -22,6 +22,12 @@ mutation createRoom($input: RoomCreateInput!) {
   }
 }
 
+mutation joinRoom($input: RoomJoinInput!) {
+  joinRoom(input: $input) {
+    ...RoomFields
+  }
+}
+
 mutation toggleMediaStatus($input: mediaStatusChangeInput!) {
   toggleMediaStatus(input: $input)
 }

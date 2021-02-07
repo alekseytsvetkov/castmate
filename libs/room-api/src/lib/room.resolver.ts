@@ -180,7 +180,25 @@ export class RoomResolver {
         id: roomId
       },
       include: {
-        members: true
+        author: {
+          include: {
+            profile: true
+          }
+        },
+        members: {
+          include: {
+            profile: true
+          }
+        },
+        messages: {
+          include: {
+            author: {
+              include: {
+                profile: true
+              }
+            },
+          }
+        }
       },
       data: {
         members: {
