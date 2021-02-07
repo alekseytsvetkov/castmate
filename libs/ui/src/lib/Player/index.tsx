@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import {
   useRoomMediaStatusChangedSubscription,
@@ -6,7 +6,9 @@ import {
 } from '@castmate/room';
 
 export const Player = ({ height, url, roomId, playing }) => {
+  const playerRef = useRef()
   const [playingStatus, setPlayingStatus] = useState(playing !== "PLAYING" ? false : true);
+  const [duration, setDuration] = useState(0);
 
   const { data: dataRoomMediaStatus, loading: loadingRoomMediaStatus, error: errorRoomMediaStatus } = useRoomMediaStatusChangedSubscription({
     variables: {
@@ -23,8 +25,6 @@ export const Player = ({ height, url, roomId, playing }) => {
       setPlayingStatus(dataRoomMediaStatus.roomMediaStatusChanged.mediaStatus !== "PLAYING" ? false : true)
     }
   }, [dataRoomMediaStatus])
-
-  console.log('playingStatus', playingStatus)
 
 
   // const playingBool = playing === "PAUSE" ? false : true;
@@ -49,10 +49,85 @@ export const Player = ({ height, url, roomId, playing }) => {
     }
   }
 
-  console.log('playingStatus CHECK', playingStatus)
+  const handleReady = () => {
+    console.log('ready!')
+  }
+
+  const handleStart = () => {
+    toggleMediaStatusMutation({
+      variables: {
+        input: {
+          roomId: roomId,
+          mediaStatus: "PLAYING"
+       }
+      }
+    })
+  }
+
+  const handlePlay = () => {
+    console.log('onPlay')
+  }
+
+  const handlePause = () => {
+    toggleMediaStatusMutation({
+      variables: {
+        input: {
+          roomId: roomId,
+          mediaStatus: "PAUSED"
+       }
+      }
+    })
+  }
+
+  const handleDuration = duration => {
+    console.log('onDuration', duration)
+    setDuration(duration)
+  }
+
+  const handleProgress = state => {
+    console.log('onProgress', state)
+  }
+
+  const handleEnded = () => {
+    console.log('onEnded!')
+  }
+
+  const handleError = (e) => {
+    console.log('onError', e)
+  }
+
+  console.log('duration', duration)
+
+  console.log('playerRef', playerRef)
+
+  if(playerRef && playerRef.current) {
+    // @ts-ignore
+    console.log('currentTime', playerRef?.current?.getCurrentTime())
+
+    // @ts-ignore
+    console.log('currentTime', playerRef?.current?.getDuration())
+  }
 
   return <>
-    <ReactPlayer width="100%" height={height} url={url} playing={playingStatus} />
-      <button onClick={handlePlayPause}>{loading ? 'Loading...' : playingStatus ? 'Pause' : 'Play'}</button>
+    <ReactPlayer
+      ref={playerRef}
+      width="100%"
+      height={height}
+      url={url}
+      playing={playingStatus}
+      pip={true}
+      onReady={handleReady}
+      onStart={handleStart}
+      onPlay={handlePlay}
+      onPause={handlePause}
+      onBuffer={handlePause}
+      onBufferEnd={handleStart}
+      onEnded={handleEnded}
+      onError={handleError}
+      onDuration={handleDuration}
+      onProgress={handleProgress}
+      onSeek={e => console.log('onSeek', e)}
+    />
+      {/* <button onClick={handlePlayPause}>{loading ? 'Loading...' : playingStatus ? 'Pause' : 'Play'}</button> */}
     </>
 };

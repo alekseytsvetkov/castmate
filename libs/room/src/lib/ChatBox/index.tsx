@@ -154,7 +154,6 @@ const ChatBox = ({ roomId }) => {
             if (!textInput.current) {
               return null;
             }
-            //   const text = convertTextToEmojiCode(textInput.current.value.trim());
             const text = textInput.current.value.trim();
 
             if (!lock && text.length > 0) {

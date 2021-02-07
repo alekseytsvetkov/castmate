@@ -81,17 +81,20 @@ enum MediaStatus {
 }
 
 model Room {
-  id           String        @id @default(cuid())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now()) @updatedAt
-  name         String        @default("Room")
-  userId       String
-  author       User          @relation(fields: [userId], references: [id])
-  members      User[]        @relation(name: "roomMembers")
-  messages     RoomMessage[]
-  currentMedia String
-  mediaStatus  MediaStatus   @default(CUED)
-  playlist     RoomMedia[]
+  id                String        @id @default(cuid())
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @default(now()) @updatedAt
+  name              String        @default("Room")
+  private           Boolean       @default(false)
+  userId            String
+  author            User          @relation(fields: [userId], references: [id])
+  members           User[]        @relation(name: "roomMembers")
+  messages          RoomMessage[]
+  currentMedia      String
+  currentMediaId    String        @default("")
+  currentMediaTitle String        @default("")
+  mediaStatus       MediaStatus   @default(CUED)
+  playlist          RoomMedia[]
 }
 
 model RoomMessage {
