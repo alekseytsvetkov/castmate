@@ -44,6 +44,7 @@
     "@nestjs/websockets": "^7.6.11",
     "@prisma/client": "^2.16.0",
     "@sentry/node": "^6.1.0",
+    "@sentry/react": "^6.1.0",
     "@sentry/tracing": "^6.1.0",
     "apollo-server-express": "^2.19.2",
     "class-validator": "^0.13.1",
