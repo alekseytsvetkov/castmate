@@ -1,7 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as session from 'express-session';
-import { SocketIoAdapter } from './app/adapters/socket-io.adapter';
 import { AppModule } from './app/app.module';
 import * as Sentry from "@sentry/node";
 
@@ -34,8 +33,6 @@ async function bootstrap() {
       saveUninitialized: false,
     })
   );
-
-  app.useWebSocketAdapter(new SocketIoAdapter(app));
 
   const port = process.env.PORT || 3333;
   await app.listen(port, () => {

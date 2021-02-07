@@ -10,7 +10,6 @@ import baseConfig from './config/base.config';
 import authConfig from './config/auth.config';
 import authGoogleConfig from './config/authGoogle.config';
 import { SharedModule } from './shared.module';
-import { AppGateway } from './providers/app.gateway';
 import { RavenInterceptor, RavenModule } from 'nest-raven';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
@@ -113,7 +112,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
   ],
   controllers: [],
   providers: [
-    AppGateway,
     {
       provide: APP_INTERCEPTOR,
       useValue: new RavenInterceptor(),
