@@ -90,7 +90,6 @@ model Room {
   author            User          @relation(fields: [userId], references: [id])
   members           User[]        @relation(name: "roomMembers")
   messages          RoomMessage[]
-  currentMedia      String
   currentMediaId    String        @default("")
   currentMediaTitle String        @default("")
   mediaStatus       MediaStatus   @default(CUED)
@@ -110,9 +109,9 @@ model RoomMessage {
 }
 
 model RoomMedia {
-  id             String @id @default(cuid())
-  roomId         String
-  room           Room   @relation(fields: [roomId], references: [id])
-  secondsElapsed Int
+  id             String  @id @default(cuid())
+  roomId         String?
+  room           Room?   @relation(fields: [roomId], references: [id])
+  secondsElapsed Int     @default(0)
   link           String
 }

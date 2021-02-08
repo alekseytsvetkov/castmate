@@ -101,12 +101,14 @@ const RoomPlaylist = styled.div`
 
 type IRoomProps = {
   data: any;
+  playlist: any;
+  loadingPlaylist: any;
   loading: boolean;
   roomId: string;
 };
 
-export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId }) => {
-  if (loading) {
+export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId, playlist, loadingPlaylist }) => {
+  if (loading || loadingPlaylist) {
     return (
       <RoomBox>
         <RoomContent>
@@ -146,7 +148,7 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId }) => 
   return (
     <RoomBox>
       <RoomContent>
-        <Player height="500px" roomId={data.room.id} url={data.room.currentMedia} playing={data.room.mediaStatus}/>
+        <Player height="500px" roomId={data.room.id} url={playlist.roomPlaylist[0].link} playing={data.room.mediaStatus}/>
         <RoomPlaylist>
           <Input isFirst isFull placeholder="Paste YouTube link here" icon={<Youtube size={20} color="#8a919d" />} />
           <Button mainColor="accent1">

@@ -22,7 +22,9 @@ export class Room {
 
   @Field((type) => User) author: User;
 
-  @Field() currentMedia: string;
+  @Field() currentMediaId: string;
+
+  @Field() currentMediaTitle: string;
 
   @Field() mediaStatus: MediaStatus;
 

@@ -4,7 +4,8 @@ import { CastmateLayout } from '@castmate/ui';
 import { Community } from '@castmate/community';
 import { useRouter } from 'next/router';
 import {
-  useRoomQuery
+  useRoomQuery,
+  useRoomPlaylistQuery
 } from '@castmate/room';
 
 export function RoomPage() {
@@ -36,12 +37,18 @@ export function RoomPage() {
 
   joinRoom(roomId);
 
+  const { data: dataRoomPlaylist, loading: loadingRoomPlaylist, error: errorRoomPlaylist } = useRoomPlaylistQuery({
+    variables: {
+      roomId: roomId
+    },
+  });
+
   // const loading = true;
 
   return (
     <CastmateLayout>
       <Community title={`Room`}>
-        <CurrentRoom data={data} loading={loading} roomId={roomId} />
+        <CurrentRoom data={data} playlist={dataRoomPlaylist} playlistLoading={loadingRoomPlaylist} loading={loading} roomId={roomId} />
       </Community>
     </CastmateLayout>
   )

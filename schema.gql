@@ -41,11 +41,20 @@ type Room {
   name: String!
   userId: String!
   author: User!
-  currentMedia: String!
+  currentMediaId: String!
+  currentMediaTitle: String!
   mediaStatus: String!
   members: [User!]!
   messages: [RoomMessage!]!
   createdAt: String!
+}
+
+type RoomMedia {
+  id: String!
+  roomId: String!
+  room: Room!
+  secondsElapsed: String!
+  link: String!
 }
 
 type Query {
@@ -56,18 +65,24 @@ type Query {
   rooms: [Room!]!
   room(roomId: ID!): Room!
   roomMessages(roomId: ID!): [RoomMessage!]!
+  roomPlaylist(roomId: ID!): [RoomMedia!]!
 }
 
 type Mutation {
   logout(refreshToken: String!): Boolean!
   createRoom(input: RoomCreateInput!): Room!
+  createRoomMedia(input: RoomMediaCreateInput!): RoomMedia!
   joinRoom(input: RoomJoinInput!): Room!
   toggleMediaStatus(input: mediaStatusChangeInput!): Boolean!
   createRoomMessage(input: RoomMessageCreateInput!): Boolean!
 }
 
 input RoomCreateInput {
-  currentMedia: String!
+  roomMediaId: String!
+}
+
+input RoomMediaCreateInput {
+  link: String!
 }
 
 input RoomJoinInput {

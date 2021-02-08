@@ -18,6 +18,8 @@ import { RoomCreateInput } from './dto/room.create.input';
 import { mediaStatusChangeInput } from './dto/mediaStatus.input';
 import { RavenInterceptor } from 'nest-raven';
 import { RoomJoinInput } from './dto/room.join.input';
+import { RoomMedia } from './models/roomMedia';
+import { RoomMediaCreateInput } from './dto/roomMedia.create.input';
 
 @Resolver((of) => RoomMessage)
 export class RoomResolver {
@@ -100,18 +102,17 @@ export class RoomResolver {
     @Args('input') input: RoomCreateInput,
     @Context('userId') userId: string
   ) {
-    let { currentMedia } = input;
-    currentMedia = currentMedia.trim();
-    if (currentMedia.length === 0) {
-      throw new Error('Empty media link');
-    }
-    if (currentMedia.length > 500) {
-      throw new Error('Too long media link');
-    }
+    let { roomMediaId } = input;
+    // currentMedia = currentMedia.trim();
+    // if (currentMedia.length === 0) {
+    //   throw new Error('Empty media link');
+    // }
+    // if (currentMedia.length > 500) {
+    //   throw new Error('Too long media link');
+    // }
 
     const room = await this.prisma.room.create({
       data: {
-        currentMedia,
         author: {
           connect: {
             id: userId,
@@ -122,6 +123,11 @@ export class RoomResolver {
             id: userId,
           },
         },
+        playlist: {
+          connect: {
+            id: roomMediaId
+          }
+        }
       },
       include: {
         author: {
@@ -150,6 +156,34 @@ export class RoomResolver {
 
     return room;
   }
+
+  @Mutation((returns) => RoomMedia)
+  @UseInterceptors(new RavenInterceptor())
+  @UseGuards(AuthGuard)
+  async createRoomMedia(
+    @Args('input') input: RoomMediaCreateInput,
+    @Context('userId') userId: string
+  ) {
+    let { link } = input;
+    link = link.trim();
+    if (link.length === 0) {
+      throw new Error('Empty media link');
+    }
+    if (link.length > 500) {
+      throw new Error('Too long media link');
+    }
+
+    const roomMedia = await this.prisma.roomMedia.create({
+      data: {
+        link: link,
+      },
+    });
+
+    this.pubsub.publish('roomMediaCreated', { roomMediaCreated: roomMedia });
+
+    return roomMedia;
+  }
+
 
   @Mutation((returns) => Room)
   @UseInterceptors(new RavenInterceptor())
@@ -326,6 +360,21 @@ export class RoomResolver {
       roomMessageCreated: roomMessage,
     });
     return true;
+  }
+
+  @Query(() => [RoomMedia])
+  @UseInterceptors(new RavenInterceptor())
+  async roomPlaylist(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    const playlist = await this.prisma.roomMedia.findMany({
+      where: {
+        roomId: roomId
+      },
+      include: {
+       room: true
+      }
+    });
+
+    return playlist;
   }
 
   @UseInterceptors(new RavenInterceptor())

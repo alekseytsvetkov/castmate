@@ -7,6 +7,7 @@ import {
   // PlusSquare
 } from 'react-feather';
 import toast, { Toaster } from 'react-hot-toast';
+// import { FeedbackFish } from '@feedback-fish/react';
 
 const ControlList = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const ControlList = styled.div`
 
 const notify = () => toast.success((t) => (
   <span>
-    Here is your toast.
+    Here is your toast
     {/* <button onClick={() => toast.dismiss(t.id)}>
       Dismiss
     </button> */}
@@ -23,12 +24,20 @@ const notify = () => toast.success((t) => (
   style: {
     background: '#394158',
     color: '#fff',
+    fontSize: '14px'
+  },
+  iconTheme: {
+    primary: '#0E78F9',
+    secondary: '#fff',
   },
 });
 
 export function Index() {
   return (
     <>
+      {/* <FeedbackFish projectId="80fd23be42e4e6">
+        <button>Feedback</button>
+      </FeedbackFish> */}
       <CastmateLayout>
         <Community title="Home">
           <ControlList>

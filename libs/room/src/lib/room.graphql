@@ -36,6 +36,18 @@ mutation createRoomMessage($input: RoomMessageCreateInput!) {
   createRoomMessage(input: $input)
 }
 
+mutation createRoomMedia($input: RoomMediaCreateInput!) {
+  createRoomMedia(input: $input) {
+    ...RoomMediaFields
+  }
+}
+
+query roomPlaylist($roomId: ID!) {
+  roomPlaylist(roomId: $roomId) {
+    ...RoomMediaFields
+  }
+}
+
 subscription roomMediaStatusChanged($roomId: ID!) {
   roomMediaStatusChanged(roomId: $roomId) {
     mediaStatus
@@ -79,7 +91,8 @@ fragment RoomFields on Room {
   id
   createdAt
   name
-  currentMedia
+  currentMediaId
+  currentMediaTitle
   mediaStatus
   author {
     id
@@ -112,5 +125,18 @@ fragment RoomFields on Room {
       }
     }
     content
+  }
+}
+
+fragment RoomMediaFields on RoomMedia {
+  id
+  roomId
+  secondsElapsed
+  link
+  room {
+    id
+    createdAt
+    name
+    mediaStatus
   }
 }

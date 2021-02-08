@@ -55,11 +55,21 @@ export type Room = {
   name: Scalars['String'];
   userId: Scalars['String'];
   author: User;
-  currentMedia: Scalars['String'];
+  currentMediaId: Scalars['String'];
+  currentMediaTitle: Scalars['String'];
   mediaStatus: Scalars['String'];
   members: Array<User>;
   messages: Array<RoomMessage>;
   createdAt: Scalars['String'];
+};
+
+export type RoomMedia = {
+  __typename?: 'RoomMedia';
+  id: Scalars['String'];
+  roomId: Scalars['String'];
+  room: Room;
+  secondsElapsed: Scalars['String'];
+  link: Scalars['String'];
 };
 
 export type Query = {
@@ -71,6 +81,7 @@ export type Query = {
   rooms: Array<Room>;
   room: Room;
   roomMessages: Array<RoomMessage>;
+  roomPlaylist: Array<RoomMedia>;
 };
 
 
@@ -98,10 +109,16 @@ export type QueryRoomMessagesArgs = {
   roomId: Scalars['ID'];
 };
 
+
+export type QueryRoomPlaylistArgs = {
+  roomId: Scalars['ID'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
   createRoom: Room;
+  createRoomMedia: RoomMedia;
   joinRoom: Room;
   toggleMediaStatus: Scalars['Boolean'];
   createRoomMessage: Scalars['Boolean'];
@@ -115,6 +132,11 @@ export type MutationLogoutArgs = {
 
 export type MutationCreateRoomArgs = {
   input: RoomCreateInput;
+};
+
+
+export type MutationCreateRoomMediaArgs = {
+  input: RoomMediaCreateInput;
 };
 
 
@@ -133,7 +155,11 @@ export type MutationCreateRoomMessageArgs = {
 };
 
 export type RoomCreateInput = {
-  currentMedia: Scalars['String'];
+  roomMediaId: Scalars['String'];
+};
+
+export type RoomMediaCreateInput = {
+  link: Scalars['String'];
 };
 
 export type RoomJoinInput = {
@@ -257,6 +283,32 @@ export type CreateRoomMessageMutation = (
   & Pick<Mutation, 'createRoomMessage'>
 );
 
+export type CreateRoomMediaMutationVariables = Exact<{
+  input: RoomMediaCreateInput;
+}>;
+
+
+export type CreateRoomMediaMutation = (
+  { __typename?: 'Mutation' }
+  & { createRoomMedia: (
+    { __typename?: 'RoomMedia' }
+    & RoomMediaFieldsFragment
+  ) }
+);
+
+export type RoomPlaylistQueryVariables = Exact<{
+  roomId: Scalars['ID'];
+}>;
+
+
+export type RoomPlaylistQuery = (
+  { __typename?: 'Query' }
+  & { roomPlaylist: Array<(
+    { __typename?: 'RoomMedia' }
+    & RoomMediaFieldsFragment
+  )> }
+);
+
 export type RoomMediaStatusChangedSubscriptionVariables = Exact<{
   roomId: Scalars['ID'];
 }>;
@@ -322,7 +374,7 @@ export type RoomMessageFieldsFragment = (
 
 export type RoomFieldsFragment = (
   { __typename?: 'Room' }
-  & Pick<Room, 'id' | 'createdAt' | 'name' | 'currentMedia' | 'mediaStatus'>
+  & Pick<Room, 'id' | 'createdAt' | 'name' | 'currentMediaId' | 'currentMediaTitle' | 'mediaStatus'>
   & { author: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
@@ -351,6 +403,15 @@ export type RoomFieldsFragment = (
   )> }
 );
 
+export type RoomMediaFieldsFragment = (
+  { __typename?: 'RoomMedia' }
+  & Pick<RoomMedia, 'id' | 'roomId' | 'secondsElapsed' | 'link'>
+  & { room: (
+    { __typename?: 'Room' }
+    & Pick<Room, 'id' | 'createdAt' | 'name' | 'mediaStatus'>
+  ) }
+);
+
 export const RoomMessageFieldsFragmentDoc = gql`
     fragment RoomMessageFields on RoomMessage {
   id
@@ -372,7 +433,8 @@ export const RoomFieldsFragmentDoc = gql`
   id
   createdAt
   name
-  currentMedia
+  currentMediaId
+  currentMediaTitle
   mediaStatus
   author {
     id
@@ -405,6 +467,20 @@ export const RoomFieldsFragmentDoc = gql`
       }
     }
     content
+  }
+}
+    `;
+export const RoomMediaFieldsFragmentDoc = gql`
+    fragment RoomMediaFields on RoomMedia {
+  id
+  roomId
+  secondsElapsed
+  link
+  room {
+    id
+    createdAt
+    name
+    mediaStatus
   }
 }
     `;
@@ -630,6 +706,71 @@ export function useCreateRoomMessageMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateRoomMessageMutationHookResult = ReturnType<typeof useCreateRoomMessageMutation>;
 export type CreateRoomMessageMutationResult = Apollo.MutationResult<CreateRoomMessageMutation>;
 export type CreateRoomMessageMutationOptions = Apollo.BaseMutationOptions<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>;
+export const CreateRoomMediaDocument = gql`
+    mutation createRoomMedia($input: RoomMediaCreateInput!) {
+  createRoomMedia(input: $input) {
+    ...RoomMediaFields
+  }
+}
+    ${RoomMediaFieldsFragmentDoc}`;
+export type CreateRoomMediaMutationFn = Apollo.MutationFunction<CreateRoomMediaMutation, CreateRoomMediaMutationVariables>;
+
+/**
+ * __useCreateRoomMediaMutation__
+ *
+ * To run a mutation, you first call `useCreateRoomMediaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoomMediaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRoomMediaMutation, { data, loading, error }] = useCreateRoomMediaMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateRoomMediaMutation(baseOptions?: Apollo.MutationHookOptions<CreateRoomMediaMutation, CreateRoomMediaMutationVariables>) {
+        return Apollo.useMutation<CreateRoomMediaMutation, CreateRoomMediaMutationVariables>(CreateRoomMediaDocument, baseOptions);
+      }
+export type CreateRoomMediaMutationHookResult = ReturnType<typeof useCreateRoomMediaMutation>;
+export type CreateRoomMediaMutationResult = Apollo.MutationResult<CreateRoomMediaMutation>;
+export type CreateRoomMediaMutationOptions = Apollo.BaseMutationOptions<CreateRoomMediaMutation, CreateRoomMediaMutationVariables>;
+export const RoomPlaylistDocument = gql`
+    query roomPlaylist($roomId: ID!) {
+  roomPlaylist(roomId: $roomId) {
+    ...RoomMediaFields
+  }
+}
+    ${RoomMediaFieldsFragmentDoc}`;
+
+/**
+ * __useRoomPlaylistQuery__
+ *
+ * To run a query within a React component, call `useRoomPlaylistQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoomPlaylistQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoomPlaylistQuery({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useRoomPlaylistQuery(baseOptions: Apollo.QueryHookOptions<RoomPlaylistQuery, RoomPlaylistQueryVariables>) {
+        return Apollo.useQuery<RoomPlaylistQuery, RoomPlaylistQueryVariables>(RoomPlaylistDocument, baseOptions);
+      }
+export function useRoomPlaylistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RoomPlaylistQuery, RoomPlaylistQueryVariables>) {
+          return Apollo.useLazyQuery<RoomPlaylistQuery, RoomPlaylistQueryVariables>(RoomPlaylistDocument, baseOptions);
+        }
+export type RoomPlaylistQueryHookResult = ReturnType<typeof useRoomPlaylistQuery>;
+export type RoomPlaylistLazyQueryHookResult = ReturnType<typeof useRoomPlaylistLazyQuery>;
+export type RoomPlaylistQueryResult = Apollo.QueryResult<RoomPlaylistQuery, RoomPlaylistQueryVariables>;
 export const RoomMediaStatusChangedDocument = gql`
     subscription roomMediaStatusChanged($roomId: ID!) {
   roomMediaStatusChanged(roomId: $roomId) {
