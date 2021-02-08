@@ -38,7 +38,7 @@ mutation createRoomMessage($input: RoomMessageCreateInput!) {
 
 mutation createRoomMedia($input: RoomMediaCreateInput!) {
   createRoomMedia(input: $input) {
-    ...RoomMediaFields
+    ...RoomCreateMediaFields
   }
 }
 
@@ -139,4 +139,10 @@ fragment RoomMediaFields on RoomMedia {
     name
     mediaStatus
   }
+}
+
+fragment RoomCreateMediaFields on RoomMedia {
+  id
+  secondsElapsed
+  link
 }

@@ -102,13 +102,13 @@ const RoomPlaylist = styled.div`
 type IRoomProps = {
   data: any;
   playlist: any;
-  loadingPlaylist: any;
+  playlistLoading: any;
   loading: boolean;
   roomId: string;
 };
 
-export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId, playlist, loadingPlaylist }) => {
-  if (loading || loadingPlaylist) {
+export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId, playlist, playlistLoading }) => {
+  if (loading || playlistLoading) {
     return (
       <RoomBox>
         <RoomContent>

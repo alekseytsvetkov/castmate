@@ -1,12 +1,15 @@
 import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
-import { Button, Input, Submit } from '@castmate/ui';
+import { Input, Submit } from '@castmate/ui';
 import { Logo } from '../Logo';
 import Tabs, { TabPane } from 'rc-tabs';
 import { Youtube } from 'react-feather';
 import { Formik, Form } from 'formik';
-import { useCreateRoomMutation } from '@castmate/room';
+import {
+  useCreateRoomMutation,
+  useCreateRoomMediaMutation
+} from '@castmate/room';
 import { matchYoutubeUrl } from '@castmate/utils/matchYoutubeUrl';
 import { useRouter } from 'next/router';
 
@@ -53,6 +56,9 @@ const callback = function(key) {};
 export const NewRoom: FC<IVersionProps> = () => {
   const router = useRouter();
   const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation();
+  const [createRoomMediaMutation, { data: dataRoomMedia, loading: loadingRoomMedia, error: errorRoomMedia }] = useCreateRoomMediaMutation();
+
+
 
   return <NewRoomBox>
     <LogoBox>
@@ -76,16 +82,27 @@ export const NewRoom: FC<IVersionProps> = () => {
               setErrors({mediaLink:'Incorrect URL'})
               return null;
             } else {
-              console.log('values', values)
-              const response = await createRoomMutation({
+              const roomMedia = await createRoomMediaMutation({
                 variables: {
                   input: {
-                    currentMedia: values.mediaLink
+                    link: values.mediaLink
                   }
                 }
-              });
-              if (response.data?.createRoom) {
-                router.push(`room/${response.data?.createRoom.id}`);
+              })
+
+              console.log('roomMedia', roomMedia)
+
+              if (roomMedia.data) {
+                const response = await createRoomMutation({
+                  variables: {
+                    input: {
+                      roomMediaId: roomMedia.data.createRoomMedia.id
+                    }
+                  }
+                });
+                if (response.data?.createRoom) {
+                  router.push(`room/${response.data?.createRoom.id}`);
+                }
               }
             }
           }}

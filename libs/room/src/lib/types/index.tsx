@@ -292,7 +292,7 @@ export type CreateRoomMediaMutation = (
   { __typename?: 'Mutation' }
   & { createRoomMedia: (
     { __typename?: 'RoomMedia' }
-    & RoomMediaFieldsFragment
+    & RoomCreateMediaFieldsFragment
   ) }
 );
 
@@ -412,6 +412,11 @@ export type RoomMediaFieldsFragment = (
   ) }
 );
 
+export type RoomCreateMediaFieldsFragment = (
+  { __typename?: 'RoomMedia' }
+  & Pick<RoomMedia, 'id' | 'secondsElapsed' | 'link'>
+);
+
 export const RoomMessageFieldsFragmentDoc = gql`
     fragment RoomMessageFields on RoomMessage {
   id
@@ -482,6 +487,13 @@ export const RoomMediaFieldsFragmentDoc = gql`
     name
     mediaStatus
   }
+}
+    `;
+export const RoomCreateMediaFieldsFragmentDoc = gql`
+    fragment RoomCreateMediaFields on RoomMedia {
+  id
+  secondsElapsed
+  link
 }
     `;
 export const RoomsDocument = gql`
@@ -709,10 +721,10 @@ export type CreateRoomMessageMutationOptions = Apollo.BaseMutationOptions<Create
 export const CreateRoomMediaDocument = gql`
     mutation createRoomMedia($input: RoomMediaCreateInput!) {
   createRoomMedia(input: $input) {
-    ...RoomMediaFields
+    ...RoomCreateMediaFields
   }
 }
-    ${RoomMediaFieldsFragmentDoc}`;
+    ${RoomCreateMediaFieldsFragmentDoc}`;
 export type CreateRoomMediaMutationFn = Apollo.MutationFunction<CreateRoomMediaMutation, CreateRoomMediaMutationVariables>;
 
 /**
