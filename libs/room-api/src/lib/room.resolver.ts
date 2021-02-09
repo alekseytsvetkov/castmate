@@ -20,6 +20,7 @@ import { RavenInterceptor } from 'nest-raven';
 import { RoomJoinInput } from './dto/room.join.input';
 import { RoomMedia } from './models/roomMedia';
 import { RoomMediaCreateInput } from './dto/roomMedia.create.input';
+import { RoomDeleteInput } from './dto/room.delete.input';
 
 @Resolver((of) => RoomMessage)
 export class RoomResolver {
@@ -157,6 +158,63 @@ export class RoomResolver {
     return room;
   }
 
+  @Mutation((returns) => Boolean)
+  @UseInterceptors(new RavenInterceptor())
+  @UseGuards(AuthGuard)
+  async deleteRoom(
+    @Args('input') input: RoomDeleteInput,
+    @Context('userId') userId: string
+  ) {
+    const { roomId } = input;
+
+    const room = await this.prisma.room.findFirst({
+      where: {
+        AND: [
+          {
+            id: roomId
+          },
+          {
+            author: {
+              id: userId
+            }
+          }
+        ]
+      },
+      include: {
+        author: true
+      }
+    })
+
+    if (room) {
+      const deleteMessages = await this.prisma.roomMessage.deleteMany({
+        where: {
+          roomId: roomId,
+        },
+      })
+
+      if (room.author.id === userId) {
+        await this.prisma.room.delete({
+          where: {
+            id: roomId
+          }
+        })
+
+        this.pubsub.publish('roomDeleted', { roomDeleted: room });
+
+        return true;
+      }
+    } else {
+      throw new Error(`This room doesn't exist`);
+    }
+  }
+
+  // @Mutation((returns) => Boolean)
+  // @UseInterceptors(new RavenInterceptor())
+  // @UseGuards(AuthGuard)
+  // async leaveRoom() {
+
+  // }
+
   @Mutation((returns) => RoomMedia)
   @UseInterceptors(new RavenInterceptor())
   @UseGuards(AuthGuard)
@@ -193,6 +251,16 @@ export class RoomResolver {
     @Context('userId') userId: string
   ) {
     let { roomId } = input;
+
+    const room = await this.prisma.room.findFirst({
+      where: {
+        id: roomId
+      }
+    })
+
+    if (!room) {
+      throw new Error(`This room doesn't exist`);
+    }
 
     const userAlreadyInRoom = await this.prisma.room.findMany({
       where: {
@@ -405,6 +473,15 @@ export class RoomResolver {
   @Subscription((returns) => Room)
   userJoined() {
     return this.pubsub.asyncIterator('userJoined');
+  }
+
+  @UseInterceptors(new RavenInterceptor())
+  @Subscription((returns) => Room, {
+    filter: ({ roomDeleted, roomId }) =>
+      roomDeleted.roomId === roomId,
+  })
+  roomDeleted(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    return this.pubsub.asyncIterator('roomDeleted');
   }
 
   @UseInterceptors(new RavenInterceptor())

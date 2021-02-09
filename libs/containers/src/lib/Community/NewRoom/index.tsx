@@ -58,8 +58,6 @@ export const NewRoom: FC<IVersionProps> = () => {
   const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation();
   const [createRoomMediaMutation, { data: dataRoomMedia, loading: loadingRoomMedia, error: errorRoomMedia }] = useCreateRoomMediaMutation();
 
-
-
   return <NewRoomBox>
     <LogoBox>
       <Logo />

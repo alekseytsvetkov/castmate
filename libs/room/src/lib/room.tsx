@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Input, Player } from '@castmate/ui';
 import styled from 'styled-components';
 import { Plus, Youtube } from 'react-feather';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import ChatBox from './ChatBox'
+import ChatBox from './ChatBox';
+import toast, { Toaster } from 'react-hot-toast';
 
 const RoomBox = styled.div`
   width: 100%;
@@ -107,6 +108,25 @@ type IRoomProps = {
   roomId: string;
 };
 
+const notify = () => toast.success((t) => (
+  <span>
+    You entered the room
+    {/* <button onClick={() => toast.dismiss(t.id)}>
+      Dismiss
+    </button> */}
+  </span>
+), {
+  style: {
+    background: '#394158',
+    color: '#fff',
+    fontSize: '14px'
+  },
+  iconTheme: {
+    primary: '#0E78F9',
+    secondary: '#fff',
+  },
+});
+
 export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId, playlist, playlistLoading }) => {
   if (loading || playlistLoading) {
     return (
@@ -145,6 +165,10 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId, playl
     )
   }
 
+  useEffect(() => {
+    notify();
+  }, [])
+
   return (
     <RoomBox>
       <RoomContent>
@@ -155,6 +179,9 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId, playl
             <Plus size={22} />
           </Button>
         </RoomPlaylist>
+        {/* {playlist.roomPlaylist.map(media => {
+          return <div key={media.id}>{media.link}</div>
+        })} */}
         {/* <RoomActions>
           <LeaveRoom>Leave Room</LeaveRoom>
         </RoomActions> */}
@@ -174,6 +201,10 @@ export const CurrentRoom: React.FC<IRoomProps> = ({ data, loading, roomId, playl
         </Members>
         <ChatBox roomId={roomId} />
       </RightSidebar>
+      <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+      />
     </RoomBox>
   );
 }
