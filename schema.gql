@@ -72,6 +72,7 @@ type Mutation {
   logout(refreshToken: String!): Boolean!
   createRoom(input: RoomCreateInput!): Room!
   deleteRoom(input: RoomDeleteInput!): Boolean!
+  leaveRoom(input: RoomLeaveInput!): Boolean!
   createRoomMedia(input: RoomMediaCreateInput!): RoomMedia!
   joinRoom(input: RoomJoinInput!): Room!
   toggleMediaStatus(input: mediaStatusChangeInput!): Boolean!
@@ -83,6 +84,10 @@ input RoomCreateInput {
 }
 
 input RoomDeleteInput {
+  roomId: String!
+}
+
+input RoomLeaveInput {
   roomId: String!
 }
 
@@ -110,5 +115,6 @@ type Subscription {
   roomCreated: Room!
   userJoined: Room!
   roomDeleted(roomId: ID!): Room!
+  roomLeave(roomId: ID!): Room!
   roomMessageDeleted(roomId: ID!): RoomMessage!
 }

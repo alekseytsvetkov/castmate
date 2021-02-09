@@ -21,6 +21,7 @@ import { RoomJoinInput } from './dto/room.join.input';
 import { RoomMedia } from './models/roomMedia';
 import { RoomMediaCreateInput } from './dto/roomMedia.create.input';
 import { RoomDeleteInput } from './dto/room.delete.input';
+import { RoomLeaveInput } from './dto/room.leave.input';
 
 @Resolver((of) => RoomMessage)
 export class RoomResolver {
@@ -185,6 +186,10 @@ export class RoomResolver {
       }
     })
 
+    if (!room) {
+      throw new Error(`This room doesn't exist`);
+    }
+
     if (room) {
       const deleteMessages = await this.prisma.roomMessage.deleteMany({
         where: {
@@ -208,12 +213,55 @@ export class RoomResolver {
     }
   }
 
-  // @Mutation((returns) => Boolean)
-  // @UseInterceptors(new RavenInterceptor())
-  // @UseGuards(AuthGuard)
-  // async leaveRoom() {
+  @Mutation((returns) => Boolean)
+  @UseInterceptors(new RavenInterceptor())
+  @UseGuards(AuthGuard)
+  async leaveRoom(
+    @Args('input') input: RoomLeaveInput,
+    @Context('userId') userId: string
+  ) {
+    const { roomId } = input;
 
-  // }
+    const room = await this.prisma.room.findFirst({
+      where: {
+        AND: [
+          {
+            id: roomId
+          },
+        ]
+      },
+      include: {
+        author: true
+      }
+    })
+
+    console.log('room', room)
+
+    if (!room) {
+      throw new Error(`This room doesn't exist`);
+    }
+
+    if (room.author.id !== userId) {
+      await this.prisma.room.update({
+        where: {
+          id: roomId
+        },
+        data: {
+          members: {
+            disconnect: {
+              id: userId
+            }
+          }
+        }
+      })
+
+      this.pubsub.publish('roomLeave', { roomLeave: room });
+
+      return true;
+    } else {
+      throw new Error(`Room author cannot leave`);
+    }
+  }
 
   @Mutation((returns) => RoomMedia)
   @UseInterceptors(new RavenInterceptor())
@@ -241,7 +289,6 @@ export class RoomResolver {
 
     return roomMedia;
   }
-
 
   @Mutation((returns) => Room)
   @UseInterceptors(new RavenInterceptor())
@@ -389,6 +436,21 @@ export class RoomResolver {
     return messages.reverse();
   }
 
+  @Query(() => [RoomMedia])
+  @UseInterceptors(new RavenInterceptor())
+  async roomPlaylist(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    const playlist = await this.prisma.roomMedia.findMany({
+      where: {
+        roomId: roomId
+      },
+      include: {
+       room: true
+      }
+    });
+
+    return playlist;
+  }
+
   @Mutation((returns) => Boolean)
   @UseInterceptors(new RavenInterceptor())
   @UseGuards(AuthGuard)
@@ -430,21 +492,6 @@ export class RoomResolver {
     return true;
   }
 
-  @Query(() => [RoomMedia])
-  @UseInterceptors(new RavenInterceptor())
-  async roomPlaylist(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
-    const playlist = await this.prisma.roomMedia.findMany({
-      where: {
-        roomId: roomId
-      },
-      include: {
-       room: true
-      }
-    });
-
-    return playlist;
-  }
-
   @UseInterceptors(new RavenInterceptor())
   @Subscription((returns) => RoomMessage, {
     filter: ({ roomMessageCreated }, { roomId }) =>
@@ -482,6 +529,15 @@ export class RoomResolver {
   })
   roomDeleted(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
     return this.pubsub.asyncIterator('roomDeleted');
+  }
+
+  @UseInterceptors(new RavenInterceptor())
+  @Subscription((returns) => Room, {
+    filter: ({ roomLeave, roomId }) =>
+      roomLeave.roomId === roomId,
+  })
+  roomLeave(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    return this.pubsub.asyncIterator('roomLeave');
   }
 
   @UseInterceptors(new RavenInterceptor())
