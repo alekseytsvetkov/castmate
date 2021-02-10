@@ -43,11 +43,17 @@ export function Index() {
       </FeedbackFish> */}
       <CastmateLayout>
         <Community title="Home">
-          {isUser && <ControlList>
+          {isUser ? <ControlList>
             <MainItem href="/create-room" icon={<Tv size={22} />} title="New room" description="set up new room" />
             <Button onClick={notify}>Make me a toast</Button>
             {/* <MainItem href="/join-room" icon={<PlusSquare size={22} />} title="Join room" description="via invitation link" /> */}
-          </ControlList>}
+          </ControlList> :
+            <div className="flex flex-col">
+              <div className="font-bold text-5xl mb-2">Distance better now</div>
+              <div className="font-medium text-xl mb-1">Watch media and chat in real time with no hassle</div>
+              <div>Sign in to use the platform</div>
+            </div>
+          }
         </Community>
       </CastmateLayout>
       <Toaster
