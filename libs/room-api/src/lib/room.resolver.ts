@@ -22,6 +22,8 @@ import { RoomMedia } from './models/roomMedia';
 import { RoomMediaCreateInput } from './dto/roomMedia.create.input';
 import { RoomDeleteInput } from './dto/room.delete.input';
 import { RoomLeaveInput } from './dto/room.leave.input';
+import { RoomAddMediaInput } from './dto/room.addMedia.input';
+import { RoomDeleteMediaInput } from './dto/room.deleteMedia.input';
 
 @Resolver((of) => RoomMessage)
 export class RoomResolver {
@@ -105,13 +107,6 @@ export class RoomResolver {
     @Context('userId') userId: string
   ) {
     let { roomMediaId } = input;
-    // currentMedia = currentMedia.trim();
-    // if (currentMedia.length === 0) {
-    //   throw new Error('Empty media link');
-    // }
-    // if (currentMedia.length > 500) {
-    //   throw new Error('Too long media link');
-    // }
 
     const room = await this.prisma.room.create({
       data: {
@@ -234,8 +229,6 @@ export class RoomResolver {
         author: true
       }
     })
-
-    console.log('room', room)
 
     if (!room) {
       throw new Error(`This room doesn't exist`);
@@ -451,6 +444,102 @@ export class RoomResolver {
     return playlist;
   }
 
+  @Query(() => Boolean)
+  @UseInterceptors(new RavenInterceptor())
+  async roomAddMedia(
+    @Args('input') input: RoomAddMediaInput,
+    @Context('userId') userId: string
+  ) {
+    const { roomId, mediaId } = input;
+
+    const room = await this.prisma.room.findFirst({
+      where: {
+        id: roomId
+      }
+    })
+
+    if (!room) {
+      throw new Error(`This room doesn't exist`);
+    }
+
+    const media = await this.prisma.roomMedia.findFirst({
+      where: {
+        id: mediaId
+      }
+    })
+
+    if (!media) {
+      throw new Error(`This media doesn't exist`);
+    }
+
+    const updatedRoom = this.prisma.room.update({
+      where: {
+        id: roomId
+      },
+      data: {
+        playlist: {
+          connect: {
+            id: mediaId
+          }
+        }
+      }
+    })
+
+    this.pubsub.publish('roomAddedMedia', {
+      roomAddedMedia: updatedRoom,
+    });
+
+    return true;
+  }
+
+  @Query(() => Boolean)
+  @UseInterceptors(new RavenInterceptor())
+  async roomDeleteMedia(
+    @Args('input') input: RoomDeleteMediaInput,
+    @Context('userId') userId: string
+  ) {
+    const { roomId, mediaId } = input;
+
+    const room = await this.prisma.room.findFirst({
+      where: {
+        id: roomId
+      }
+    })
+
+    if (!room) {
+      throw new Error(`This room doesn't exist`);
+    }
+
+    const media = await this.prisma.roomMedia.findFirst({
+      where: {
+        id: mediaId
+      }
+    })
+
+    if (!media) {
+      throw new Error(`This media doesn't exist`);
+    }
+
+    const updatedRoom = this.prisma.room.update({
+      where: {
+        id: roomId
+      },
+      data: {
+        playlist: {
+          disconnect: {
+            id: mediaId
+          }
+        }
+      }
+    })
+
+    this.pubsub.publish('roomDeletedMedia', {
+      roomDeletedMedia: updatedRoom,
+    });
+
+    return true;
+  }
+
   @Mutation((returns) => Boolean)
   @UseInterceptors(new RavenInterceptor())
   @UseGuards(AuthGuard)
@@ -538,6 +627,24 @@ export class RoomResolver {
   })
   roomLeave(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
     return this.pubsub.asyncIterator('roomLeave');
+  }
+
+  @UseInterceptors(new RavenInterceptor())
+  @Subscription((returns) => Room, {
+    filter: ({ roomAddedMedia, roomId }) =>
+      roomAddedMedia.roomId === roomId,
+  })
+  roomAddedMedia(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    return this.pubsub.asyncIterator('roomAddedMedia');
+  }
+
+  @UseInterceptors(new RavenInterceptor())
+  @Subscription((returns) => Room, {
+    filter: ({ roomDeletedMedia, roomId }) =>
+    roomDeletedMedia.roomId === roomId,
+  })
+  roomDeletedMedia(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    return this.pubsub.asyncIterator('roomDeletedMedia');
   }
 
   @UseInterceptors(new RavenInterceptor())

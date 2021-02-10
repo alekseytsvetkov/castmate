@@ -66,6 +66,18 @@ type Query {
   room(roomId: ID!): Room!
   roomMessages(roomId: ID!): [RoomMessage!]!
   roomPlaylist(roomId: ID!): [RoomMedia!]!
+  roomAddMedia(input: RoomAddMediaInput!): Boolean!
+  roomDeleteMedia(input: RoomDeleteMediaInput!): Boolean!
+}
+
+input RoomAddMediaInput {
+  roomId: String!
+  mediaId: String!
+}
+
+input RoomDeleteMediaInput {
+  roomId: String!
+  mediaId: String!
 }
 
 type Mutation {
@@ -116,5 +128,7 @@ type Subscription {
   userJoined: Room!
   roomDeleted(roomId: ID!): Room!
   roomLeave(roomId: ID!): Room!
+  roomAddedMedia(roomId: ID!): Room!
+  roomDeletedMedia(roomId: ID!): Room!
   roomMessageDeleted(roomId: ID!): RoomMessage!
 }

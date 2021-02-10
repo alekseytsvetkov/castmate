@@ -129,8 +129,6 @@ export function Rooms() {
       },
     })
 
-    // console.log('response', response);
-
     if (response.data) {
       router.push(`room/${roomId}`);
     }

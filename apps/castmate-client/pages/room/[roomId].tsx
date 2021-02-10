@@ -31,8 +31,6 @@ export function RoomPage() {
         }
       },
     })
-
-    console.log('response', response);
   }
 
   joinRoom(roomId);
