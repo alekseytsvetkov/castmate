@@ -7,6 +7,7 @@ import {
   // PlusSquare
 } from 'react-feather';
 import toast, { Toaster } from 'react-hot-toast';
+import { useAccess } from '../hooks/useAccess';
 // import { FeedbackFish } from '@feedback-fish/react';
 
 const ControlList = styled.div`
@@ -33,6 +34,8 @@ const notify = () => toast.success((t) => (
 });
 
 export function Index() {
+  const [{ allow: isUser }] = useAccess();
+
   return (
     <>
       {/* <FeedbackFish projectId="80fd23be42e4e6">
@@ -40,11 +43,11 @@ export function Index() {
       </FeedbackFish> */}
       <CastmateLayout>
         <Community title="Home">
-          <ControlList>
+          {isUser && <ControlList>
             <MainItem href="/create-room" icon={<Tv size={22} />} title="New room" description="set up new room" />
             <Button onClick={notify}>Make me a toast</Button>
             {/* <MainItem href="/join-room" icon={<PlusSquare size={22} />} title="Join room" description="via invitation link" /> */}
-          </ControlList>
+          </ControlList>}
         </Community>
       </CastmateLayout>
       <Toaster

@@ -9,6 +9,7 @@ import { VersionBox } from '@castmate/containers/Community/Version';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 // import { FeedbackBox } from '@castmate/containers/Community/Feedback';
+import { useAccess } from '../../../../apps/castmate-client/hooks/useAccess';
 
 const Box = styled.div`
   height: 100%;
@@ -71,6 +72,7 @@ const Title = styled.div`
 
 export const Community = ({title, children}) => {
   const router = useRouter();
+  const [{ allow: isUser }] = useAccess();
 
   return (
     <CastmateLayout>
@@ -79,15 +81,19 @@ export const Community = ({title, children}) => {
           <LogoBox>
             <Logo />
           </LogoBox>
-          <Menu>
-            <MenuItem href="/" icon={<Home size={22} />} />
-            <MenuItem href="/rooms" icon={<Grid size={22} />} />
-            {/* <MenuItem href="/feed" icon={<Compass size={22} />} />
-            <MenuItem href="/users" icon={<Users size={22} />} /> */}
-          </Menu>
-          <Menu>
-            {/* <MenuItem href="/settings" icon={<Settings size={22} />} /> */}
-          </Menu>
+          {isUser &&
+            <>
+              <Menu>
+                <MenuItem href="/" icon={<Home size={22} />} />
+                <MenuItem href="/rooms" icon={<Grid size={22} />} />
+                {/* <MenuItem href="/feed" icon={<Compass size={22} />} />
+                <MenuItem href="/users" icon={<Users size={22} />} /> */}
+              </Menu>
+              <Menu>
+                {/* <MenuItem href="/settings" icon={<Settings size={22} />} /> */}
+              </Menu>
+            </>
+          }
         </Sidebar>
         <Main>
           <Header px="20px" bg="dark1">
@@ -98,7 +104,7 @@ export const Community = ({title, children}) => {
             <>
               <Link
                 href={{
-                  pathname: 'https://discord.gg/hhjGZVYK',
+                  pathname: 'https://discord.gg/yHDZsTVP3U',
                 }}
                 passHref
               >

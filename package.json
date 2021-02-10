@@ -34,6 +34,7 @@
   },
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^4.0.0",
     "@feedback-fish/react": "^1.2.1",
     "@fullhuman/postcss-purgecss": "^4.0.0",
     "@nestjs/common": "^7.6.11",
