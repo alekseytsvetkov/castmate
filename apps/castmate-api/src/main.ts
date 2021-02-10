@@ -4,6 +4,8 @@ import * as session from 'express-session';
 import { AppModule } from './app/app.module';
 import * as Sentry from "@sentry/node";
 
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
@@ -36,9 +38,15 @@ async function bootstrap() {
   );
 
   const port = process.env.PORT || 3333;
+  await app.startAllMicroservicesAsync();
   await app.listen(port, () => {
     Logger.log('Listening at http://localhost:' + port);
   });
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 
 bootstrap();
