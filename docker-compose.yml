@@ -1,4 +1,4 @@
-# TODO: next nginx, prisma studio instead broken pgadmin, prisma migrate, graphql-codegen
+# TODO: update next nginx, prisma studio instead broken pgadmin, prisma migrate, graphql-codegen
 
 version: '3.8'
 

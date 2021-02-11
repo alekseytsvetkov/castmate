@@ -5,10 +5,11 @@ ARG BUILD_FLAG
 WORKDIR /app/builder
 COPY . .
 RUN npx nx build castmate-client ${BUILD_FLAG}
+RUN npx nx export castmate-client
 
 FROM nginx:1.19.2
 
 WORKDIR /usr/share/nginx/html
 
-COPY --from=builder /app/builder/dist/apps/castmate-client ./
+COPY --from=builder /app/builder/dist/apps/castmate-client/exported ./
 COPY --from=builder /app/builder/apps/castmate-client/nginx.conf /etc/nginx/nginx.conf
