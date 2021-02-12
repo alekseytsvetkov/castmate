@@ -2,11 +2,24 @@
 
 version: '3.8'
 
-networks:
-  corp:
-    driver: bridge
-
 services:
+  code-server:
+    image: ghcr.io/linuxserver/code-server
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - PASSWORD=castmate #optional
+      - HASHED_PASSWORD= #optional
+      - SUDO_PASSWORD=password #optional
+      - SUDO_PASSWORD_HASH= #optional
+      - PROXY_DOMAIN=code-server.my.domain #optional
+    volumes:
+      - /path/to/appdata/config:/config
+    ports:
+      - 8443:8443
+    restart: unless-stopped
   pgadmin:
     image: dpage/pgadmin4:4.21
     environment:
@@ -16,8 +29,8 @@ services:
       - pgadmin:/root/.pgadmin
     ports:
       - '${PGADMIN_PORT:-5050}:80'
-    networks:
-      - corp
+    networks:`
+      - castmate
     restart: unless-stopped
 
   postgres:
@@ -27,7 +40,7 @@ services:
     ports:
       - '5432:5432'
     networks:
-      - corp
+      - castmate
     environment:
       - POSTGRES_DB=castmate
       - POSTGRES_USER=postgres
@@ -41,13 +54,13 @@ services:
         - my-base-image:nx-base
       dockerfile: ./apps/castmate-api/Dockerfile
       args:
-        NODE_ENV: 'development'
+        NODE_ENV: 'prod'
         BUILD_FLAG: ''
     image: castmate-api:nx-dev
     ports:
       - 4939:4939
     environment:
-      NODE_ENV: 'development'
+      NODE_ENV: 'prod'
       PORT: 4939
       PGHOST: 'postgres'
       PGDATABASE: 'castmate'
@@ -55,13 +68,12 @@ services:
       PGPASSWORD: 'postgres'
     env_file:
       - ./apps/castmate-api/.env
-      - ./.env.prod
     depends_on:
       - postgres
     links:
       - postgres
     networks:
-      - corp
+      - castmate
     restart: on-failure
 
   castmate-client:
@@ -72,16 +84,16 @@ services:
         - nginx:1.19.2
       dockerfile: ./apps/castmate-client/Dockerfile
       args:
-        NODE_ENV: 'development'
+        NODE_ENV: 'prod'
         BUILD_FLAG: ''
     image: castmate-client:nx-dev
     ports:
       - 4900:80
     environment:
-      NODE_ENV: 'development'
+      NODE_ENV: 'prod'
       PORT: 4900
     networks:
-      - corp
+      - castmate
     restart: on-failure
 
   redis:
@@ -89,11 +101,11 @@ services:
     ports:
       - '6379:6379'
     networks:
-      - corp
+      - castmate
     restart: on-failure
 
 networks:
-  corp:
+  castmate:
     driver: bridge
 
 volumes:
