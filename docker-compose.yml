@@ -20,6 +20,7 @@ services:
     ports:
       - 8443:8443
     restart: unless-stopped
+
   pgadmin:
     image: dpage/pgadmin4:4.21
     environment:
@@ -29,7 +30,7 @@ services:
       - pgadmin:/root/.pgadmin
     ports:
       - '${PGADMIN_PORT:-5050}:80'
-    networks:`
+    networks:
       - castmate
     restart: unless-stopped
 
