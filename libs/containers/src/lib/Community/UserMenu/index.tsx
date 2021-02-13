@@ -30,8 +30,8 @@ const Skeleton = styled(Flex)`
 `;
 
 export const UserMenu = ({
-  codeHandler = 'http://localhost:4200/auth/success?',
-  redirectUri = 'http://localhost:4200/',
+  codeHandler = 'https://castmate.kive.dev/auth/success?',
+  redirectUri = 'https://castmate.kive.dev/',
 }) => {
   const router = useRouter();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -42,7 +42,7 @@ export const UserMenu = ({
     params.set('code_handler', codeHandler);
     params.set('redirect_uri', redirectUri);
     const url =
-      'http://localhost:3333/auth/google?' + params.toString();
+      'https://castmate-api.kive.dev/auth/google?' + params.toString();
 
     window.location.href = url;
   };

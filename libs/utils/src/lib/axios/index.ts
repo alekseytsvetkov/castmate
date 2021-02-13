@@ -4,7 +4,7 @@ import { initializeApollo } from '../apollo';
 
 const apolloClient = initializeApollo(
   null,
-  'http://localhost:3333/graphql'
+  'https://castmate-api.kive.dev/graphql'
 );
 
 const getAccessToken = async () => {

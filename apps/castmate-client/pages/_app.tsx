@@ -40,7 +40,7 @@ function CustomApp({ Component, pageProps, err }) {
 
 
   const apolloClient = useApollo({
-    uri: 'http://localhost:3333/graphql',
+    uri: 'https://castmate-api.kive.dev/graphql',
     pageProps,
   });
 

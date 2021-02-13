@@ -24,7 +24,7 @@ export class AuthController {
     // Update or create profile and user
     if (!profile) {
       // Redirect with error
-      return res.redirect('http://localhost:3333/graphql');
+      return res.redirect('https://castmate-api.kive.dev/graphql');
     }
 
     const existProfile = await this.prisma.profile.findFirst({
@@ -85,7 +85,7 @@ export class AuthController {
   ) {
     req.session.codeHandler = codeHandler;
     req.session.redirectUri = redirectUri;
-    res.redirect(`http://localhost:3333/authwr/google`);
+    res.redirect(`https://castmate-api.kive.dev/authwr/google`);
   }
 
   @Get('authwr/google')
