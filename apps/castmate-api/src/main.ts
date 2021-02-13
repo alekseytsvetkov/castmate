@@ -40,7 +40,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3333;
   await app.startAllMicroservicesAsync();
   await app.listen(port, () => {
-    Logger.log('Listening at http://localhost:' + port);
+    Logger.log('Listening at https://castmate-api.kive.dev');
   });
 
   if (module.hot) {

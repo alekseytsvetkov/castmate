@@ -4,7 +4,7 @@ import { refreshTokens } from './refreshTokens';
 
 export const getWsLink = () =>
   new WebSocketLink({
-    uri: `ws://localhost:3333/graphql`,
+    uri: `ws://castmate-api.kive.dev/graphql`,
     options: {
       reconnect: true,
       connectionParams: async () => {
