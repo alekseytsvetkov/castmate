@@ -108,6 +108,10 @@ export const Player = ({ height, url, roomId, playing }) => {
     console.log('currentTime', playerRef?.current?.getDuration())
   }
 
+  const setTime = () => {
+    console.log('set time')
+  }
+
   return <>
     <ReactPlayer
       ref={playerRef}
@@ -116,6 +120,7 @@ export const Player = ({ height, url, roomId, playing }) => {
       url={url}
       playing={playingStatus}
       pip={true}
+      controls={true}
       onReady={handleReady}
       onStart={handleStart}
       onPlay={handlePlay}
@@ -128,6 +133,7 @@ export const Player = ({ height, url, roomId, playing }) => {
       onProgress={handleProgress}
       onSeek={e => console.log('onSeek', e)}
     />
+      <button onClick={setTime}>Set time</button>
       {/* <button onClick={handlePlayPause}>{loading ? 'Loading...' : playingStatus ? 'Pause' : 'Play'}</button> */}
     </>
 };

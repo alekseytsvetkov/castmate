@@ -5,6 +5,8 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
+    "start:client": "nx serve castmate-client",
+    "start:api": "nx serve castmate-api",
     "build": "nx build",
     "export": "nx export",
     "test": "nx test",
