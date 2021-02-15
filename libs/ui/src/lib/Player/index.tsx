@@ -108,9 +108,9 @@ export const Player = ({ height, url, roomId, playing }) => {
     console.log('currentTime', playerRef?.current?.getDuration())
   }
 
-  const setTime = () => {
-    console.log('set time')
-  }
+  // const setTime = () => {
+  //   console.log('set time')
+  // }
 
   return <>
     <ReactPlayer
@@ -133,7 +133,7 @@ export const Player = ({ height, url, roomId, playing }) => {
       onProgress={handleProgress}
       onSeek={e => console.log('onSeek', e)}
     />
-      <button onClick={setTime}>Set time</button>
+      {/* <button onClick={setTime}>Set time</button> */}
       {/* <button onClick={handlePlayPause}>{loading ? 'Loading...' : playingStatus ? 'Pause' : 'Play'}</button> */}
     </>
 };
