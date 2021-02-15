@@ -126,6 +126,7 @@ type Subscription {
   roomMediaStatusChanged(roomId: ID!): Room!
   roomCreated: Room!
   userJoined: Room!
+  roomUserJoined(roomId: ID!): Room!
   roomDeleted(roomId: ID!): Room!
   roomLeave(roomId: ID!): Room!
   roomAddedMedia(roomId: ID!): Room!

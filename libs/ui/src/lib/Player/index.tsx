@@ -16,12 +16,12 @@ export const Player = ({ height, url, roomId, playing }) => {
       },
   });
 
-  if(dataRoomMediaStatus) {
+  if (dataRoomMediaStatus) {
     console.log('dataRoomMediaStatus', dataRoomMediaStatus);
   }
 
   useEffect(() => {
-    if(dataRoomMediaStatus) {
+    if (dataRoomMediaStatus) {
       setPlayingStatus(dataRoomMediaStatus.roomMediaStatusChanged.mediaStatus !== "PLAYING" ? false : true)
     }
   }, [dataRoomMediaStatus])

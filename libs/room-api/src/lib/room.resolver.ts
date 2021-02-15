@@ -378,6 +378,7 @@ export class RoomResolver {
       })
 
       this.pubsub.publish('userJoined', { userJoined: room });
+      this.pubsub.publish('roomUserJoined', { roomUserJoined: room });
 
       return room;
     }
@@ -609,6 +610,15 @@ export class RoomResolver {
   @Subscription((returns) => Room)
   userJoined() {
     return this.pubsub.asyncIterator('userJoined');
+  }
+
+  @UseInterceptors(new RavenInterceptor())
+  @Subscription((returns) => Room, {
+    filter: ({ roomUserJoined, roomId }) =>
+    roomUserJoined.roomId === roomId,
+  })
+  roomUserJoined(@Args({ name: 'roomId', type: () => ID }) roomId: string) {
+    return this.pubsub.asyncIterator('roomUserJoined');
   }
 
   @UseInterceptors(new RavenInterceptor())

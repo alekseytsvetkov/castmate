@@ -82,6 +82,8 @@ export type Query = {
   room: Room;
   roomMessages: Array<RoomMessage>;
   roomPlaylist: Array<RoomMedia>;
+  roomAddMedia: Scalars['Boolean'];
+  roomDeleteMedia: Scalars['Boolean'];
 };
 
 
@@ -114,10 +116,32 @@ export type QueryRoomPlaylistArgs = {
   roomId: Scalars['ID'];
 };
 
+
+export type QueryRoomAddMediaArgs = {
+  input: RoomAddMediaInput;
+};
+
+
+export type QueryRoomDeleteMediaArgs = {
+  input: RoomDeleteMediaInput;
+};
+
+export type RoomAddMediaInput = {
+  roomId: Scalars['String'];
+  mediaId: Scalars['String'];
+};
+
+export type RoomDeleteMediaInput = {
+  roomId: Scalars['String'];
+  mediaId: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
   createRoom: Room;
+  deleteRoom: Scalars['Boolean'];
+  leaveRoom: Scalars['Boolean'];
   createRoomMedia: RoomMedia;
   joinRoom: Room;
   toggleMediaStatus: Scalars['Boolean'];
@@ -132,6 +156,16 @@ export type MutationLogoutArgs = {
 
 export type MutationCreateRoomArgs = {
   input: RoomCreateInput;
+};
+
+
+export type MutationDeleteRoomArgs = {
+  input: RoomDeleteInput;
+};
+
+
+export type MutationLeaveRoomArgs = {
+  input: RoomLeaveInput;
 };
 
 
@@ -158,6 +192,14 @@ export type RoomCreateInput = {
   roomMediaId: Scalars['String'];
 };
 
+export type RoomDeleteInput = {
+  roomId: Scalars['String'];
+};
+
+export type RoomLeaveInput = {
+  roomId: Scalars['String'];
+};
+
 export type RoomMediaCreateInput = {
   link: Scalars['String'];
 };
@@ -182,6 +224,11 @@ export type Subscription = {
   roomMediaStatusChanged: Room;
   roomCreated: Room;
   userJoined: Room;
+  roomUserJoined: Room;
+  roomDeleted: Room;
+  roomLeave: Room;
+  roomAddedMedia: Room;
+  roomDeletedMedia: Room;
   roomMessageDeleted: RoomMessage;
 };
 
@@ -192,6 +239,31 @@ export type SubscriptionRoomMessageCreatedArgs = {
 
 
 export type SubscriptionRoomMediaStatusChangedArgs = {
+  roomId: Scalars['ID'];
+};
+
+
+export type SubscriptionRoomUserJoinedArgs = {
+  roomId: Scalars['ID'];
+};
+
+
+export type SubscriptionRoomDeletedArgs = {
+  roomId: Scalars['ID'];
+};
+
+
+export type SubscriptionRoomLeaveArgs = {
+  roomId: Scalars['ID'];
+};
+
+
+export type SubscriptionRoomAddedMediaArgs = {
+  roomId: Scalars['ID'];
+};
+
+
+export type SubscriptionRoomDeletedMediaArgs = {
   roomId: Scalars['ID'];
 };
 
@@ -328,6 +400,30 @@ export type RoomCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 export type RoomCreatedSubscription = (
   { __typename?: 'Subscription' }
   & { roomCreated: (
+    { __typename?: 'Room' }
+    & RoomFieldsFragment
+  ) }
+);
+
+export type UserJoinedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserJoinedSubscription = (
+  { __typename?: 'Subscription' }
+  & { userJoined: (
+    { __typename?: 'Room' }
+    & RoomFieldsFragment
+  ) }
+);
+
+export type RoomUserJoinedSubscriptionVariables = Exact<{
+  roomId: Scalars['ID'];
+}>;
+
+
+export type RoomUserJoinedSubscription = (
+  { __typename?: 'Subscription' }
+  & { roomUserJoined: (
     { __typename?: 'Room' }
     & RoomFieldsFragment
   ) }
@@ -840,6 +936,63 @@ export function useRoomCreatedSubscription(baseOptions?: Apollo.SubscriptionHook
       }
 export type RoomCreatedSubscriptionHookResult = ReturnType<typeof useRoomCreatedSubscription>;
 export type RoomCreatedSubscriptionResult = Apollo.SubscriptionResult<RoomCreatedSubscription>;
+export const UserJoinedDocument = gql`
+    subscription userJoined {
+  userJoined {
+    ...RoomFields
+  }
+}
+    ${RoomFieldsFragmentDoc}`;
+
+/**
+ * __useUserJoinedSubscription__
+ *
+ * To run a query within a React component, call `useUserJoinedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserJoinedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserJoinedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserJoinedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UserJoinedSubscription, UserJoinedSubscriptionVariables>) {
+        return Apollo.useSubscription<UserJoinedSubscription, UserJoinedSubscriptionVariables>(UserJoinedDocument, baseOptions);
+      }
+export type UserJoinedSubscriptionHookResult = ReturnType<typeof useUserJoinedSubscription>;
+export type UserJoinedSubscriptionResult = Apollo.SubscriptionResult<UserJoinedSubscription>;
+export const RoomUserJoinedDocument = gql`
+    subscription roomUserJoined($roomId: ID!) {
+  roomUserJoined(roomId: $roomId) {
+    ...RoomFields
+  }
+}
+    ${RoomFieldsFragmentDoc}`;
+
+/**
+ * __useRoomUserJoinedSubscription__
+ *
+ * To run a query within a React component, call `useRoomUserJoinedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRoomUserJoinedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoomUserJoinedSubscription({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useRoomUserJoinedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RoomUserJoinedSubscription, RoomUserJoinedSubscriptionVariables>) {
+        return Apollo.useSubscription<RoomUserJoinedSubscription, RoomUserJoinedSubscriptionVariables>(RoomUserJoinedDocument, baseOptions);
+      }
+export type RoomUserJoinedSubscriptionHookResult = ReturnType<typeof useRoomUserJoinedSubscription>;
+export type RoomUserJoinedSubscriptionResult = Apollo.SubscriptionResult<RoomUserJoinedSubscription>;
 export const RoomMessageCreatedDocument = gql`
     subscription roomMessageCreated($roomId: ID!) {
   roomMessageCreated(roomId: $roomId) {

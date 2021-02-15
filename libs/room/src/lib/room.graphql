@@ -60,6 +60,18 @@ subscription roomCreated {
   }
 }
 
+subscription userJoined {
+  userJoined {
+    ...RoomFields
+  }
+}
+
+subscription roomUserJoined($roomId: ID!) {
+  roomUserJoined(roomId: $roomId) {
+    ...RoomFields
+  }
+}
+
 subscription roomMessageCreated($roomId: ID!) {
   roomMessageCreated(roomId: $roomId) {
     ...RoomMessageFields
