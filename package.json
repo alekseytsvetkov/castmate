@@ -8,6 +8,8 @@
     "start:client": "nx serve castmate-client",
     "start:api": "nx serve castmate-api",
     "build": "nx build",
+    "build:client": "nx build castmate-client",
+    "build:api": "nx build castmate-api",
     "export": "nx export",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",

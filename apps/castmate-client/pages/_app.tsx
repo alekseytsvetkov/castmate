@@ -7,8 +7,6 @@ import { useApollo } from '@castmate/utils/apollo';
 import NProgress from 'nprogress';
 import { version } from '../../../package.json';
 import { GlobalStyle } from '@castmate/utils/global';
-import LogRocket from 'logrocket';
-import setupLogRocketReact from 'logrocket-react';
 import * as Sentry from '@sentry/node';
 import { Integrations } from "@sentry/tracing";
 import '../css/tailwind.css';
@@ -31,13 +29,6 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
 
 function CustomApp({ Component, pageProps, err }) {
   console.log(`Version: ${version}`);
-
-  if (typeof window !== 'undefined') {
-    LogRocket.init('jf3c52/castmate');
-    // plugins should also only be initialized when in the browser
-    setupLogRocketReact(LogRocket);
-  }
-
 
   const apolloClient = useApollo({
     uri: 'https://castmate-api.kive.dev/graphql',
