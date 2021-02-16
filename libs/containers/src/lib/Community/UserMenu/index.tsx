@@ -29,18 +29,17 @@ const Skeleton = styled(Flex)`
   background: ${({ theme }) => theme.colors.dark2};
 `;
 
-export const UserMenu = ({
-  codeHandler = 'https://castmate.kive.dev/auth/success?',
-  redirectUri = 'https://castmate.kive.dev/',
-}) => {
+export const UserMenu = () => {
   const router = useRouter();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const toggleMenuIsOpen = () => setMenuIsOpen(!menuIsOpen);
 
   const login = () => {
+    const origin = window?.location?.origin || '';
+    const continuePath = router.query.continue || '/';
     const params = new URLSearchParams();
-    params.set('code_handler', codeHandler);
-    params.set('redirect_uri', redirectUri);
+    params.set('code_handler', `${origin}/auth/success?`);
+    params.set('redirect_uri', `${origin}${continuePath}`);
     const url =
       'https://castmate-api.kive.dev/auth/google?' + params.toString();
 
