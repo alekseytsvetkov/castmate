@@ -7,25 +7,11 @@ import { useApollo } from '@castmate/utils/apollo';
 import NProgress from 'nprogress';
 import { version } from '../../../package.json';
 import { GlobalStyle } from '@castmate/utils/global';
-import * as Sentry from '@sentry/node';
-import { Integrations } from "@sentry/tracing";
 import '../css/tailwind.css';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
-
-if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
-  Sentry.init({
-    enabled: process.env.ENVIRONMENT === 'production',
-    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-
-    integrations: [new Integrations.BrowserTracing()],
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0,
-  });
-}
 
 function CustomApp({ Component, pageProps, err }) {
   console.log(`Version: ${version}`);
