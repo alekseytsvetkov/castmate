@@ -81,6 +81,7 @@
     "passport": "^0.4.1",
     "passport-google-oauth2": "^0.2.0",
     "polished": "^4.1.0",
+    "postcss": "^8.2.6",
     "postcss-import": "^14.0.0",
     "rc-tabs": "^11.7.3",
     "react": "17.0.1",
