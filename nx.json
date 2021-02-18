@@ -11,33 +11,26 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/nx-cloud",
-      "options": {
-        "accessToken": "OTU4YmM4NTctYTRkZi00MmFmLTlkNGYtMmU3YTY0ZGM3MDcxfHJlYWQtd3JpdGU=",
-        "cacheableOperations": ["build", "test", "lint", "e2e"],
-        "canTrackAnalytics": false,
-        "showUsageWarnings": true
-      }
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
     }
   },
   "projects": {
     "castmate-api": { "tags": [] },
-    "castmate-client": { "tags": [] },
-    "castmate-client-e2e": {
-      "tags": [],
-      "implicitDependencies": ["castmate-client"]
-    },
-    "auth": { "tags": [] },
     "prisma": { "tags": [] },
-    "utils": { "tags": [] },
-    "ui": { "tags": [] },
     "containers": { "tags": [] },
-    "community": { "tags": [] },
+    "utils": { "tags": [] },
+    "chat": { "tags": [] },
+    "chat-api": { "tags": [] },
     "room": { "tags": [] },
-    "room-api": { "tags": [] },
-    "user-api": { "tags": [] },
     "auth-api": { "tags": [] },
+    "user-api": { "tags": [] },
     "connection-api": { "tags": [] },
-    "castmate-discord": { "tags": [] }
+    "castmate-client": { "tags": [] },
+    "icons": { "tags": [] },
+    "layouts": { "tags": [] },
+    "auth": { "tags": [] },
+    "user": { "tags": [] },
+    "room-api": { "tags": [] }
   }
 }

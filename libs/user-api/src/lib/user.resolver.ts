@@ -1,19 +1,38 @@
 import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from '@castmate/prisma';
 import { User } from './models/user.model';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { AuthGuard } from '@castmate/auth-api';
-import { RavenInterceptor } from 'nest-raven';
+import { HttpService, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../../../auth-api/src/lib/guards';
+import { ConfigService } from '@nestjs/config';
+import * as querystring from 'querystring';
 
-@Resolver((of) => User)
+@Resolver(() => User)
 export class UserResolver {
   constructor(
     private prisma: PrismaService,
+    private httpService: HttpService,
+    private readonly config: ConfigService
   ) {}
 
+  @Query(() => User, { nullable: true })
+  async user(
+    @Args({ name: 'id', type: () => ID, nullable: true })
+    id: string,
+    @Context('userId') userId
+  ) {
+    if (!id) {
+      if (!userId) return null;
+      id = userId;
+    }
+
+    return this.prisma.user.findFirst({
+      where: { id },
+      include: { profile: true },
+    });
+  }
+
   @UseGuards(AuthGuard)
-  @Query((returns) => User)
-  @UseInterceptors(new RavenInterceptor())
+  @Query(() => User)
   me(@Context('userId') userId): Promise<User> {
     return this.prisma.user.findFirst({
       where: { id: userId },
@@ -21,24 +40,5 @@ export class UserResolver {
         profile: true,
       },
     });
-  }
-
-  @Query((returns) => User)
-  @UseInterceptors(new RavenInterceptor())
-  async user(@Args({ name: 'userId', type: () => ID }) userId: string) {
-    const user = await this.prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-      include: {
-        profile: true,
-      },
-    });
-
-    if (!user) {
-      throw new Error('This user does not exist');
-    }
-
-    return user;
   }
 }

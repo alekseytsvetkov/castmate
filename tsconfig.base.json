@@ -17,16 +17,20 @@
     "baseUrl": ".",
     "paths": {
       "@castmate/prisma": ["libs/prisma/src/index.ts"],
-      "@castmate/ui": ["libs/ui/src/index.ts"],
-      "@castmate/ui/*": ["libs/ui/src/lib/*"],
-      "@castmate/containers/*": ["libs/containers/src/lib/*"],
-      "@castmate/community": ["libs/community/src/index.ts"],
+      "@castmate/containers/*": ["libs/containers/src/*"],
+      "@castmate/utils/*": ["libs/utils/src/*"],
+      "@castmate/chat": ["libs/chat/src/index.ts"],
+      "@castmate/auth": ["libs/auth/src/index.ts"],
+      "@castmate/chat-api": ["libs/chat-api/src/index.ts"],
       "@castmate/room": ["libs/room/src/index.ts"],
-      "@castmate/room-api": ["libs/room-api/src/index.ts"],
-      "@castmate/user-api": ["libs/user-api/src/index.ts"],
       "@castmate/auth-api": ["libs/auth-api/src/index.ts"],
+      "@castmate/user-api": ["libs/user-api/src/index.ts"],
+      "@castmate/room-api": ["libs/room-api/src/index.ts"],
       "@castmate/connection-api": ["libs/connection-api/src/index.ts"],
-      "@castmate/utils/*": ["libs/utils/src/lib/*"]
+      "@castmate/components/*": ["libs/components/src/*"],
+      "@castmate/icons/*": ["libs/icons/src/*"],
+      "@castmate/layouts/*": ["libs/layouts/src/*"],
+      "@castmate/user": ["libs/user/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

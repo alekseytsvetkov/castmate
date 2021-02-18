@@ -1,21 +1,19 @@
 import React from 'react';
-import { AppProps } from 'next/app';
 import Head from 'next/head';
-import Router from 'next/router';
+import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
+import { Router } from 'next/router';
 import { useApollo } from '@castmate/utils/apollo';
 import NProgress from 'nprogress';
-import '../styles/globals.css'
+import '../styles/globals.css';
+import 'simplebar/dist/simplebar.min.css';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function CustomApp({ Component, pageProps }: AppProps) {
-  const apolloClient = useApollo({
-    uri: 'https://castmate-api.kive.dev/graphql',
-    pageProps,
-  });
+  const apolloClient = useApollo(pageProps);
 
   return (
     <ApolloProvider client={apolloClient}>

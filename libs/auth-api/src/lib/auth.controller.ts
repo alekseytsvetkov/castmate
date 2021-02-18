@@ -98,4 +98,28 @@ export class AuthController {
   async authendGoogle(@Request() req, @Response() res) {
     return this.authend(req, res);
   }
+
+  // Twitch
+  @Get('auth/twitch')
+  authTwitch(
+    @Request() req,
+    @Response() res,
+    @Query('code_handler') codeHandler,
+    @Query('redirect_uri') redirectUri
+  ) {
+    req.session.codeHandler = codeHandler;
+    req.session.redirectUri = redirectUri;
+    res.redirect(`hhttps://castmate-api.kive.dev/authwr/twitch`);
+  }
+
+  @Get('authwr/twitch')
+  @UseGuards(AuthGuard('twitch'))
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  authWRTwitch() {}
+
+  @Get('authend/twitch')
+  @UseGuards(AuthGuard('twitch'))
+  async authendTwitch(@Request() req, @Response() res) {
+    return this.authend(req, res);
+  }
 }

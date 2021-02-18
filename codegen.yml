@@ -1,7 +1,19 @@
 overwrite: true
 schema: './schema.gql'
 generates:
-  libs/room/src/lib/types/index.tsx:
+  libs/chat/src/lib/api/index.tsx:
+    documents: 'libs/chat/src/lib/**/*.graphql'
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+  libs/user/src/lib/api/index.tsx:
+    documents: 'libs/user/src/lib/**/*.graphql'
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+  libs/room/src/lib/api/index.tsx:
     documents: 'libs/room/src/lib/**/*.graphql'
     plugins:
       - 'typescript'

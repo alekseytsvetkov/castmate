@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthTokens {
+  refreshToken: String!
+  accessToken: String!
+}
+
 type Profile {
   id: String!
   name: String
@@ -11,6 +16,7 @@ type Profile {
 type User {
   id: String!
   name: String
+  avatar: String
   createdAt: DateTime!
   updatedAt: DateTime!
   verified: Boolean!
@@ -22,15 +28,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type AuthTokens {
-  refreshToken: String!
-  accessToken: String!
-}
-
-type RoomMessage {
+type ChatMessage {
   id: String!
   content: String!
-  roomId: String!
+  chatId: String!
   authorId: String!
   author: User!
   createdAt: String!
@@ -39,97 +40,36 @@ type RoomMessage {
 type Room {
   id: String!
   name: String!
-  userId: String!
-  author: User!
-  currentMediaId: String!
-  currentMediaTitle: String!
-  mediaStatus: String!
-  members: [User!]!
-  messages: [RoomMessage!]!
+  title: String!
+  avatar: String
+  state: String
+  chatId: String!
   createdAt: String!
-}
-
-type RoomMedia {
-  id: String!
-  roomId: String!
-  room: Room!
-  secondsElapsed: String!
-  link: String!
+  updatedAt: DateTime!
 }
 
 type Query {
   tokens(authCode: String!): AuthTokens!
   refresh(refreshToken: String!): String!
+  user(id: ID): User
   me: User!
-  user(userId: ID!): User!
-  rooms: [Room!]!
-  room(roomId: ID!): Room!
-  roomMessages(roomId: ID!): [RoomMessage!]!
-  roomPlaylist(roomId: ID!): [RoomMedia!]!
-  roomAddMedia(input: RoomAddMediaInput!): Boolean!
-  roomDeleteMedia(input: RoomDeleteMediaInput!): Boolean!
-}
-
-input RoomAddMediaInput {
-  roomId: String!
-  mediaId: String!
-}
-
-input RoomDeleteMediaInput {
-  roomId: String!
-  mediaId: String!
+  room(name: String!): Room!
+  rooms(name: String!): [Room!]!
+  chatMessages(chatId: ID!): [ChatMessage!]!
 }
 
 type Mutation {
   logout(refreshToken: String!): Boolean!
-  createRoom(input: RoomCreateInput!): Room!
-  deleteRoom(input: RoomDeleteInput!): Boolean!
-  leaveRoom(input: RoomLeaveInput!): Boolean!
-  createRoomMedia(input: RoomMediaCreateInput!): RoomMedia!
-  joinRoom(input: RoomJoinInput!): Room!
-  toggleMediaStatus(input: mediaStatusChangeInput!): Boolean!
-  createRoomMessage(input: RoomMessageCreateInput!): Boolean!
+  createChatMessage(input: ChatMessageCreateInput!): Boolean!
 }
 
-input RoomCreateInput {
-  roomMediaId: String!
-}
-
-input RoomDeleteInput {
-  roomId: String!
-}
-
-input RoomLeaveInput {
-  roomId: String!
-}
-
-input RoomMediaCreateInput {
-  link: String!
-}
-
-input RoomJoinInput {
-  roomId: String!
-}
-
-input mediaStatusChangeInput {
-  roomId: String!
-  mediaStatus: String!
-}
-
-input RoomMessageCreateInput {
+input ChatMessageCreateInput {
   text: String!
-  roomId: String!
+  chatId: String!
 }
 
 type Subscription {
-  roomMessageCreated(roomId: ID!): RoomMessage!
-  roomMediaStatusChanged(roomId: ID!): Room!
-  roomCreated: Room!
-  userJoined: Room!
-  roomUserJoined(roomId: ID!): Room!
-  roomDeleted(roomId: ID!): Room!
-  roomLeave(roomId: ID!): Room!
-  roomAddedMedia(roomId: ID!): Room!
-  roomDeletedMedia(roomId: ID!): Room!
-  roomMessageDeleted(roomId: ID!): RoomMessage!
+  roomUpdated(id: ID!): Room!
+  chatMessageCreated(chatId: ID!): ChatMessage!
+  chatMessageDeleted(chatId: ID!): ChatMessage!
 }

@@ -1,25 +1,20 @@
-import { RoomModule } from '@castmate/room-api';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AuthModule, AuthService } from '@castmate/auth-api';
 import { UserModule } from '@castmate/user-api';
+import { ChatModule } from '@castmate/chat-api';
+import { RoomModule } from '@castmate/room-api';
 import { ConnectionModule, ConnectionService } from '@castmate/connection-api';
 import { ConfigModule } from '@nestjs/config';
-import dbConfig from './config/db.config';
-import baseConfig from './config/base.config';
-import authConfig from './config/auth.config';
-import authGoogleConfig from './config/authGoogle.config';
 import { SharedModule } from './shared.module';
-import { RavenInterceptor, RavenModule } from 'nest-raven';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { config } from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [dbConfig, baseConfig, authConfig, authGoogleConfig],
+      load: config,
     }),
-    RavenModule,
     SharedModule,
     GraphQLModule.forRootAsync({
       imports: [AuthModule, ConnectionModule],
@@ -108,14 +103,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     AuthModule,
     UserModule,
     ConnectionModule,
-    RoomModule
+    RoomModule,
+    ChatModule,
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useValue: new RavenInterceptor(),
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}

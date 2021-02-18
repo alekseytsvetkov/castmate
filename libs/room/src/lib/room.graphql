@@ -1,160 +1,20 @@
-query rooms {
-  rooms {
+query room($name: String!) {
+  room(name: $name) {
     ...RoomFields
   }
 }
 
-query room($roomId: ID!) {
-  room(roomId: $roomId) {
+query rooms($name: String!) {
+  rooms(name: $name) {
     ...RoomFields
-  }
-}
-
-query roomMessages($roomId: ID!) {
-  roomMessages(roomId: $roomId) {
-    ...RoomMessageFields
-  }
-}
-
-mutation createRoom($input: RoomCreateInput!) {
-  createRoom(input: $input) {
-    ...RoomFields
-  }
-}
-
-mutation joinRoom($input: RoomJoinInput!) {
-  joinRoom(input: $input) {
-    ...RoomFields
-  }
-}
-
-mutation toggleMediaStatus($input: mediaStatusChangeInput!) {
-  toggleMediaStatus(input: $input)
-}
-
-mutation createRoomMessage($input: RoomMessageCreateInput!) {
-  createRoomMessage(input: $input)
-}
-
-mutation createRoomMedia($input: RoomMediaCreateInput!) {
-  createRoomMedia(input: $input) {
-    ...RoomCreateMediaFields
-  }
-}
-
-query roomPlaylist($roomId: ID!) {
-  roomPlaylist(roomId: $roomId) {
-    ...RoomMediaFields
-  }
-}
-
-subscription roomMediaStatusChanged($roomId: ID!) {
-  roomMediaStatusChanged(roomId: $roomId) {
-    mediaStatus
-  }
-}
-
-subscription roomCreated {
-  roomCreated {
-    ...RoomFields
-  }
-}
-
-subscription userJoined {
-  userJoined {
-    ...RoomFields
-  }
-}
-
-subscription roomUserJoined($roomId: ID!) {
-  roomUserJoined(roomId: $roomId) {
-    ...RoomFields
-  }
-}
-
-subscription roomMessageCreated($roomId: ID!) {
-  roomMessageCreated(roomId: $roomId) {
-    ...RoomMessageFields
-  }
-}
-
-subscription roomMessageDeleted($roomId: ID!) {
-  roomMessageDeleted(roomId: $roomId) {
-    ...RoomMessageFields
-  }
-}
-
-fragment RoomMessageFields on RoomMessage {
-  id
-  content
-  createdAt
-  author {
-    id
-    name
-    profile {
-      id
-      name
-      avatar
-    }
   }
 }
 
 fragment RoomFields on Room {
   id
-  createdAt
   name
-  currentMediaId
-  currentMediaTitle
-  mediaStatus
-  author {
-    id
-    name
-    profile {
-      id
-      name
-      avatar
-    }
-  }
-  members {
-    id
-    name
-    profile {
-      id
-      name
-      avatar
-    }
-  }
-  messages {
-    id
-    createdAt
-    author {
-      id
-      name
-      profile {
-        id
-        name
-        avatar
-      }
-    }
-    content
-  }
-}
-
-fragment RoomMediaFields on RoomMedia {
-  id
-  roomId
-  secondsElapsed
-  link
-  room {
-    id
-    createdAt
-    name
-    mediaStatus
-  }
-}
-
-fragment RoomCreateMediaFields on RoomMedia {
-  id
-  secondsElapsed
-  link
+  title
+  state
+  avatar
+  chatId
 }
