@@ -6,6 +6,10 @@ query me {
   }
 }
 
-mutation logout($refreshToken: String!) {
-  logout(refreshToken: $refreshToken)
+mutation logout {
+  logout
+}
+
+mutation updateConnectionStatus($room: String) {
+  updateConnectionStatus(room: $room)
 }

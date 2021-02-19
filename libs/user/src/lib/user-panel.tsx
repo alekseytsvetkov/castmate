@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { removeToken } from '@castmate/auth';
 import { UserCircleIcon } from '@castmate/icons/user-circle';
-import { getRefreshToken } from '@castmate/auth';
-import { useMeQuery, useLogoutMutation } from './api';
+import {
+  useMeQuery,
+  useLogoutMutation,
+  useUpdateConnectionStatusMutation,
+} from './api';
 
 const UserPanelForGuest = () => {
   const router = useRouter();
@@ -29,23 +33,31 @@ const UserPanelForGuest = () => {
 };
 
 export const UserPanel = () => {
-  const userQuery = useMeQuery();
+  const { query } = useRouter();
+  const room =
+    typeof query?.room === 'string' ? query?.room : undefined;
 
-  const [logoutMutation] = useLogoutMutation({
+  const userQuery = useMeQuery();
+  const [updateStatus] = useUpdateConnectionStatusMutation();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const interval = setInterval(() => {
+        updateStatus({ variables: { room } });
+      }, 4000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [updateStatus, room]);
+
+  const [logout] = useLogoutMutation({
     onCompleted: () => {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      removeToken();
       window.location.reload();
     },
   });
-
-  const logout = () => {
-    logoutMutation({
-      variables: {
-        refreshToken: getRefreshToken(),
-      },
-    });
-  };
 
   const user = userQuery.data?.me;
   const name = user?.name;
@@ -58,7 +70,7 @@ export const UserPanel = () => {
   return (
     <div
       className="flex items-center justify-center w-48px h-48px bg-surface border-t border-background cursor-pointer"
-      onClick={logout}
+      onClick={() => logout()}
     >
       <div className="rounded-full bg-background h-32px w-32px flex items-center justify-center">
         <img src={avatar} alt={name} className="h-full w-full rounded-full" />

@@ -2992,6 +2992,16 @@
   dependencies:
     "@types/ioredis" "*"
 
+"@types/connect-redis@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@types/connect-redis/-/connect-redis-0.0.16.tgz#fd98a26ffbe6ac3037baa4aecc940951b9f78cdc"
+  integrity sha512-ToZRmwoeqRhzGIqMO9k8Hs1B9pFSGYCjHvMpPlgo+kQ4M7xaPwi2/5HjikJ0MOfPDFcAe9Qwl1SaULYCNE6jYg==
+  dependencies:
+    "@types/express" "*"
+    "@types/express-session" "*"
+    "@types/ioredis" "*"
+    "@types/redis" "*"
+
 "@types/connect@*":
   version "3.4.34"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.34.tgz#170a40223a6d666006d93ca128af2beb1d9b1901"
@@ -3056,7 +3066,7 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express-session@1.17.3":
+"@types/express-session@*", "@types/express-session@1.17.3":
   version "1.17.3"
   resolved "https://registry.yarnpkg.com/@types/express-session/-/express-session-1.17.3.tgz#4a37c5c4428b8f922ac8ac1cb4bd9190a4d2b097"
   integrity sha512-57DnyxiqClXOIjoCgeKCUYfKxBPOlOY/k+l1TPK+7bSwyiPTrS5FIk1Ycql7twk4wO7P5lfOVy6akDGiaMSLfw==
@@ -3263,10 +3273,15 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@14.14.29":
+"@types/node@*":
   version "14.14.29"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.29.tgz#2bbaefda2b715f9a0cd31c55b55b9092c5920e59"
   integrity sha512-z1PF7SVwqolmqu21eoWM82FPx699C2sCmrxTcCRotRn+2gt9Ve4dwmZsDntxgGyEHFHXYaqMcMMCdPKUeTKXsA==
+
+"@types/node@14.14.31":
+  version "14.14.31"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.31.tgz#72286bd33d137aa0d152d47ec7c1762563d34055"
+  integrity sha512-vFHy/ezP5qI0rFgJ7aQnjDXwAMrG0KqqIH7tQG5PPv3BWBayOPIQNBjVc/P6hhdZfMx51REc6tfDNXHUio893g==
 
 "@types/node@^10.1.0":
   version "10.17.53"
@@ -3329,6 +3344,13 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
+
+"@types/redis@*":
+  version "2.8.28"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.28.tgz#5862b2b64aa7f7cbc76dafd7e6f06992b52c55e3"
+  integrity sha512-8l2gr2OQ969ypa7hFOeKqtFoY70XkHxISV0pAwmQ2nm6CSPb1brmTmqJCGGrekCo+pAZyWlNXr+Kvo6L/1wijA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/resolve@0.0.8":
   version "0.0.8"
@@ -5904,6 +5926,11 @@ connect-history-api-fallback@^1.6.0:
   resolved "https://registry.yarnpkg.com/connect-history-api-fallback/-/connect-history-api-fallback-1.6.0.tgz#8b32089359308d111115d81cad3fceab888f97bc"
   integrity sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==
 
+connect-redis@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-5.1.0.tgz#bcef59e6fa882377a66398f46f674051a96bcc0b"
+  integrity sha512-Cosy8gGUdkBPEYG84svgkzIGzspKBb98NUX4Nfc5eTJOF0A++41ZV15rPwWW0n5nU/FusNgNzuMeXhLVEQF80Q==
+
 consola@^2.15.0:
   version "2.15.3"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.15.3.tgz#2e11f98d6a4be71ff72e0bdf07bd23e12cb61550"
@@ -7922,10 +7949,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-3.5.2.tgz#a44298b57c84c08345b24bf11fd7002a5bff31ad"
-  integrity sha512-G4Tts16mt/Q2kxA0t/7Dob7Mi8ZJ1/QSiV1HNJ1IZptPzIzk8/lRQxxh/7YNWMaY47eeZzLRbtOHvKHnKs296A==
+framer-motion@3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-3.6.1.tgz#61daadd31f0b16d54e95c01ba87624c86c188de3"
+  integrity sha512-sq3p8pKRyX3yi97X+ihALE1D1En2FjgEdBGk1Ng8J8MdycYesNdBK06LN875amFZ38umcRFdqFG1GQ0BEJ8eFQ==
   dependencies:
     framesync "^5.0.0"
     hey-listen "^1.0.8"
@@ -9493,7 +9520,7 @@ isomorphic-fetch@^3.0.0:
     node-fetch "^2.6.1"
     whatwg-fetch "^3.4.1"
 
-isomorphic-ws@4.0.1:
+isomorphic-ws@4.0.1, isomorphic-ws@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
   integrity sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==
@@ -10131,7 +10158,7 @@ jsonparse@^1.3.1:
   resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
   integrity sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=
 
-jsonwebtoken@8.5.1, jsonwebtoken@^8.2.1, jsonwebtoken@^8.5.1:
+jsonwebtoken@^8.2.1, jsonwebtoken@^8.5.1:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
   integrity sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==

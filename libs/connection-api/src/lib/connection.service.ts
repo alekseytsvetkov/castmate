@@ -1,79 +1,65 @@
 import { PrismaService } from '@castmate/prisma';
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { interval } from 'rxjs';
 import * as ms from 'ms';
 
 @Injectable()
-export class ConnectionService implements OnModuleInit {
+export class ConnectionService {
   constructor(
     private readonly config: ConfigService,
     private prisma: PrismaService
   ) {}
 
-  onModuleInit() {
-    this.initInstance();
-    this.initInstanceWatcher();
-  }
-
-  upInstance = async () => {
-    const id = this.config.get('base.instanceId');
-
-    return this.prisma.instance.upsert({
-      where: { id },
-      create: { id },
-      update: { updatedAt: new Date() },
-    });
-  };
-
-  async killInstance(instanceId: string) {
-    await this.prisma.connection.deleteMany({ where: { instanceId } });
-    return this.prisma.instance.delete({ where: { id: instanceId } });
-  }
-
-  async initInstance() {
-    await this.upInstance();
-    interval(ms('5s')).subscribe(this.upInstance);
-  }
-
-  async initInstanceWatcher() {
-    interval(ms('10s')).subscribe(async () => {
-      const instances = await this.prisma.instance.findMany({
-        where: {
-          updatedAt: {
-            lt: new Date(new Date().getTime() - ms('10s')),
-          },
+  async cleanup() {
+    return await this.prisma.connection.deleteMany({
+      where: {
+        updatedAt: {
+          lt: new Date(new Date().getTime() - ms('7s')),
         },
-      });
-
-      instances.forEach((instance) => this.killInstance(instance.id));
+      },
     });
   }
 
-  async create({ userId, ipHash }: { userId?: string; ipHash: string }) {
+  async updateConnectionStatus({
+    connectionId,
+    ipHash,
+    userId,
+    community,
+    channel,
+  }) {
     const instanceId = this.config.get('base.instanceId');
 
-    if (userId) {
-      return this.prisma.connection.create({
-        data: {
+    let channelId = null;
+
+    if (channel) {
+      const channelData = await this.prisma.channel.findFirst({
+        where: { name: channel, Community: { name: community } },
+      });
+
+      if (channelData) {
+        channelId = channelData.id;
+      }
+    }
+
+    try {
+      await this.prisma.connection.upsert({
+        where: {
+          id: connectionId,
+        },
+        create: {
+          id: connectionId,
           ipHash,
-          user: {
-            connect: { id: userId },
-          },
-          instance: {
-            connect: { id: instanceId },
-          },
+          instanceId,
+          userId,
+          channelId,
+        },
+        update: {
+          channelId,
+          updatedAt: new Date(),
         },
       });
-    } else {
-      return this.prisma.connection.create({
-        data: {
-          ipHash,
-          instance: {
-            connect: { id: instanceId },
-          },
-        },
-      });
+    } catch (error) {
+      Logger.error(error);
     }
   }
 

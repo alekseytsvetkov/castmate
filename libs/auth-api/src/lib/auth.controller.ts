@@ -44,6 +44,12 @@ export class AuthController {
           refreshToken: profile.refreshToken,
           name: profile.name,
           avatar: profile.avatar,
+          user: {
+            update: {
+              name: profile.name,
+              avatar: profile.avatar,
+            },
+          },
         },
       });
 
@@ -58,7 +64,10 @@ export class AuthController {
           name: profile.name,
           avatar: profile.avatar,
           user: {
-            create: {},
+            create: {
+              name: profile.name,
+              avatar: profile.avatar,
+            },
           },
         },
       });
@@ -66,13 +75,9 @@ export class AuthController {
       userId = newProfile.userId;
     }
 
-    // Make auth code
-    const tokens = await this.authService.createToken(userId, true);
+    const token = await this.authService.createToken(userId);
 
-    // Redirect back with auth code
-    return res.redirect(
-      `${codeHandler}code=${tokens.code}&redirect=${redirectUri}`
-    );
+    return res.redirect(`${codeHandler}token=${token}&redirect=${redirectUri}`);
   }
 
   // Google
@@ -109,7 +114,7 @@ export class AuthController {
   ) {
     req.session.codeHandler = codeHandler;
     req.session.redirectUri = redirectUri;
-    res.redirect(`hhttps://castmate-api.kive.dev/authwr/twitch`);
+    res.redirect(`https://castmate-api.kive.dev/authwr/twitch`);
   }
 
   @Get('authwr/twitch')

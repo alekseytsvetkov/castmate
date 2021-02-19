@@ -1,19 +1,35 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as depthLimit from 'graphql-depth-limit';
 import { AuthModule, AuthService } from '@castmate/auth-api';
 import { UserModule } from '@castmate/user-api';
 import { ChatModule } from '@castmate/chat-api';
 import { RoomModule } from '@castmate/room-api';
 import { ConnectionModule, ConnectionService } from '@castmate/connection-api';
-import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from './shared.module';
 import { config } from './config';
+import { nanoid } from 'nanoid';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       load: config,
+    }),
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        redis: {
+          port: configService.get('db.redisPort'),
+          host: configService.get('db.redisHost'),
+        },
+        defaultJobOptions: {
+          removeOnComplete: true,
+        },
+      }),
+      inject: [ConfigService],
     }),
     SharedModule,
     GraphQLModule.forRootAsync({
@@ -24,35 +40,25 @@ import { config } from './config';
         connectionService: ConnectionService
       ) => ({
         installSubscriptionHandlers: true,
+        validationRules: [depthLimit(10)],
         autoSchemaFile: 'schema.gql',
-        context: async ({ req }) => {
-          const accessToken = authService.accessTokenFromHeader(
-            req?.headers?.authorization
-          );
-
-          let userId;
-          let tokenIsInvalid = false;
-
-          if (accessToken) {
-            const payload: any = authService.jwtValidation(accessToken);
-
-            if (payload) {
-              userId = payload.userId;
-            } else {
-              tokenIsInvalid = true;
-            }
+        context: async ({ req, connection }) => {
+          if (connection) {
+            return connection.context;
           }
 
-          return { userId, tokenIsInvalid };
+          const token = req?.headers?.authorization;
+          const { userId } = await authService.getTokenData(token);
+
+          return { userId, token };
         },
         subscriptions: {
-          keepAlive: 3000,
           onConnect: async (
-            connectionParams: { accessToken?: string },
+            connectionParams: { token?: string },
             _webSocket,
             context
           ) => {
-            const accessToken = connectionParams?.accessToken;
+            const token = connectionParams?.token;
 
             let ipHash;
 
@@ -64,38 +70,26 @@ import { config } from './config';
               ipHash = Buffer.from(ip).toString('base64');
             }
 
-            let userId;
-            let tokenIsInvalid = false;
+            const { userId } = await authService.getTokenData(token);
 
-            if (accessToken) {
-              const payload: any = authService.jwtValidation(accessToken);
+            const connectionId = nanoid();
 
-              if (payload) {
-                userId = payload.userId;
-              } else {
-                tokenIsInvalid = true;
-              }
-            }
-
-            if (!tokenIsInvalid) {
-              const { id: connectionId } = await connectionService.create({
-                userId,
-                ipHash,
-              });
-
-              return {
-                userId,
-                ipHash,
-                connectionId,
-                tokenIsInvalid,
-              };
-            }
-
-            return false;
+            return {
+              token,
+              userId,
+              ipHash,
+              connectionId,
+            };
           },
           onDisconnect: async (_webSocket, context) => {
             const data = await context.initPromise;
-            await connectionService.remove(data.connectionId);
+            const connectionId = data.connectionId;
+
+            if (connectionId) {
+              await connectionService.remove(connectionId);
+            } else {
+              Logger.log(data);
+            }
           },
         },
       }),
@@ -106,7 +100,5 @@ import { config } from './config';
     RoomModule,
     ChatModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

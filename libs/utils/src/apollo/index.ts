@@ -6,8 +6,9 @@ import {
 } from '@apollo/client';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
-import { errorLink } from './errorLink';
-import { wsLink } from './wsLink';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getToken } from '@castmate/auth';
+import WebSocket from 'isomorphic-ws';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -15,9 +16,18 @@ let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function createApolloClient() {
   return new ApolloClient({
-    link: errorLink.concat(wsLink),
+    link:
+      typeof window !== 'undefined' &&
+      new WebSocketLink({
+        uri: `wss://castmate-api.kive.dev/graphql`,
+        webSocketImpl: WebSocket,
+        options: {
+          reconnect: true,
+          connectionParams: () => ({ token: getToken() }),
+        },
+      }),
+    ssrMode: typeof window === 'undefined',
     cache: new InMemoryCache(),
-    ssrMode: false,
   });
 }
 
@@ -61,7 +71,7 @@ export function addApolloState(client, pageProps) {
 }
 
 export function useApollo(pageProps) {
-  const state = pageProps ? pageProps[APOLLO_STATE_PROP_NAME] : null;
+  const state = pageProps[APOLLO_STATE_PROP_NAME];
   const store = useMemo(() => initializeApollo(state), [state]);
   return store;
 }

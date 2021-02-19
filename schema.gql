@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AuthTokens {
-  refreshToken: String!
-  accessToken: String!
-}
-
 type Profile {
   id: String!
   name: String
@@ -49,8 +44,6 @@ type Room {
 }
 
 type Query {
-  tokens(authCode: String!): AuthTokens!
-  refresh(refreshToken: String!): String!
   user(id: ID): User
   me: User!
   room(name: String!): Room!
@@ -59,7 +52,7 @@ type Query {
 }
 
 type Mutation {
-  logout(refreshToken: String!): Boolean!
+  logout: Boolean!
   createChatMessage(input: ChatMessageCreateInput!): Boolean!
 }
 
