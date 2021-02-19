@@ -53,6 +53,7 @@ type Query {
 
 type Mutation {
   logout: Boolean!
+  updateConnectionStatus(room: String): Boolean!
   createChatMessage(input: ChatMessageCreateInput!): Boolean!
 }
 

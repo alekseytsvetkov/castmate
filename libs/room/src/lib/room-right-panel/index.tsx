@@ -5,16 +5,16 @@ import { Chat } from '@castmate/chat';
 import { useRouter } from 'next/router';
 import { useRoomQuery } from '../api';
 
-export const CommunityRightPanel = () => {
+export const RoomRightPanel = () => {
   const { query } = useRouter();
   const name = typeof query?.room === 'string' && query?.room;
 
-  const communityRoomsQuery = useRoomQuery({
+  const roomsQuery = useRoomQuery({
     variables: { name },
     skip: !name,
   });
 
-  const room = communityRoomsQuery?.data?.room;
+  const room = roomsQuery?.data?.room;
 
   return (
     <div className="h-screen flex flex-col w-320px bg-surface">

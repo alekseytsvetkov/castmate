@@ -57,7 +57,7 @@ model Token {
 }
 
 model Connection {
-  id          String  @default(cuid()) @id
+  id          String    @default(cuid()) @id
   instanceId  String?
   userId      String?
   ipHash      String?
@@ -88,6 +88,7 @@ model Room {
   currentMediaTitle String        @default("")
   mediaStatus       MediaStatus   @default(CUED)
   playlist          RoomMedia[]
+  Connection        Connection[]
 }
 
 model RoomMessage {
@@ -108,4 +109,22 @@ model RoomMedia {
   room           Room?   @relation(fields: [roomId], references: [id])
   secondsElapsed Int     @default(0)
   link           String
+}
+
+model Chat  {
+  id          String    @default(cuid()) @id
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt @default(now())
+}
+
+model ChatMessage {
+  id          String    @default(cuid()) @id
+  chatId      String
+  userId      String
+  content     String
+  deleted     Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt @default(now())
+  chat        Chat      @relation(fields: [chatId], references: [id])
+  author      User      @relation(fields: [userId], references: [id])
 }

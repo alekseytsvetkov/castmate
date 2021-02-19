@@ -29,9 +29,7 @@ export class RoomResolver {
   rooms(@Args({ name: 'name', type: () => String }) name: string) {
     return this.prisma.room.findMany({
       where: {
-        Room: {
-          name,
-        },
+        name
       },
     });
   }

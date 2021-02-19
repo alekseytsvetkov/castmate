@@ -8,7 +8,7 @@ import {
   Context,
 } from '@nestjs/graphql';
 import { UseGuards, Inject, Logger } from '@nestjs/common';
-import { AuthGuard, ModGuard } from '@castmate/auth-api';
+import { AuthGuard } from '@castmate/auth-api';
 import { ChatMessageCreateInput } from './dto/chatMessage.create.input';
 //   import { ChatService } from './chat.service';
 //   import { UsersService } from '../user/user.service';

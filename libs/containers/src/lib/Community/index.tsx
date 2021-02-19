@@ -68,7 +68,7 @@ const Menu = styled.div`
 const Title = styled.div`
 `;
 
-export const Community = ({title, children}) => {
+export const Room = ({title, children}) => {
   const router = useRouter();
 
   return (

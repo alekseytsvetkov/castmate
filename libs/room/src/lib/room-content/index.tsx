@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 
-export const CommunityContent = () => {
+export const RoomContent = () => {
   return (
     <div className="h-screen w-full flex flex-1">
       <ReactPlayer

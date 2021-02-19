@@ -5,11 +5,11 @@ export const config = [
   registerAs('auth', () => ({
     sessionSecret: process.env.SESSION_SECRET,
   })),
-  registerAs('authSpotify', () => ({
-    clientID: process.env.SPOTIFY_ID,
-    clientSecret: process.env.SPOTIFY_SECRET,
-    callbackURL: process.env.SPOTIFY_URL,
-    scope: ['user-read-email', 'user-read-playback-state'],
+  registerAs('authGoogle', () => ({
+    clientID: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: process.env.GOOGLE_URL,
+    scope: ['profile', 'email']
   })),
   registerAs('authTwitch', () => ({
     clientID: process.env.TWITCH_ID,
