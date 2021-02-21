@@ -57,7 +57,7 @@ export const CommunityHeader = () => {
               passHref
             >
               <button
-                className="text-white text-sm px-2 py-1 rounded hover:bg-twitch-light cursor-pointer w-full text-left"
+                className="text-white text-sm px-2 py-1 rounded hover:bg-primary-light cursor-pointer w-full text-left"
                 onClick={() => setMenuIsOpen(false)}
               >
                 Create channel

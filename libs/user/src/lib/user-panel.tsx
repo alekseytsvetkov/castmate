@@ -25,7 +25,7 @@ const UserPanelForGuest = () => {
       }}
       passHref
     >
-      <div className="flex items-center justify-center w-48px h-48px bg-surface border-t border-background cursor-pointer">
+      <div className="flex items-center justify-center w-48px h-48px bg-surface cursor-pointer">
         <UserCircleIcon />
       </div>
     </Link>
@@ -71,11 +71,11 @@ export const UserPanel = () => {
 
   return (
     <div
-      className="flex items-center justify-center w-50px h-50px bg-surface cursor-pointer"
+      className="flex items-center justify-center w-50px h-50px cursor-pointer"
       onClick={() => logout()}
     >
-      <div className="rounded-md bg-background h-40px w-40px flex items-center justify-center p-1">
-        <img src={avatar} alt={name} className="h-full w-full rounded-md" />
+      <div className="rounded-full bg-background h-50px w-50px flex items-center justify-center">
+        <img src={avatar} alt={name} className="h-full w-full rounded-full" />
       </div>
     </div>
   );

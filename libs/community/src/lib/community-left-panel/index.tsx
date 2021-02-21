@@ -35,8 +35,6 @@ export const CommunityLeftPanel = () => {
           ))}
         </SimpleBar>
       </div>
-
-      <div className="w-full h-48px bg-surface border-t border-background"></div>
     </div>
   );
 };

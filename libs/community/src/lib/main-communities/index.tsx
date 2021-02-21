@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SimpleBar from 'simplebar-react';
 import { useCommunitiesQuery, useUniqCountQuery } from '../api';
-import { UserPanel } from '@castmate/user';
+// import { UserPanel } from '@castmate/user';
 
 const CommunityCard: React.FC<{
   title: string;
@@ -37,29 +37,34 @@ export const MainCommunities = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex w-full justify-between items-center px-1 py-1 bg-surface">
-        <div>
+      <div className="flex w-full justify-between items-center px-1 py-1 h-60px bg-surface">
+        <div className="ml-3">
           <span className="text-white">Online:</span>
           <span className="text-white ml-2">{uniqCount}</span>
         </div>
-        <UserPanel />
-        {/* <Link
-          as={isUser ? `/communities/new` : `/auth?continue=/communities/new`}
-          href={{
-            pathname: router.route,
-            query: {
-              ...router.query,
-              [isUser ? 'newCommunity' : 'authModal']: 1,
-            },
-          }}
-          passHref
-        >
-          <button className="btn-primary">Create community</button>
-        </Link> */}
+        {/* <UserPanel /> */}
       </div>
 
-      {/* <div className="flex flex-1 w-full overflow-hidden">
-        <SimpleBar className="h-full w-full">
+      <div className="flex flex-col w-full">
+        <div className="flex w-full justify-between items-center px-3 py-3">
+          <Link
+            as={isUser ? `/communities/new` : `/auth?continue=/communities/new`}
+            href={{
+              pathname: router.route,
+              query: {
+                ...router.query,
+                [isUser ? 'newCommunity' : 'authModal']: 1,
+              },
+            }}
+            passHref
+          >
+            <button className="btn-primary">Create community</button>
+          </Link>
+        </div>
+      </div>
+      
+      <div className="flex flex-1 w-full overflow-hidden">
+        {/* <SimpleBar className="h-full w-full">
           <div className="w-full grid grid-cols-fill-240px py-4 auto-rows-max gap-2 justify-center overflow-y-auto">
             {communities.map((community) => (
               <CommunityCard
@@ -70,8 +75,8 @@ export const MainCommunities = () => {
               />
             ))}
           </div>
-        </SimpleBar>
-      </div> */}
+        </SimpleBar> */}
+      </div>
     </div>
   );
 };

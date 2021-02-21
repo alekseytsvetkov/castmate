@@ -43,8 +43,11 @@ const SocialButton = ({ provider, icon }) => {
 export const Auth = () => {
   return (
     <div className="flex flex-col px-4 py-2 w-320px">
+      <div className="text-white text-lg w-full flex justify-center py-2">
+        Welcome to Castmate
+      </div>
       <div className="text-white text-xs w-full flex justify-center py-2">
-        Auth with
+        Social network for synchronous media viewing
       </div>
 
       <SocialButton provider="google" icon={faGoogle} />

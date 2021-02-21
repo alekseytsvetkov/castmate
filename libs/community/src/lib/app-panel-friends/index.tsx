@@ -5,7 +5,7 @@ import SimpleBar from 'simplebar-react';
 import { HeartIcon } from '@castmate/icons/heart';
 import { useCommunitiesQuery } from '../api';
 
-const CommunityInAppPanel: React.FC<{
+const FriendsInAppPanel: React.FC<{
   title: string;
   name: string;
   avatar: string;
@@ -20,9 +20,9 @@ const CommunityInAppPanel: React.FC<{
           name === community && 'bg-surface-light'
         }`}
       >
-        <div className="rounded-lg bg-background hover:bg-surface-light h-50px w-50px flex items-center justify-center">
+        <div className="rounded-full bg-background hover:bg-surface-light h-50px w-50px flex items-center justify-center">
           {avatar ? (
-            <img src={avatar} className="h-full rounded-lg" alt={title} />
+            <img src={avatar} className="h-full rounded-full" alt={title} />
           ) : (
             <span className="text-gray-400 text-sm">{title[0]}</span>
           )}
@@ -32,16 +32,16 @@ const CommunityInAppPanel: React.FC<{
   );
 };
 
-export const AppPanelCommunities = () => {
+export const AppPanelFriends = () => {
   const communitiesQuery = useCommunitiesQuery();
   const communities = communitiesQuery?.data?.communities || [];
 
   return (
     <>
-      <div className="flex flex-1 w-full overflow-hidden border-t border-background">
+      <div className="flex flex-1 w-full overflow-hidden">
         <SimpleBar className="w-full">
           {communities.map((community) => (
-            <CommunityInAppPanel
+            <FriendsInAppPanel
               key={community.id}
               name={community.name}
               title={community.title}

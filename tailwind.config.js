@@ -28,12 +28,12 @@ module.exports = {
         hr: darken('#FFFFFF', 0.1),
         text: '#EEEEEE',
         twitch: {
-          light: lighen('#0E78F9', 0.2),
-          DEFAULT: '#0E78F9',
+          light: lighen('#6542a6', 0.2),
+          DEFAULT: '#6542a6',
         },
-        spotify: {
-          light: lighen('#1a9c48', 0.2),
-          DEFAULT: '#1a9c48',
+        google: {
+          light: lighen('#4285F4', 0.2),
+          DEFAULT: '#4285F4',
         },
       },
       height: {
@@ -42,6 +42,7 @@ module.exports = {
         '40px': '40px',
         '48px': '48px',
         '50px': '50px',
+        '60px': '60px',
         '70px': '70px',
       },
       width: {
@@ -50,6 +51,7 @@ module.exports = {
         '40px': '40px',
         '48px': '48px',
         '50px': '50px',
+        '60px': '60px',
         '70px': '70px',
         '72px': '72px',
         '240px': '240px',
