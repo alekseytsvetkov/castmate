@@ -10,6 +10,6 @@ mutation logout {
   logout
 }
 
-mutation updateConnectionStatus($room: String) {
-  updateConnectionStatus(room: $room)
+mutation updateConnectionStatus($channel: String) {
+  updateConnectionStatus(channel: $channel)
 }

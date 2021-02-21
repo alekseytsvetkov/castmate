@@ -24,19 +24,20 @@ export class ConnectionService {
     connectionId,
     ipHash,
     userId,
-    room,
+    community,
+    channel,
   }) {
     const instanceId = this.config.get('base.instanceId');
 
-    let roomId = null;
+    let channelId = null;
 
-    if (room) {
-      const roomData = await this.prisma.room.findFirst({
-        where: { name: room },
+    if (channel) {
+      const channelData = await this.prisma.channel.findFirst({
+        where: { name: channel, community: { name: community } },
       });
 
-      if (roomData) {
-        roomId = roomData.id;
+      if (channelData) {
+        channelId = channelData.id;
       }
     }
 
@@ -50,10 +51,10 @@ export class ConnectionService {
           ipHash,
           instanceId,
           userId,
-          roomId,
+          channelId,
         },
         update: {
-          roomId,
+          channelId,
           updatedAt: new Date(),
         },
       });

@@ -22,21 +22,31 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Room {
+type Community {
   id: String!
   name: String!
   title: String!
   avatar: String
-  state: String
-  onlineCount: Float!
-  createdAt: String!
+  createdAt: DateTime!
   updatedAt: DateTime!
+  onlineCount: Float!
 }
 
-type RoomMessage {
+type Channel {
+  id: String!
+  name: String!
+  title: String!
+  state: String
+  avatar: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  onlineCount: Float!
+}
+
+type ChannelMessage {
   id: String!
   content: String!
-  roomId: String!
+  channelId: String!
   userId: String!
   user: User!
   createdAt: String!
@@ -46,29 +56,38 @@ type Query {
   uniqCount: Int!
   user(id: ID): User
   me: User!
-  room(name: String!): Room!
-  rooms(name: String!): [Room!]!
-  roomMessages(roomId: ID!): [RoomMessage!]!
+  community(name: String!): Community!
+  communities: [Community!]!
+  channel(name: String!): Channel!
+  channels(name: String!): [Channel!]!
+  channelMessages(channelId: ID!): [ChannelMessage!]!
 }
 
 type Mutation {
   logout: Boolean!
-  updateConnectionStatus(room: String): Boolean!
-  createRoom(input: CreateRoomInput!): Room!
-  createRoomMessage(input: RoomMessageCreateInput!): Boolean!
+  updateConnectionStatus(channel: String, community: String): Boolean!
+  createCommunity(input: CreateCommunityInput!): Community!
+  createChannel(input: CreateChannelInput!): Channel!
+  createChannelMessage(input: ChannelMessageCreateInput!): Boolean!
 }
 
-input CreateRoomInput {
+input CreateCommunityInput {
   name: String!
   title: String!
 }
 
-input RoomMessageCreateInput {
+input CreateChannelInput {
+  communityId: ID!
+  name: String!
+  title: String!
+}
+
+input ChannelMessageCreateInput {
   content: String!
-  roomId: String!
+  channelId: String!
 }
 
 type Subscription {
-  roomMessageCreated(roomId: ID!): RoomMessage!
-  roomMessageDeleted(roomId: ID!): RoomMessage!
+  channelMessageCreated(channelId: ID!): ChannelMessage!
+  channelMessageDeleted(channelId: ID!): ChannelMessage!
 }

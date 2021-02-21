@@ -151,27 +151,6 @@
         }
       }
     },
-    "room": {
-      "root": "libs/room",
-      "sourceRoot": "libs/room/src",
-      "projectType": "library",
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/room/**/*.{ts,tsx,js,jsx}"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/room"],
-          "options": {
-            "jestConfig": "libs/room/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "auth-api": {
       "root": "libs/auth-api",
       "sourceRoot": "libs/auth-api/src",
@@ -370,22 +349,43 @@
         }
       }
     },
-    "room-api": {
-      "root": "libs/room-api",
-      "sourceRoot": "libs/room-api/src",
+    "community-api": {
+      "root": "libs/community-api",
+      "sourceRoot": "libs/community-api/src",
       "projectType": "library",
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/room-api/**/*.ts"]
+            "lintFilePatterns": ["libs/community-api/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/room-api"],
+          "outputs": ["coverage/libs/community-api"],
           "options": {
-            "jestConfig": "libs/room-api/jest.config.js",
+            "jestConfig": "libs/community-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "community": {
+      "root": "libs/community",
+      "sourceRoot": "libs/community/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/community/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/community"],
+          "options": {
+            "jestConfig": "libs/community/jest.config.js",
             "passWithNoTests": true
           }
         }

@@ -1,39 +1,39 @@
 import React from 'react';
 import {
-  useRoomMessagesQuery,
-  useRoomMessageCreatedSubscription,
+  useChannelMessagesQuery,
+  useChannelMessageCreatedSubscription,
 } from './api';
 import { ChatMessages } from './messages';
 import { ChatBottom } from './bottom';
 
-export const Chat: React.FC<{ roomId: string }> = ({ roomId }) => {
-  const messagesQuery = useRoomMessagesQuery({
-    variables: { roomId },
-    skip: !roomId,
+export const Chat: React.FC<{ channelId: string }> = ({ channelId }) => {
+  const messagesQuery = useChannelMessagesQuery({
+    variables: { channelId },
+    skip: !channelId,
   });
 
-  useRoomMessageCreatedSubscription({
-    variables: { roomId },
-    skip: !roomId,
+  useChannelMessageCreatedSubscription({
+    variables: { channelId },
+    skip: !channelId,
     onSubscriptionData: ({ subscriptionData }) => {
       if (!subscriptionData.data) return;
 
-      const chatMessage = subscriptionData.data.roomMessageCreated;
+      const chatMessage = subscriptionData.data.channelMessageCreated;
 
       messagesQuery.updateQuery((prev) => {
         if (
-          prev.roomMessages.findIndex((c) => c.id === chatMessage.id) < 0
+          prev.channelMessages.findIndex((c) => c.id === chatMessage.id) < 0
         ) {
           return {
             ...prev,
-            roomMessages: [...prev.roomMessages.slice(-50), chatMessage],
+            channelMessages: [...prev.channelMessages.slice(-50), chatMessage],
           };
         }
       });
     },
   });
 
-  const messages = messagesQuery.data?.roomMessages || [];
+  const messages = messagesQuery.data?.channelMessages || [];
 
   return (
     <>
@@ -43,7 +43,7 @@ export const Chat: React.FC<{ roomId: string }> = ({ roomId }) => {
         </div>
       </div>
 
-      <ChatBottom roomId={roomId} />
+      <ChatBottom channelId={channelId} />
     </>
   );
 };

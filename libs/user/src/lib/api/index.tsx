@@ -33,23 +33,34 @@ export type User = {
 };
 
 
-export type Room = {
-  __typename?: 'Room';
+export type Community = {
+  __typename?: 'Community';
   id: Scalars['String'];
   name: Scalars['String'];
   title: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  onlineCount: Scalars['Float'];
-  createdAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  onlineCount: Scalars['Float'];
 };
 
-export type RoomMessage = {
-  __typename?: 'RoomMessage';
+export type Channel = {
+  __typename?: 'Channel';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  title: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  onlineCount: Scalars['Float'];
+};
+
+export type ChannelMessage = {
+  __typename?: 'ChannelMessage';
   id: Scalars['String'];
   content: Scalars['String'];
-  roomId: Scalars['String'];
+  channelId: Scalars['String'];
   userId: Scalars['String'];
   user: User;
   createdAt: Scalars['String'];
@@ -60,9 +71,11 @@ export type Query = {
   uniqCount: Scalars['Int'];
   user?: Maybe<User>;
   me: User;
-  room: Room;
-  rooms: Array<Room>;
-  roomMessages: Array<RoomMessage>;
+  community: Community;
+  communities: Array<Community>;
+  channel: Channel;
+  channels: Array<Channel>;
+  channelMessages: Array<ChannelMessage>;
 };
 
 
@@ -71,67 +84,85 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryRoomArgs = {
+export type QueryCommunityArgs = {
   name: Scalars['String'];
 };
 
 
-export type QueryRoomsArgs = {
+export type QueryChannelArgs = {
   name: Scalars['String'];
 };
 
 
-export type QueryRoomMessagesArgs = {
-  roomId: Scalars['ID'];
+export type QueryChannelsArgs = {
+  name: Scalars['String'];
+};
+
+
+export type QueryChannelMessagesArgs = {
+  channelId: Scalars['ID'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
   updateConnectionStatus: Scalars['Boolean'];
-  createRoom: Room;
-  createRoomMessage: Scalars['Boolean'];
+  createCommunity: Community;
+  createChannel: Channel;
+  createChannelMessage: Scalars['Boolean'];
 };
 
 
 export type MutationUpdateConnectionStatusArgs = {
-  room?: Maybe<Scalars['String']>;
+  channel?: Maybe<Scalars['String']>;
+  community?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationCreateRoomArgs = {
-  input: CreateRoomInput;
+export type MutationCreateCommunityArgs = {
+  input: CreateCommunityInput;
 };
 
 
-export type MutationCreateRoomMessageArgs = {
-  input: RoomMessageCreateInput;
+export type MutationCreateChannelArgs = {
+  input: CreateChannelInput;
 };
 
-export type CreateRoomInput = {
+
+export type MutationCreateChannelMessageArgs = {
+  input: ChannelMessageCreateInput;
+};
+
+export type CreateCommunityInput = {
   name: Scalars['String'];
   title: Scalars['String'];
 };
 
-export type RoomMessageCreateInput = {
+export type CreateChannelInput = {
+  communityId: Scalars['ID'];
+  name: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type ChannelMessageCreateInput = {
   content: Scalars['String'];
-  roomId: Scalars['String'];
+  channelId: Scalars['String'];
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  roomMessageCreated: RoomMessage;
-  roomMessageDeleted: RoomMessage;
+  channelMessageCreated: ChannelMessage;
+  channelMessageDeleted: ChannelMessage;
 };
 
 
-export type SubscriptionRoomMessageCreatedArgs = {
-  roomId: Scalars['ID'];
+export type SubscriptionChannelMessageCreatedArgs = {
+  channelId: Scalars['ID'];
 };
 
 
-export type SubscriptionRoomMessageDeletedArgs = {
-  roomId: Scalars['ID'];
+export type SubscriptionChannelMessageDeletedArgs = {
+  channelId: Scalars['ID'];
 };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -154,7 +185,7 @@ export type LogoutMutation = (
 );
 
 export type UpdateConnectionStatusMutationVariables = Exact<{
-  room?: Maybe<Scalars['String']>;
+  channel?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -228,8 +259,8 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const UpdateConnectionStatusDocument = gql`
-    mutation updateConnectionStatus($room: String) {
-  updateConnectionStatus(room: $room)
+    mutation updateConnectionStatus($channel: String) {
+  updateConnectionStatus(channel: $channel)
 }
     `;
 export type UpdateConnectionStatusMutationFn = Apollo.MutationFunction<UpdateConnectionStatusMutation, UpdateConnectionStatusMutationVariables>;
@@ -247,7 +278,7 @@ export type UpdateConnectionStatusMutationFn = Apollo.MutationFunction<UpdateCon
  * @example
  * const [updateConnectionStatusMutation, { data, loading, error }] = useUpdateConnectionStatusMutation({
  *   variables: {
- *      room: // value for 'room'
+ *      channel: // value for 'channel'
  *   },
  * });
  */

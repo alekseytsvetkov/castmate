@@ -1,20 +1,20 @@
 import React, { useRef } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { EmojiHappyIcon } from '@castmate/icons/emoji-happy';
-import { useCreateRoomMessageMutation } from './api';
+import { useCreateChannelMessageMutation } from './api';
 import { convertTextToEmojiCode } from '@castmate/utils/emoji';
 
 interface ChatBottomProps {
-  roomId: string;
+  channelId: string;
 }
 
-export const ChatBottom: React.FC<ChatBottomProps> = ({ roomId }) => {
+export const ChatBottom: React.FC<ChatBottomProps> = ({ channelId }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   let lock = false;
 
-  const [createMessage] = useCreateRoomMessageMutation({
+  const [createMessage] = useCreateChannelMessageMutation({
     onCompleted: (data) => {
-      if (data.createRoomMessage && textareaRef.current) {
+      if (data.createChannelMessage && textareaRef.current) {
         textareaRef.current.value = '';
         lock = false;
       }
@@ -45,7 +45,7 @@ export const ChatBottom: React.FC<ChatBottomProps> = ({ roomId }) => {
           if (e.key === 'Enter' && !lock && content.length > 0) {
             lock = true;
             createMessage({
-              variables: { input: { roomId, content } },
+              variables: { input: { channelId, content } },
             });
           }
         }}

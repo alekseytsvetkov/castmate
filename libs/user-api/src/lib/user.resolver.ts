@@ -2,7 +2,7 @@ import { Args, Context, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from '@castmate/prisma';
 import { User } from './models/user.model';
 import { HttpService, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../../../auth-api/src/lib/guards';
+import { AuthGuard } from '@castmate/auth-api';
 import { ConfigService } from '@nestjs/config';
 import * as querystring from 'querystring';
 

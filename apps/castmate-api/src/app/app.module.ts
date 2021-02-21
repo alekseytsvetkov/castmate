@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as depthLimit from 'graphql-depth-limit';
 import { AuthModule, AuthService } from '@castmate/auth-api';
 import { UserModule } from '@castmate/user-api';
-import { RoomModule } from '@castmate/room-api';
+import { CommunityModule } from '@castmate/community-api';
 import { ConnectionModule, ConnectionService } from '@castmate/connection-api';
 import { SharedModule } from './shared.module';
 import { config } from './config';
@@ -96,7 +96,7 @@ import { BullModule } from '@nestjs/bull';
     AuthModule,
     UserModule,
     ConnectionModule,
-    RoomModule,
+    CommunityModule,
   ],
 })
 export class AppModule {}

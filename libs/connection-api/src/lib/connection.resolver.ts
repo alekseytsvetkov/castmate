@@ -12,15 +12,18 @@ export class ConnectionResolver {
 
   @Mutation(() => Boolean)
   async updateConnectionStatus(
-    @Args({ name: 'room', type: () => String, nullable: true })
-    room: string,
+    @Args({ name: 'community', type: () => String, nullable: true })
+    community: string,
+    @Args({ name: 'channel', type: () => String, nullable: true })
+    channel: string,
     @Context() { userId, connectionId, ipHash }
   ) {
     this.connectionService.updateConnectionStatus({
       userId,
       connectionId,
       ipHash: `${ipHash}-${userId || 'anon'}`,
-      room,
+      community,
+      channel,
     });
 
     return true;

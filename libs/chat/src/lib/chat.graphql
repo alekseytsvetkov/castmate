@@ -1,26 +1,26 @@
-query RoomMessages($roomId: ID!) {
-  roomMessages(roomId: $roomId) {
-    ...RoomMessageFields
+query ChannelMessages($channelId: ID!) {
+  channelMessages(channelId: $channelId) {
+    ...ChannelMessageFields
   }
 }
 
-mutation createRoomMessage($input: RoomMessageCreateInput!) {
-  createRoomMessage(input: $input)
+mutation createChannelMessage($input: ChannelMessageCreateInput!) {
+  createChannelMessage(input: $input)
 }
 
-subscription RoomMessageCreated($roomId: ID!) {
-  roomMessageCreated(roomId: $roomId) {
-    ...RoomMessageFields
+subscription ChannelMessageCreated($channelId: ID!) {
+  channelMessageCreated(channelId: $channelId) {
+    ...ChannelMessageFields
   }
 }
 
-subscription RoomMessageDeleted($roomId: ID!) {
-  roomMessageDeleted(roomId: $roomId) {
-    ...RoomMessageFields
+subscription ChannelMessageDeleted($channelId: ID!) {
+  channelMessageDeleted(channelId: $channelId) {
+    ...ChannelMessageFields
   }
 }
 
-fragment RoomMessageFields on RoomMessage {
+fragment ChannelMessageFields on ChannelMessage {
   id
   content
   createdAt

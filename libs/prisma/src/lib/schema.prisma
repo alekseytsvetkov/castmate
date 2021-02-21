@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -22,7 +21,7 @@ model Connection {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt @default(now())
   user        User?
-  room     Room?
+  channel     Channel?
 }
 
 model User {
@@ -46,24 +45,43 @@ model Profile {
   user   User
 }
 
-model Room {
+enum CommunityMode {
+  WAITLIST
+  COLLECTION
+}
+
+model Community {
   id              String            @default(cuid()) @id
-  name            String
-  title           String 
+  name            String            @unique
+  title           String
   avatar          String?
-  state           String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt @default(now())
-  messages        RoomMessage[]
+  channels        Channel[]
+  owner           User              @relation(fields: [ownerId], references: [id])
+  ownerId         String
+}
+
+model Channel {
+  id              String            @default(cuid()) @id
+  name            String
+  title           String
+  avatar          String?
+  state           String?
+  mode            CommunityMode     @default(WAITLIST)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt @default(now())
+  community       Community
+  messages        ChannelMessage[]
   connections     Connection[]
 }
 
-model RoomMessage {
+model ChannelMessage {
   id          String  @default(cuid()) @id
   content     String
   deleted     Boolean @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt @default(now())
-  room     Room
+  channel     Channel
   user        User
 }

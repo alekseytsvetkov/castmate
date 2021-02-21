@@ -60,13 +60,13 @@ export const ChatMessage = ({
             )}
           </div>
           <div className="font-medium text-white ml-2">{authorName}</div>
-          <div className="text-accent text-xs ml-2">
+          <div className="text-white text-xs ml-2">
             {dateDistanceInWordsToNow(createdAt)}
           </div>
         </div>
       )}
       <div className="relative">
-        <div className="overflow-hidden text-accent break-words ml-8 flex flex-wrap">
+        <div className="overflow-hidden text-white break-words ml-8 flex flex-wrap">
           {renderMessageText(content)}
         </div>
       </div>

@@ -6,7 +6,6 @@ module.exports = {
     '<rootDir>/libs/utils',
     '<rootDir>/libs/chat',
     '<rootDir>/libs/chat-api',
-    '<rootDir>/libs/room',
     '<rootDir>/libs/auth-api',
     '<rootDir>/libs/user-api',
     '<rootDir>/libs/connection-api',
@@ -16,5 +15,7 @@ module.exports = {
     '<rootDir>/libs/layouts',
     '<rootDir>/libs/auth',
     '<rootDir>/libs/user',
+    '<rootDir>/libs/community-api',
+    '<rootDir>/libs/community',
   ],
 };

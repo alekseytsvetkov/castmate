@@ -29,7 +29,9 @@
       "@castmate/components/*": ["libs/components/src/*"],
       "@castmate/icons/*": ["libs/icons/src/*"],
       "@castmate/layouts/*": ["libs/layouts/src/*"],
-      "@castmate/user": ["libs/user/src/index.ts"]
+      "@castmate/user": ["libs/user/src/index.ts"],
+      "@castmate/community-api": ["libs/community-api/src/index.ts"],
+      "@castmate/community": ["libs/community/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

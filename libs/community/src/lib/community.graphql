@@ -1,0 +1,29 @@
+query community($name: String!) {
+  community(name: $name) {
+    ...CommunityFields
+  }
+}
+
+query communities {
+  communities {
+    ...CommunityFields
+  }
+}
+
+query uniqCount {
+  uniqCount
+}
+
+mutation createCommunity($input: CreateCommunityInput!) {
+  createCommunity(input: $input) {
+    ...CommunityFields
+  }
+}
+
+fragment CommunityFields on Community {
+  id
+  name
+  title
+  avatar
+  onlineCount
+}

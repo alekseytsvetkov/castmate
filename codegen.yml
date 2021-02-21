@@ -13,8 +13,8 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'
-  libs/room/src/lib/api/index.tsx:
-    documents: 'libs/room/src/lib/**/*.graphql'
+  libs/community/src/lib/api/index.tsx:
+    documents: 'libs/community/src/lib/**/*.graphql'
     plugins:
       - 'typescript'
       - 'typescript-operations'

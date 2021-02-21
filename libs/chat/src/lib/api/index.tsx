@@ -33,23 +33,34 @@ export type User = {
 };
 
 
-export type Room = {
-  __typename?: 'Room';
+export type Community = {
+  __typename?: 'Community';
   id: Scalars['String'];
   name: Scalars['String'];
   title: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  onlineCount: Scalars['Float'];
-  createdAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  onlineCount: Scalars['Float'];
 };
 
-export type RoomMessage = {
-  __typename?: 'RoomMessage';
+export type Channel = {
+  __typename?: 'Channel';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  title: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  onlineCount: Scalars['Float'];
+};
+
+export type ChannelMessage = {
+  __typename?: 'ChannelMessage';
   id: Scalars['String'];
   content: Scalars['String'];
-  roomId: Scalars['String'];
+  channelId: Scalars['String'];
   userId: Scalars['String'];
   user: User;
   createdAt: Scalars['String'];
@@ -60,9 +71,11 @@ export type Query = {
   uniqCount: Scalars['Int'];
   user?: Maybe<User>;
   me: User;
-  room: Room;
-  rooms: Array<Room>;
-  roomMessages: Array<RoomMessage>;
+  community: Community;
+  communities: Array<Community>;
+  channel: Channel;
+  channels: Array<Channel>;
+  channelMessages: Array<ChannelMessage>;
 };
 
 
@@ -71,129 +84,147 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryRoomArgs = {
+export type QueryCommunityArgs = {
   name: Scalars['String'];
 };
 
 
-export type QueryRoomsArgs = {
+export type QueryChannelArgs = {
   name: Scalars['String'];
 };
 
 
-export type QueryRoomMessagesArgs = {
-  roomId: Scalars['ID'];
+export type QueryChannelsArgs = {
+  name: Scalars['String'];
+};
+
+
+export type QueryChannelMessagesArgs = {
+  channelId: Scalars['ID'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
   updateConnectionStatus: Scalars['Boolean'];
-  createRoom: Room;
-  createRoomMessage: Scalars['Boolean'];
+  createCommunity: Community;
+  createChannel: Channel;
+  createChannelMessage: Scalars['Boolean'];
 };
 
 
 export type MutationUpdateConnectionStatusArgs = {
-  room?: Maybe<Scalars['String']>;
+  channel?: Maybe<Scalars['String']>;
+  community?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationCreateRoomArgs = {
-  input: CreateRoomInput;
+export type MutationCreateCommunityArgs = {
+  input: CreateCommunityInput;
 };
 
 
-export type MutationCreateRoomMessageArgs = {
-  input: RoomMessageCreateInput;
+export type MutationCreateChannelArgs = {
+  input: CreateChannelInput;
 };
 
-export type CreateRoomInput = {
+
+export type MutationCreateChannelMessageArgs = {
+  input: ChannelMessageCreateInput;
+};
+
+export type CreateCommunityInput = {
   name: Scalars['String'];
   title: Scalars['String'];
 };
 
-export type RoomMessageCreateInput = {
+export type CreateChannelInput = {
+  communityId: Scalars['ID'];
+  name: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type ChannelMessageCreateInput = {
   content: Scalars['String'];
-  roomId: Scalars['String'];
+  channelId: Scalars['String'];
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  roomMessageCreated: RoomMessage;
-  roomMessageDeleted: RoomMessage;
+  channelMessageCreated: ChannelMessage;
+  channelMessageDeleted: ChannelMessage;
 };
 
 
-export type SubscriptionRoomMessageCreatedArgs = {
-  roomId: Scalars['ID'];
+export type SubscriptionChannelMessageCreatedArgs = {
+  channelId: Scalars['ID'];
 };
 
 
-export type SubscriptionRoomMessageDeletedArgs = {
-  roomId: Scalars['ID'];
+export type SubscriptionChannelMessageDeletedArgs = {
+  channelId: Scalars['ID'];
 };
 
-export type RoomMessagesQueryVariables = Exact<{
-  roomId: Scalars['ID'];
+export type ChannelMessagesQueryVariables = Exact<{
+  channelId: Scalars['ID'];
 }>;
 
 
-export type RoomMessagesQuery = (
+export type ChannelMessagesQuery = (
   { __typename?: 'Query' }
-  & { roomMessages: Array<(
-    { __typename?: 'RoomMessage' }
-    & RoomMessageFieldsFragment
+  & { channelMessages: Array<(
+    { __typename?: 'ChannelMessage' }
+    & ChannelMessageFieldsFragment
   )> }
 );
 
-export type CreateRoomMessageMutationVariables = Exact<{
-  input: RoomMessageCreateInput;
+export type CreateChannelMessageMutationVariables = Exact<{
+  input: ChannelMessageCreateInput;
 }>;
 
 
-export type CreateRoomMessageMutation = (
+export type CreateChannelMessageMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createRoomMessage'>
+  & Pick<Mutation, 'createChannelMessage'>
 );
 
-export type RoomMessageCreatedSubscriptionVariables = Exact<{
-  roomId: Scalars['ID'];
+export type ChannelMessageCreatedSubscriptionVariables = Exact<{
+  channelId: Scalars['ID'];
 }>;
 
 
-export type RoomMessageCreatedSubscription = (
+export type ChannelMessageCreatedSubscription = (
   { __typename?: 'Subscription' }
-  & { roomMessageCreated: (
-    { __typename?: 'RoomMessage' }
-    & RoomMessageFieldsFragment
+  & { channelMessageCreated: (
+    { __typename?: 'ChannelMessage' }
+    & ChannelMessageFieldsFragment
   ) }
 );
 
-export type RoomMessageDeletedSubscriptionVariables = Exact<{
-  roomId: Scalars['ID'];
+export type ChannelMessageDeletedSubscriptionVariables = Exact<{
+  channelId: Scalars['ID'];
 }>;
 
 
-export type RoomMessageDeletedSubscription = (
+export type ChannelMessageDeletedSubscription = (
   { __typename?: 'Subscription' }
-  & { roomMessageDeleted: (
-    { __typename?: 'RoomMessage' }
-    & RoomMessageFieldsFragment
+  & { channelMessageDeleted: (
+    { __typename?: 'ChannelMessage' }
+    & ChannelMessageFieldsFragment
   ) }
 );
 
-export type RoomMessageFieldsFragment = (
-  { __typename?: 'RoomMessage' }
-  & Pick<RoomMessage, 'id' | 'content' | 'createdAt'>
+export type ChannelMessageFieldsFragment = (
+  { __typename?: 'ChannelMessage' }
+  & Pick<ChannelMessage, 'id' | 'content' | 'createdAt'>
   & { user: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'avatar'>
   ) }
 );
 
-export const RoomMessageFieldsFragmentDoc = gql`
-    fragment RoomMessageFields on RoomMessage {
+export const ChannelMessageFieldsFragmentDoc = gql`
+    fragment ChannelMessageFields on ChannelMessage {
   id
   content
   createdAt
@@ -204,124 +235,124 @@ export const RoomMessageFieldsFragmentDoc = gql`
   }
 }
     `;
-export const RoomMessagesDocument = gql`
-    query RoomMessages($roomId: ID!) {
-  roomMessages(roomId: $roomId) {
-    ...RoomMessageFields
+export const ChannelMessagesDocument = gql`
+    query ChannelMessages($channelId: ID!) {
+  channelMessages(channelId: $channelId) {
+    ...ChannelMessageFields
   }
 }
-    ${RoomMessageFieldsFragmentDoc}`;
+    ${ChannelMessageFieldsFragmentDoc}`;
 
 /**
- * __useRoomMessagesQuery__
+ * __useChannelMessagesQuery__
  *
- * To run a query within a React component, call `useRoomMessagesQuery` and pass it any options that fit your needs.
- * When your component renders, `useRoomMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useChannelMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChannelMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRoomMessagesQuery({
+ * const { data, loading, error } = useChannelMessagesQuery({
  *   variables: {
- *      roomId: // value for 'roomId'
+ *      channelId: // value for 'channelId'
  *   },
  * });
  */
-export function useRoomMessagesQuery(baseOptions: Apollo.QueryHookOptions<RoomMessagesQuery, RoomMessagesQueryVariables>) {
-        return Apollo.useQuery<RoomMessagesQuery, RoomMessagesQueryVariables>(RoomMessagesDocument, baseOptions);
+export function useChannelMessagesQuery(baseOptions: Apollo.QueryHookOptions<ChannelMessagesQuery, ChannelMessagesQueryVariables>) {
+        return Apollo.useQuery<ChannelMessagesQuery, ChannelMessagesQueryVariables>(ChannelMessagesDocument, baseOptions);
       }
-export function useRoomMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RoomMessagesQuery, RoomMessagesQueryVariables>) {
-          return Apollo.useLazyQuery<RoomMessagesQuery, RoomMessagesQueryVariables>(RoomMessagesDocument, baseOptions);
+export function useChannelMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChannelMessagesQuery, ChannelMessagesQueryVariables>) {
+          return Apollo.useLazyQuery<ChannelMessagesQuery, ChannelMessagesQueryVariables>(ChannelMessagesDocument, baseOptions);
         }
-export type RoomMessagesQueryHookResult = ReturnType<typeof useRoomMessagesQuery>;
-export type RoomMessagesLazyQueryHookResult = ReturnType<typeof useRoomMessagesLazyQuery>;
-export type RoomMessagesQueryResult = Apollo.QueryResult<RoomMessagesQuery, RoomMessagesQueryVariables>;
-export const CreateRoomMessageDocument = gql`
-    mutation createRoomMessage($input: RoomMessageCreateInput!) {
-  createRoomMessage(input: $input)
+export type ChannelMessagesQueryHookResult = ReturnType<typeof useChannelMessagesQuery>;
+export type ChannelMessagesLazyQueryHookResult = ReturnType<typeof useChannelMessagesLazyQuery>;
+export type ChannelMessagesQueryResult = Apollo.QueryResult<ChannelMessagesQuery, ChannelMessagesQueryVariables>;
+export const CreateChannelMessageDocument = gql`
+    mutation createChannelMessage($input: ChannelMessageCreateInput!) {
+  createChannelMessage(input: $input)
 }
     `;
-export type CreateRoomMessageMutationFn = Apollo.MutationFunction<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>;
+export type CreateChannelMessageMutationFn = Apollo.MutationFunction<CreateChannelMessageMutation, CreateChannelMessageMutationVariables>;
 
 /**
- * __useCreateRoomMessageMutation__
+ * __useCreateChannelMessageMutation__
  *
- * To run a mutation, you first call `useCreateRoomMessageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateRoomMessageMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateChannelMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateChannelMessageMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createRoomMessageMutation, { data, loading, error }] = useCreateRoomMessageMutation({
+ * const [createChannelMessageMutation, { data, loading, error }] = useCreateChannelMessageMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useCreateRoomMessageMutation(baseOptions?: Apollo.MutationHookOptions<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>) {
-        return Apollo.useMutation<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>(CreateRoomMessageDocument, baseOptions);
+export function useCreateChannelMessageMutation(baseOptions?: Apollo.MutationHookOptions<CreateChannelMessageMutation, CreateChannelMessageMutationVariables>) {
+        return Apollo.useMutation<CreateChannelMessageMutation, CreateChannelMessageMutationVariables>(CreateChannelMessageDocument, baseOptions);
       }
-export type CreateRoomMessageMutationHookResult = ReturnType<typeof useCreateRoomMessageMutation>;
-export type CreateRoomMessageMutationResult = Apollo.MutationResult<CreateRoomMessageMutation>;
-export type CreateRoomMessageMutationOptions = Apollo.BaseMutationOptions<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>;
-export const RoomMessageCreatedDocument = gql`
-    subscription RoomMessageCreated($roomId: ID!) {
-  roomMessageCreated(roomId: $roomId) {
-    ...RoomMessageFields
+export type CreateChannelMessageMutationHookResult = ReturnType<typeof useCreateChannelMessageMutation>;
+export type CreateChannelMessageMutationResult = Apollo.MutationResult<CreateChannelMessageMutation>;
+export type CreateChannelMessageMutationOptions = Apollo.BaseMutationOptions<CreateChannelMessageMutation, CreateChannelMessageMutationVariables>;
+export const ChannelMessageCreatedDocument = gql`
+    subscription ChannelMessageCreated($channelId: ID!) {
+  channelMessageCreated(channelId: $channelId) {
+    ...ChannelMessageFields
   }
 }
-    ${RoomMessageFieldsFragmentDoc}`;
+    ${ChannelMessageFieldsFragmentDoc}`;
 
 /**
- * __useRoomMessageCreatedSubscription__
+ * __useChannelMessageCreatedSubscription__
  *
- * To run a query within a React component, call `useRoomMessageCreatedSubscription` and pass it any options that fit your needs.
- * When your component renders, `useRoomMessageCreatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useChannelMessageCreatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useChannelMessageCreatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRoomMessageCreatedSubscription({
+ * const { data, loading, error } = useChannelMessageCreatedSubscription({
  *   variables: {
- *      roomId: // value for 'roomId'
+ *      channelId: // value for 'channelId'
  *   },
  * });
  */
-export function useRoomMessageCreatedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RoomMessageCreatedSubscription, RoomMessageCreatedSubscriptionVariables>) {
-        return Apollo.useSubscription<RoomMessageCreatedSubscription, RoomMessageCreatedSubscriptionVariables>(RoomMessageCreatedDocument, baseOptions);
+export function useChannelMessageCreatedSubscription(baseOptions: Apollo.SubscriptionHookOptions<ChannelMessageCreatedSubscription, ChannelMessageCreatedSubscriptionVariables>) {
+        return Apollo.useSubscription<ChannelMessageCreatedSubscription, ChannelMessageCreatedSubscriptionVariables>(ChannelMessageCreatedDocument, baseOptions);
       }
-export type RoomMessageCreatedSubscriptionHookResult = ReturnType<typeof useRoomMessageCreatedSubscription>;
-export type RoomMessageCreatedSubscriptionResult = Apollo.SubscriptionResult<RoomMessageCreatedSubscription>;
-export const RoomMessageDeletedDocument = gql`
-    subscription RoomMessageDeleted($roomId: ID!) {
-  roomMessageDeleted(roomId: $roomId) {
-    ...RoomMessageFields
+export type ChannelMessageCreatedSubscriptionHookResult = ReturnType<typeof useChannelMessageCreatedSubscription>;
+export type ChannelMessageCreatedSubscriptionResult = Apollo.SubscriptionResult<ChannelMessageCreatedSubscription>;
+export const ChannelMessageDeletedDocument = gql`
+    subscription ChannelMessageDeleted($channelId: ID!) {
+  channelMessageDeleted(channelId: $channelId) {
+    ...ChannelMessageFields
   }
 }
-    ${RoomMessageFieldsFragmentDoc}`;
+    ${ChannelMessageFieldsFragmentDoc}`;
 
 /**
- * __useRoomMessageDeletedSubscription__
+ * __useChannelMessageDeletedSubscription__
  *
- * To run a query within a React component, call `useRoomMessageDeletedSubscription` and pass it any options that fit your needs.
- * When your component renders, `useRoomMessageDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useChannelMessageDeletedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useChannelMessageDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRoomMessageDeletedSubscription({
+ * const { data, loading, error } = useChannelMessageDeletedSubscription({
  *   variables: {
- *      roomId: // value for 'roomId'
+ *      channelId: // value for 'channelId'
  *   },
  * });
  */
-export function useRoomMessageDeletedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RoomMessageDeletedSubscription, RoomMessageDeletedSubscriptionVariables>) {
-        return Apollo.useSubscription<RoomMessageDeletedSubscription, RoomMessageDeletedSubscriptionVariables>(RoomMessageDeletedDocument, baseOptions);
+export function useChannelMessageDeletedSubscription(baseOptions: Apollo.SubscriptionHookOptions<ChannelMessageDeletedSubscription, ChannelMessageDeletedSubscriptionVariables>) {
+        return Apollo.useSubscription<ChannelMessageDeletedSubscription, ChannelMessageDeletedSubscriptionVariables>(ChannelMessageDeletedDocument, baseOptions);
       }
-export type RoomMessageDeletedSubscriptionHookResult = ReturnType<typeof useRoomMessageDeletedSubscription>;
-export type RoomMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<RoomMessageDeletedSubscription>;
+export type ChannelMessageDeletedSubscriptionHookResult = ReturnType<typeof useChannelMessageDeletedSubscription>;
+export type ChannelMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<ChannelMessageDeletedSubscription>;
