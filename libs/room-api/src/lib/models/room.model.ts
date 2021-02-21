@@ -32,7 +32,8 @@ export class Room {
 
   @Field({ nullable: true }) state?: string;
 
-  @Field() chatId: string;
+  @Field()
+  onlineCount: number;
 
   // @Field() currentMediaId: string;
 

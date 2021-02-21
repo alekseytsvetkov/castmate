@@ -30,7 +30,7 @@ export const RoomRightPanel = () => {
           </span>
         </div>
       </div>
-      <Chat chatId={room?.chatId} />
+      <Chat roomId={room?.id} />
     </div>
   );
 };

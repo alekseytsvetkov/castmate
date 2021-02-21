@@ -16,6 +16,5 @@ module.exports = {
     '<rootDir>/libs/layouts',
     '<rootDir>/libs/auth',
     '<rootDir>/libs/user',
-    '<rootDir>/libs/community-api',
   ],
 };

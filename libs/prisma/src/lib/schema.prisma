@@ -8,123 +8,62 @@ datasource db {
   url      = env("PG_URL")
 }
 
-model Profile {
-  id           String  @id @default(cuid())
-  userId       String  @unique
-  provider     String
-  serviceId    String
-  name         String?
-  avatar       String?
-  email        String?
-  accessToken  String?
-  refreshToken String?
-  user         User    @relation(fields: [userId], references: [id])
-}
-
-model User {
-  id          String          @id @default(cuid())
-  name        String?
-  avatar          String?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @default(now()) @updatedAt
-  verified    Boolean         @default(false)
-  profile     Profile?
-  token       Token[]
-  connection  Connection[]
-  rooms       Room[]          @relation(name: "roomMembers")
-  roomMessage RoomMessage[]
-  room        Room[]
-  requests    FriendRequest[]
-  friends     User[]          @relation("UserToUser")
-  User        User?           @relation("UserToUser", fields: [userId], references: [id])
-  userId      String?
-}
-
-model FriendRequest {
-  id     String  @id @default(cuid())
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
-}
-
 model Token {
-  id          String   @id @default(cuid())
-  userId      String
-  code        String?  @default(cuid())
-  accessToken String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
-  user        User     @relation(fields: [userId], references: [id])
+  id          String  @default(cuid()) @id
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt @default(now())
+  user        User
 }
 
 model Connection {
-  id          String    @default(cuid()) @id
+  id          String  @default(cuid()) @id
   instanceId  String?
-  userId      String?
   ipHash      String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt @default(now())
-  user        User?     @relation(fields: [userId], references: [id])
+  user        User?
+  room     Room?
 }
 
-enum MediaStatus {
-  ENDED
-  PLAYING
-  PAUSED
-  BUFFERING
-  CUED
+model User {
+  id              String            @default(cuid()) @id
+  name            String?
+  avatar          String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt @default(now())
+  profiles        Profile[]
+}
+
+model Profile {
+  id     String  @default(cuid()) @id
+  provider String
+  serviceId String
+  name   String?
+  avatar String?
+  email String?
+  accessToken String?
+  refreshToken String?
+  user   User
 }
 
 model Room {
-  id                String        @id @default(cuid())
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @default(now()) @updatedAt
-  name              String        @default("Room")
-  private           Boolean       @default(false)
-  userId            String
-  author            User          @relation(fields: [userId], references: [id])
-  members           User[]        @relation(name: "roomMembers")
-  messages          RoomMessage[]
-  currentMediaId    String        @default("")
-  currentMediaTitle String        @default("")
-  mediaStatus       MediaStatus   @default(CUED)
-  playlist          RoomMedia[]
-  Connection        Connection[]
+  id              String            @default(cuid()) @id
+  name            String
+  title           String 
+  avatar          String?
+  state           String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt @default(now())
+  messages        RoomMessage[]
+  connections     Connection[]
 }
 
 model RoomMessage {
-  id        String   @id @default(cuid())
-  roomId    String
-  userId    String
-  room      Room     @relation(fields: [roomId], references: [id])
-  author    User     @relation(fields: [userId], references: [id])
-  content   String
-  deleted   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model RoomMedia {
-  id             String  @id @default(cuid())
-  roomId         String?
-  room           Room?   @relation(fields: [roomId], references: [id])
-  secondsElapsed Int     @default(0)
-  link           String
-}
-
-model Chat  {
-  id          String    @default(cuid()) @id
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt @default(now())
-}
-
-model ChatMessage {
-  id          String    @default(cuid()) @id
-  chatId      String
-  userId      String
+  id          String  @default(cuid()) @id
   content     String
-  deleted     Boolean   @default(false)
+  deleted     Boolean @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt @default(now())
-  chat        Chat      @relation(fields: [chatId], references: [id])
-  author      User      @relation(fields: [userId], references: [id])
+  room     Room
+  user        User
 }

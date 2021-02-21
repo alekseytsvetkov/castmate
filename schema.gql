@@ -14,8 +14,7 @@ type User {
   avatar: String
   createdAt: DateTime!
   updatedAt: DateTime!
-  verified: Boolean!
-  profile: Profile
+  profiles: [Profile!]
 }
 
 """
@@ -23,47 +22,53 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type ChatMessage {
-  id: String!
-  content: String!
-  chatId: String!
-  authorId: String!
-  author: User!
-  createdAt: String!
-}
-
 type Room {
   id: String!
   name: String!
   title: String!
   avatar: String
   state: String
-  chatId: String!
+  onlineCount: Float!
   createdAt: String!
   updatedAt: DateTime!
 }
 
+type RoomMessage {
+  id: String!
+  content: String!
+  roomId: String!
+  userId: String!
+  user: User!
+  createdAt: String!
+}
+
 type Query {
+  uniqCount: Int!
   user(id: ID): User
   me: User!
   room(name: String!): Room!
   rooms(name: String!): [Room!]!
-  chatMessages(chatId: ID!): [ChatMessage!]!
+  roomMessages(roomId: ID!): [RoomMessage!]!
 }
 
 type Mutation {
   logout: Boolean!
   updateConnectionStatus(room: String): Boolean!
-  createChatMessage(input: ChatMessageCreateInput!): Boolean!
+  createRoom(input: CreateRoomInput!): Room!
+  createRoomMessage(input: RoomMessageCreateInput!): Boolean!
 }
 
-input ChatMessageCreateInput {
-  text: String!
-  chatId: String!
+input CreateRoomInput {
+  name: String!
+  title: String!
+}
+
+input RoomMessageCreateInput {
+  content: String!
+  roomId: String!
 }
 
 type Subscription {
-  roomUpdated(id: ID!): Room!
-  chatMessageCreated(chatId: ID!): ChatMessage!
-  chatMessageDeleted(chatId: ID!): ChatMessage!
+  roomMessageCreated(roomId: ID!): RoomMessage!
+  roomMessageDeleted(roomId: ID!): RoomMessage!
 }

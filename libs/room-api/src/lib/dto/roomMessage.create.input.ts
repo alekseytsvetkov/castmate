@@ -5,7 +5,7 @@ import { Length } from 'class-validator';
 export class RoomMessageCreateInput {
   @Field()
   @Length(1, 500)
-  text: string;
+  content: string;
 
   @Field()
   roomId: string;

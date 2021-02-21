@@ -29,9 +29,6 @@ export class User {
   @Field()
   updatedAt: Date;
 
-  @Field({ defaultValue: false })
-  verified: boolean;
-
-  @Field((type) => Profile, { nullable: true })
-  profile?: Profile;
+  @Field(() => [Profile], { nullable: true })
+  profiles?: Profile[];
 }

@@ -1,22 +1,41 @@
 import {
   Args,
-  ID,
+  Context,
   Mutation,
+  Parent,
   Query,
+  ResolveField,
   Resolver,
-  Subscription,
 } from '@nestjs/graphql';
 import { PrismaService } from '@castmate/prisma';
 import { Room } from './models/room.model';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
-import { Inject } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
+import { CreateRoomInput } from './dto/createRoom.input';
+import { AuthGuard } from '@castmate/auth-api';
 
 @Resolver(() => Room)
 export class RoomResolver {
   constructor(
-    private readonly prisma: PrismaService, // private readonly userService: UsersService,
+    private readonly prisma: PrismaService,
     @Inject('PUB_SUB') private readonly pubsub: RedisPubSub
   ) {}
+
+  @ResolveField()
+  async onlineCount(@Parent() room: Room) {
+    const { id } = room;
+    const connections = await this.prisma.connection.findMany({
+      where: {
+        room: {
+          id,
+        },
+      },
+      select: { ipHash: true },
+      distinct: ['ipHash'],
+    });
+
+    return connections.length;
+  }
 
   @Query(() => Room)
   room(@Args({ name: 'name', type: () => String }) name: string) {
@@ -29,21 +48,26 @@ export class RoomResolver {
   rooms(@Args({ name: 'name', type: () => String }) name: string) {
     return this.prisma.room.findMany({
       where: {
-        name
+        name,
+      },
+
+      orderBy: {
+        createdAt: 'asc',
       },
     });
   }
 
-  // @Mutation()
-  // joinRoom() {
-
-  // }
-
-  @Subscription(() => Room, {
-    filter: ({ roomUpdated }, { roomId }) =>
-      roomUpdated.roomId === roomId,
-  })
-  roomUpdated(@Args({ name: 'id', type: () => ID }) roomId: string) {
-    return this.pubsub.asyncIterator('roomUpdated');
+  @Mutation(() => Room)
+  @UseGuards(AuthGuard)
+  async createRoom(
+    @Args({ name: 'input', type: () => CreateRoomInput })
+    input: CreateRoomInput,
+    @Context('userId') userId: string
+  ) {
+    return this.prisma.room.create({
+      data: {
+        ...input,
+      },
+    });
   }
 }

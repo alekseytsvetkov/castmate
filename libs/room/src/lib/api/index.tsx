@@ -15,12 +15,6 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type AuthTokens = {
-  __typename?: 'AuthTokens';
-  refreshToken: Scalars['String'];
-  accessToken: Scalars['String'];
-};
-
 export type Profile = {
   __typename?: 'Profile';
   id: Scalars['String'];
@@ -35,20 +29,9 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  verified: Scalars['Boolean'];
-  profile?: Maybe<Profile>;
+  profiles?: Maybe<Array<Profile>>;
 };
 
-
-export type ChatMessage = {
-  __typename?: 'ChatMessage';
-  id: Scalars['String'];
-  content: Scalars['String'];
-  chatId: Scalars['String'];
-  authorId: Scalars['String'];
-  author: User;
-  createdAt: Scalars['String'];
-};
 
 export type Room = {
   __typename?: 'Room';
@@ -57,30 +40,29 @@ export type Room = {
   title: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
-  chatId: Scalars['String'];
+  onlineCount: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
+export type RoomMessage = {
+  __typename?: 'RoomMessage';
+  id: Scalars['String'];
+  content: Scalars['String'];
+  roomId: Scalars['String'];
+  userId: Scalars['String'];
+  user: User;
+  createdAt: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  tokens: AuthTokens;
-  refresh: Scalars['String'];
+  uniqCount: Scalars['Int'];
   user?: Maybe<User>;
   me: User;
   room: Room;
   rooms: Array<Room>;
-  chatMessages: Array<ChatMessage>;
-};
-
-
-export type QueryTokensArgs = {
-  authCode: Scalars['String'];
-};
-
-
-export type QueryRefreshArgs = {
-  refreshToken: Scalars['String'];
+  roomMessages: Array<RoomMessage>;
 };
 
 
@@ -99,51 +81,57 @@ export type QueryRoomsArgs = {
 };
 
 
-export type QueryChatMessagesArgs = {
-  chatId: Scalars['ID'];
+export type QueryRoomMessagesArgs = {
+  roomId: Scalars['ID'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
-  createChatMessage: Scalars['Boolean'];
+  updateConnectionStatus: Scalars['Boolean'];
+  createRoom: Room;
+  createRoomMessage: Scalars['Boolean'];
 };
 
 
-export type MutationLogoutArgs = {
-  refreshToken: Scalars['String'];
+export type MutationUpdateConnectionStatusArgs = {
+  room?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationCreateChatMessageArgs = {
-  input: ChatMessageCreateInput;
+export type MutationCreateRoomArgs = {
+  input: CreateRoomInput;
 };
 
-export type ChatMessageCreateInput = {
-  text: Scalars['String'];
-  chatId: Scalars['String'];
+
+export type MutationCreateRoomMessageArgs = {
+  input: RoomMessageCreateInput;
+};
+
+export type CreateRoomInput = {
+  name: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type RoomMessageCreateInput = {
+  content: Scalars['String'];
+  roomId: Scalars['String'];
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  roomUpdated: Room;
-  chatMessageCreated: ChatMessage;
-  chatMessageDeleted: ChatMessage;
+  roomMessageCreated: RoomMessage;
+  roomMessageDeleted: RoomMessage;
 };
 
 
-export type SubscriptionRoomUpdatedArgs = {
-  id: Scalars['ID'];
+export type SubscriptionRoomMessageCreatedArgs = {
+  roomId: Scalars['ID'];
 };
 
 
-export type SubscriptionChatMessageCreatedArgs = {
-  chatId: Scalars['ID'];
-};
-
-
-export type SubscriptionChatMessageDeletedArgs = {
-  chatId: Scalars['ID'];
+export type SubscriptionRoomMessageDeletedArgs = {
+  roomId: Scalars['ID'];
 };
 
 export type RoomQueryVariables = Exact<{
@@ -172,9 +160,22 @@ export type RoomsQuery = (
   )> }
 );
 
+export type CreateRoomMutationVariables = Exact<{
+  input: CreateRoomInput;
+}>;
+
+
+export type CreateRoomMutation = (
+  { __typename?: 'Mutation' }
+  & { createRoom: (
+    { __typename?: 'Room' }
+    & RoomFieldsFragment
+  ) }
+);
+
 export type RoomFieldsFragment = (
   { __typename?: 'Room' }
-  & Pick<Room, 'id' | 'name' | 'title' | 'state' | 'avatar' | 'chatId'>
+  & Pick<Room, 'id' | 'name' | 'title' | 'state' | 'avatar' | 'onlineCount'>
 );
 
 export const RoomFieldsFragmentDoc = gql`
@@ -184,7 +185,7 @@ export const RoomFieldsFragmentDoc = gql`
   title
   state
   avatar
-  chatId
+  onlineCount
 }
     `;
 export const RoomDocument = gql`
@@ -253,3 +254,35 @@ export function useRoomsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Room
 export type RoomsQueryHookResult = ReturnType<typeof useRoomsQuery>;
 export type RoomsLazyQueryHookResult = ReturnType<typeof useRoomsLazyQuery>;
 export type RoomsQueryResult = Apollo.QueryResult<RoomsQuery, RoomsQueryVariables>;
+export const CreateRoomDocument = gql`
+    mutation createRoom($input: CreateRoomInput!) {
+  createRoom(input: $input) {
+    ...RoomFields
+  }
+}
+    ${RoomFieldsFragmentDoc}`;
+export type CreateRoomMutationFn = Apollo.MutationFunction<CreateRoomMutation, CreateRoomMutationVariables>;
+
+/**
+ * __useCreateRoomMutation__
+ *
+ * To run a mutation, you first call `useCreateRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateRoomMutation(baseOptions?: Apollo.MutationHookOptions<CreateRoomMutation, CreateRoomMutationVariables>) {
+        return Apollo.useMutation<CreateRoomMutation, CreateRoomMutationVariables>(CreateRoomDocument, baseOptions);
+      }
+export type CreateRoomMutationHookResult = ReturnType<typeof useCreateRoomMutation>;
+export type CreateRoomMutationResult = Apollo.MutationResult<CreateRoomMutation>;
+export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<CreateRoomMutation, CreateRoomMutationVariables>;

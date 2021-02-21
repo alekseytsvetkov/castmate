@@ -2,16 +2,16 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { User } from '@castmate/user-api';
 
 @ObjectType()
-export class ChatMessage {
+export class RoomMessage {
   @Field() id: string;
 
   @Field() content: string;
 
-  @Field() chatId: string;
+  @Field() roomId: string;
 
-  @Field() authorId: string;
+  @Field() userId: string;
 
-  @Field((type) => User) author: User;
+  @Field(() => User) user: User;
 
   @Field() createdAt: string;
 }

@@ -21,7 +21,6 @@
       "@castmate/utils/*": ["libs/utils/src/*"],
       "@castmate/chat": ["libs/chat/src/index.ts"],
       "@castmate/auth": ["libs/auth/src/index.ts"],
-      "@castmate/chat-api": ["libs/chat-api/src/index.ts"],
       "@castmate/room": ["libs/room/src/index.ts"],
       "@castmate/auth-api": ["libs/auth-api/src/index.ts"],
       "@castmate/user-api": ["libs/user-api/src/index.ts"],

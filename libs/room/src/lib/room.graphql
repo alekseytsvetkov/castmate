@@ -10,11 +10,18 @@ query rooms($name: String!) {
   }
 }
 
+mutation createRoom($input: CreateRoomInput!) {
+  createRoom(input: $input) {
+    ...RoomFields
+  }
+}
+
+
 fragment RoomFields on Room {
   id
   name
   title
   state
   avatar
-  chatId
+  onlineCount
 }

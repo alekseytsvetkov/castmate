@@ -15,12 +15,6 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type AuthTokens = {
-  __typename?: 'AuthTokens';
-  refreshToken: Scalars['String'];
-  accessToken: Scalars['String'];
-};
-
 export type Profile = {
   __typename?: 'Profile';
   id: Scalars['String'];
@@ -35,20 +29,9 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  verified: Scalars['Boolean'];
-  profile?: Maybe<Profile>;
+  profiles?: Maybe<Array<Profile>>;
 };
 
-
-export type ChatMessage = {
-  __typename?: 'ChatMessage';
-  id: Scalars['String'];
-  content: Scalars['String'];
-  chatId: Scalars['String'];
-  authorId: Scalars['String'];
-  author: User;
-  createdAt: Scalars['String'];
-};
 
 export type Room = {
   __typename?: 'Room';
@@ -57,30 +40,29 @@ export type Room = {
   title: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
-  chatId: Scalars['String'];
+  onlineCount: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
+export type RoomMessage = {
+  __typename?: 'RoomMessage';
+  id: Scalars['String'];
+  content: Scalars['String'];
+  roomId: Scalars['String'];
+  userId: Scalars['String'];
+  user: User;
+  createdAt: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  tokens: AuthTokens;
-  refresh: Scalars['String'];
+  uniqCount: Scalars['Int'];
   user?: Maybe<User>;
   me: User;
   room: Room;
   rooms: Array<Room>;
-  chatMessages: Array<ChatMessage>;
-};
-
-
-export type QueryTokensArgs = {
-  authCode: Scalars['String'];
-};
-
-
-export type QueryRefreshArgs = {
-  refreshToken: Scalars['String'];
+  roomMessages: Array<RoomMessage>;
 };
 
 
@@ -99,241 +81,247 @@ export type QueryRoomsArgs = {
 };
 
 
-export type QueryChatMessagesArgs = {
-  chatId: Scalars['ID'];
+export type QueryRoomMessagesArgs = {
+  roomId: Scalars['ID'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
-  createChatMessage: Scalars['Boolean'];
+  updateConnectionStatus: Scalars['Boolean'];
+  createRoom: Room;
+  createRoomMessage: Scalars['Boolean'];
 };
 
 
-export type MutationLogoutArgs = {
-  refreshToken: Scalars['String'];
+export type MutationUpdateConnectionStatusArgs = {
+  room?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationCreateChatMessageArgs = {
-  input: ChatMessageCreateInput;
+export type MutationCreateRoomArgs = {
+  input: CreateRoomInput;
 };
 
-export type ChatMessageCreateInput = {
-  text: Scalars['String'];
-  chatId: Scalars['String'];
+
+export type MutationCreateRoomMessageArgs = {
+  input: RoomMessageCreateInput;
+};
+
+export type CreateRoomInput = {
+  name: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type RoomMessageCreateInput = {
+  content: Scalars['String'];
+  roomId: Scalars['String'];
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  roomUpdated: Room;
-  chatMessageCreated: ChatMessage;
-  chatMessageDeleted: ChatMessage;
+  roomMessageCreated: RoomMessage;
+  roomMessageDeleted: RoomMessage;
 };
 
 
-export type SubscriptionRoomUpdatedArgs = {
-  id: Scalars['ID'];
+export type SubscriptionRoomMessageCreatedArgs = {
+  roomId: Scalars['ID'];
 };
 
 
-export type SubscriptionChatMessageCreatedArgs = {
-  chatId: Scalars['ID'];
+export type SubscriptionRoomMessageDeletedArgs = {
+  roomId: Scalars['ID'];
 };
 
-
-export type SubscriptionChatMessageDeletedArgs = {
-  chatId: Scalars['ID'];
-};
-
-export type ChatMessagesQueryVariables = Exact<{
-  chatId: Scalars['ID'];
+export type RoomMessagesQueryVariables = Exact<{
+  roomId: Scalars['ID'];
 }>;
 
 
-export type ChatMessagesQuery = (
+export type RoomMessagesQuery = (
   { __typename?: 'Query' }
-  & { chatMessages: Array<(
-    { __typename?: 'ChatMessage' }
-    & ChatMessageFieldsFragment
+  & { roomMessages: Array<(
+    { __typename?: 'RoomMessage' }
+    & RoomMessageFieldsFragment
   )> }
 );
 
-export type CreateChatMessageMutationVariables = Exact<{
-  input: ChatMessageCreateInput;
+export type CreateRoomMessageMutationVariables = Exact<{
+  input: RoomMessageCreateInput;
 }>;
 
 
-export type CreateChatMessageMutation = (
+export type CreateRoomMessageMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createChatMessage'>
+  & Pick<Mutation, 'createRoomMessage'>
 );
 
-export type ChatMessageCreatedSubscriptionVariables = Exact<{
-  chatId: Scalars['ID'];
+export type RoomMessageCreatedSubscriptionVariables = Exact<{
+  roomId: Scalars['ID'];
 }>;
 
 
-export type ChatMessageCreatedSubscription = (
+export type RoomMessageCreatedSubscription = (
   { __typename?: 'Subscription' }
-  & { chatMessageCreated: (
-    { __typename?: 'ChatMessage' }
-    & ChatMessageFieldsFragment
+  & { roomMessageCreated: (
+    { __typename?: 'RoomMessage' }
+    & RoomMessageFieldsFragment
   ) }
 );
 
-export type ChatMessageDeletedSubscriptionVariables = Exact<{
-  chatId: Scalars['ID'];
+export type RoomMessageDeletedSubscriptionVariables = Exact<{
+  roomId: Scalars['ID'];
 }>;
 
 
-export type ChatMessageDeletedSubscription = (
+export type RoomMessageDeletedSubscription = (
   { __typename?: 'Subscription' }
-  & { chatMessageDeleted: (
-    { __typename?: 'ChatMessage' }
-    & ChatMessageFieldsFragment
+  & { roomMessageDeleted: (
+    { __typename?: 'RoomMessage' }
+    & RoomMessageFieldsFragment
   ) }
 );
 
-export type ChatMessageFieldsFragment = (
-  { __typename?: 'ChatMessage' }
-  & Pick<ChatMessage, 'id' | 'content' | 'createdAt'>
-  & { author: (
+export type RoomMessageFieldsFragment = (
+  { __typename?: 'RoomMessage' }
+  & Pick<RoomMessage, 'id' | 'content' | 'createdAt'>
+  & { user: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'avatar'>
   ) }
 );
 
-export const ChatMessageFieldsFragmentDoc = gql`
-    fragment ChatMessageFields on ChatMessage {
+export const RoomMessageFieldsFragmentDoc = gql`
+    fragment RoomMessageFields on RoomMessage {
   id
   content
   createdAt
-  author {
+  user {
     id
     name
     avatar
   }
 }
     `;
-export const ChatMessagesDocument = gql`
-    query chatMessages($chatId: ID!) {
-  chatMessages(chatId: $chatId) {
-    ...ChatMessageFields
+export const RoomMessagesDocument = gql`
+    query RoomMessages($roomId: ID!) {
+  roomMessages(roomId: $roomId) {
+    ...RoomMessageFields
   }
 }
-    ${ChatMessageFieldsFragmentDoc}`;
+    ${RoomMessageFieldsFragmentDoc}`;
 
 /**
- * __useChatMessagesQuery__
+ * __useRoomMessagesQuery__
  *
- * To run a query within a React component, call `useChatMessagesQuery` and pass it any options that fit your needs.
- * When your component renders, `useChatMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRoomMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoomMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useChatMessagesQuery({
+ * const { data, loading, error } = useRoomMessagesQuery({
  *   variables: {
- *      chatId: // value for 'chatId'
+ *      roomId: // value for 'roomId'
  *   },
  * });
  */
-export function useChatMessagesQuery(baseOptions: Apollo.QueryHookOptions<ChatMessagesQuery, ChatMessagesQueryVariables>) {
-        return Apollo.useQuery<ChatMessagesQuery, ChatMessagesQueryVariables>(ChatMessagesDocument, baseOptions);
+export function useRoomMessagesQuery(baseOptions: Apollo.QueryHookOptions<RoomMessagesQuery, RoomMessagesQueryVariables>) {
+        return Apollo.useQuery<RoomMessagesQuery, RoomMessagesQueryVariables>(RoomMessagesDocument, baseOptions);
       }
-export function useChatMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChatMessagesQuery, ChatMessagesQueryVariables>) {
-          return Apollo.useLazyQuery<ChatMessagesQuery, ChatMessagesQueryVariables>(ChatMessagesDocument, baseOptions);
+export function useRoomMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RoomMessagesQuery, RoomMessagesQueryVariables>) {
+          return Apollo.useLazyQuery<RoomMessagesQuery, RoomMessagesQueryVariables>(RoomMessagesDocument, baseOptions);
         }
-export type ChatMessagesQueryHookResult = ReturnType<typeof useChatMessagesQuery>;
-export type ChatMessagesLazyQueryHookResult = ReturnType<typeof useChatMessagesLazyQuery>;
-export type ChatMessagesQueryResult = Apollo.QueryResult<ChatMessagesQuery, ChatMessagesQueryVariables>;
-export const CreateChatMessageDocument = gql`
-    mutation createChatMessage($input: ChatMessageCreateInput!) {
-  createChatMessage(input: $input)
+export type RoomMessagesQueryHookResult = ReturnType<typeof useRoomMessagesQuery>;
+export type RoomMessagesLazyQueryHookResult = ReturnType<typeof useRoomMessagesLazyQuery>;
+export type RoomMessagesQueryResult = Apollo.QueryResult<RoomMessagesQuery, RoomMessagesQueryVariables>;
+export const CreateRoomMessageDocument = gql`
+    mutation createRoomMessage($input: RoomMessageCreateInput!) {
+  createRoomMessage(input: $input)
 }
     `;
-export type CreateChatMessageMutationFn = Apollo.MutationFunction<CreateChatMessageMutation, CreateChatMessageMutationVariables>;
+export type CreateRoomMessageMutationFn = Apollo.MutationFunction<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>;
 
 /**
- * __useCreateChatMessageMutation__
+ * __useCreateRoomMessageMutation__
  *
- * To run a mutation, you first call `useCreateChatMessageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateChatMessageMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateRoomMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoomMessageMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createChatMessageMutation, { data, loading, error }] = useCreateChatMessageMutation({
+ * const [createRoomMessageMutation, { data, loading, error }] = useCreateRoomMessageMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useCreateChatMessageMutation(baseOptions?: Apollo.MutationHookOptions<CreateChatMessageMutation, CreateChatMessageMutationVariables>) {
-        return Apollo.useMutation<CreateChatMessageMutation, CreateChatMessageMutationVariables>(CreateChatMessageDocument, baseOptions);
+export function useCreateRoomMessageMutation(baseOptions?: Apollo.MutationHookOptions<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>) {
+        return Apollo.useMutation<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>(CreateRoomMessageDocument, baseOptions);
       }
-export type CreateChatMessageMutationHookResult = ReturnType<typeof useCreateChatMessageMutation>;
-export type CreateChatMessageMutationResult = Apollo.MutationResult<CreateChatMessageMutation>;
-export type CreateChatMessageMutationOptions = Apollo.BaseMutationOptions<CreateChatMessageMutation, CreateChatMessageMutationVariables>;
-export const ChatMessageCreatedDocument = gql`
-    subscription chatMessageCreated($chatId: ID!) {
-  chatMessageCreated(chatId: $chatId) {
-    ...ChatMessageFields
+export type CreateRoomMessageMutationHookResult = ReturnType<typeof useCreateRoomMessageMutation>;
+export type CreateRoomMessageMutationResult = Apollo.MutationResult<CreateRoomMessageMutation>;
+export type CreateRoomMessageMutationOptions = Apollo.BaseMutationOptions<CreateRoomMessageMutation, CreateRoomMessageMutationVariables>;
+export const RoomMessageCreatedDocument = gql`
+    subscription RoomMessageCreated($roomId: ID!) {
+  roomMessageCreated(roomId: $roomId) {
+    ...RoomMessageFields
   }
 }
-    ${ChatMessageFieldsFragmentDoc}`;
+    ${RoomMessageFieldsFragmentDoc}`;
 
 /**
- * __useChatMessageCreatedSubscription__
+ * __useRoomMessageCreatedSubscription__
  *
- * To run a query within a React component, call `useChatMessageCreatedSubscription` and pass it any options that fit your needs.
- * When your component renders, `useChatMessageCreatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRoomMessageCreatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRoomMessageCreatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useChatMessageCreatedSubscription({
+ * const { data, loading, error } = useRoomMessageCreatedSubscription({
  *   variables: {
- *      chatId: // value for 'chatId'
+ *      roomId: // value for 'roomId'
  *   },
  * });
  */
-export function useChatMessageCreatedSubscription(baseOptions: Apollo.SubscriptionHookOptions<ChatMessageCreatedSubscription, ChatMessageCreatedSubscriptionVariables>) {
-        return Apollo.useSubscription<ChatMessageCreatedSubscription, ChatMessageCreatedSubscriptionVariables>(ChatMessageCreatedDocument, baseOptions);
+export function useRoomMessageCreatedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RoomMessageCreatedSubscription, RoomMessageCreatedSubscriptionVariables>) {
+        return Apollo.useSubscription<RoomMessageCreatedSubscription, RoomMessageCreatedSubscriptionVariables>(RoomMessageCreatedDocument, baseOptions);
       }
-export type ChatMessageCreatedSubscriptionHookResult = ReturnType<typeof useChatMessageCreatedSubscription>;
-export type ChatMessageCreatedSubscriptionResult = Apollo.SubscriptionResult<ChatMessageCreatedSubscription>;
-export const ChatMessageDeletedDocument = gql`
-    subscription chatMessageDeleted($chatId: ID!) {
-  chatMessageDeleted(chatId: $chatId) {
-    ...ChatMessageFields
+export type RoomMessageCreatedSubscriptionHookResult = ReturnType<typeof useRoomMessageCreatedSubscription>;
+export type RoomMessageCreatedSubscriptionResult = Apollo.SubscriptionResult<RoomMessageCreatedSubscription>;
+export const RoomMessageDeletedDocument = gql`
+    subscription RoomMessageDeleted($roomId: ID!) {
+  roomMessageDeleted(roomId: $roomId) {
+    ...RoomMessageFields
   }
 }
-    ${ChatMessageFieldsFragmentDoc}`;
+    ${RoomMessageFieldsFragmentDoc}`;
 
 /**
- * __useChatMessageDeletedSubscription__
+ * __useRoomMessageDeletedSubscription__
  *
- * To run a query within a React component, call `useChatMessageDeletedSubscription` and pass it any options that fit your needs.
- * When your component renders, `useChatMessageDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRoomMessageDeletedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRoomMessageDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useChatMessageDeletedSubscription({
+ * const { data, loading, error } = useRoomMessageDeletedSubscription({
  *   variables: {
- *      chatId: // value for 'chatId'
+ *      roomId: // value for 'roomId'
  *   },
  * });
  */
-export function useChatMessageDeletedSubscription(baseOptions: Apollo.SubscriptionHookOptions<ChatMessageDeletedSubscription, ChatMessageDeletedSubscriptionVariables>) {
-        return Apollo.useSubscription<ChatMessageDeletedSubscription, ChatMessageDeletedSubscriptionVariables>(ChatMessageDeletedDocument, baseOptions);
+export function useRoomMessageDeletedSubscription(baseOptions: Apollo.SubscriptionHookOptions<RoomMessageDeletedSubscription, RoomMessageDeletedSubscriptionVariables>) {
+        return Apollo.useSubscription<RoomMessageDeletedSubscription, RoomMessageDeletedSubscriptionVariables>(RoomMessageDeletedDocument, baseOptions);
       }
-export type ChatMessageDeletedSubscriptionHookResult = ReturnType<typeof useChatMessageDeletedSubscription>;
-export type ChatMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<ChatMessageDeletedSubscription>;
+export type RoomMessageDeletedSubscriptionHookResult = ReturnType<typeof useRoomMessageDeletedSubscription>;
+export type RoomMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<RoomMessageDeletedSubscription>;

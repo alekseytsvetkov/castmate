@@ -15,12 +15,6 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type AuthTokens = {
-  __typename?: 'AuthTokens';
-  refreshToken: Scalars['String'];
-  accessToken: Scalars['String'];
-};
-
 export type Profile = {
   __typename?: 'Profile';
   id: Scalars['String'];
@@ -35,20 +29,9 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  verified: Scalars['Boolean'];
-  profile?: Maybe<Profile>;
+  profiles?: Maybe<Array<Profile>>;
 };
 
-
-export type ChatMessage = {
-  __typename?: 'ChatMessage';
-  id: Scalars['String'];
-  content: Scalars['String'];
-  chatId: Scalars['String'];
-  authorId: Scalars['String'];
-  author: User;
-  createdAt: Scalars['String'];
-};
 
 export type Room = {
   __typename?: 'Room';
@@ -57,30 +40,29 @@ export type Room = {
   title: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
-  chatId: Scalars['String'];
+  onlineCount: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
+export type RoomMessage = {
+  __typename?: 'RoomMessage';
+  id: Scalars['String'];
+  content: Scalars['String'];
+  roomId: Scalars['String'];
+  userId: Scalars['String'];
+  user: User;
+  createdAt: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  tokens: AuthTokens;
-  refresh: Scalars['String'];
+  uniqCount: Scalars['Int'];
   user?: Maybe<User>;
   me: User;
   room: Room;
   rooms: Array<Room>;
-  chatMessages: Array<ChatMessage>;
-};
-
-
-export type QueryTokensArgs = {
-  authCode: Scalars['String'];
-};
-
-
-export type QueryRefreshArgs = {
-  refreshToken: Scalars['String'];
+  roomMessages: Array<RoomMessage>;
 };
 
 
@@ -99,51 +81,57 @@ export type QueryRoomsArgs = {
 };
 
 
-export type QueryChatMessagesArgs = {
-  chatId: Scalars['ID'];
+export type QueryRoomMessagesArgs = {
+  roomId: Scalars['ID'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
-  createChatMessage: Scalars['Boolean'];
+  updateConnectionStatus: Scalars['Boolean'];
+  createRoom: Room;
+  createRoomMessage: Scalars['Boolean'];
 };
 
 
-export type MutationLogoutArgs = {
-  refreshToken: Scalars['String'];
+export type MutationUpdateConnectionStatusArgs = {
+  room?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationCreateChatMessageArgs = {
-  input: ChatMessageCreateInput;
+export type MutationCreateRoomArgs = {
+  input: CreateRoomInput;
 };
 
-export type ChatMessageCreateInput = {
-  text: Scalars['String'];
-  chatId: Scalars['String'];
+
+export type MutationCreateRoomMessageArgs = {
+  input: RoomMessageCreateInput;
+};
+
+export type CreateRoomInput = {
+  name: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type RoomMessageCreateInput = {
+  content: Scalars['String'];
+  roomId: Scalars['String'];
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  roomUpdated: Room;
-  chatMessageCreated: ChatMessage;
-  chatMessageDeleted: ChatMessage;
+  roomMessageCreated: RoomMessage;
+  roomMessageDeleted: RoomMessage;
 };
 
 
-export type SubscriptionRoomUpdatedArgs = {
-  id: Scalars['ID'];
+export type SubscriptionRoomMessageCreatedArgs = {
+  roomId: Scalars['ID'];
 };
 
 
-export type SubscriptionChatMessageCreatedArgs = {
-  chatId: Scalars['ID'];
-};
-
-
-export type SubscriptionChatMessageDeletedArgs = {
-  chatId: Scalars['ID'];
+export type SubscriptionRoomMessageDeletedArgs = {
+  roomId: Scalars['ID'];
 };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -157,14 +145,22 @@ export type MeQuery = (
   ) }
 );
 
-export type LogoutMutationVariables = Exact<{
-  refreshToken: Scalars['String'];
-}>;
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'logout'>
+);
+
+export type UpdateConnectionStatusMutationVariables = Exact<{
+  room?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateConnectionStatusMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateConnectionStatus'>
 );
 
 
@@ -203,8 +199,8 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const LogoutDocument = gql`
-    mutation logout($refreshToken: String!) {
-  logout(refreshToken: $refreshToken)
+    mutation logout {
+  logout
 }
     `;
 export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
@@ -222,7 +218,6 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  * @example
  * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
  *   variables: {
- *      refreshToken: // value for 'refreshToken'
  *   },
  * });
  */
@@ -232,3 +227,33 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const UpdateConnectionStatusDocument = gql`
+    mutation updateConnectionStatus($room: String) {
+  updateConnectionStatus(room: $room)
+}
+    `;
+export type UpdateConnectionStatusMutationFn = Apollo.MutationFunction<UpdateConnectionStatusMutation, UpdateConnectionStatusMutationVariables>;
+
+/**
+ * __useUpdateConnectionStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateConnectionStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateConnectionStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateConnectionStatusMutation, { data, loading, error }] = useUpdateConnectionStatusMutation({
+ *   variables: {
+ *      room: // value for 'room'
+ *   },
+ * });
+ */
+export function useUpdateConnectionStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateConnectionStatusMutation, UpdateConnectionStatusMutationVariables>) {
+        return Apollo.useMutation<UpdateConnectionStatusMutation, UpdateConnectionStatusMutationVariables>(UpdateConnectionStatusDocument, baseOptions);
+      }
+export type UpdateConnectionStatusMutationHookResult = ReturnType<typeof useUpdateConnectionStatusMutation>;
+export type UpdateConnectionStatusMutationResult = Apollo.MutationResult<UpdateConnectionStatusMutation>;
+export type UpdateConnectionStatusMutationOptions = Apollo.BaseMutationOptions<UpdateConnectionStatusMutation, UpdateConnectionStatusMutationVariables>;
