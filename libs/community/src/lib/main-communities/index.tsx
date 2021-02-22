@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SimpleBar from 'simplebar-react';
 import { useCommunitiesQuery, useUniqCountQuery } from '../api';
-// import { UserPanel } from '@castmate/user';
+import { BellIcon } from '@castmate/icons/bell';
 
 const CommunityCard: React.FC<{
   title: string;
@@ -29,20 +29,36 @@ export const MainCommunities = () => {
   const router = useRouter();
   const isUser = true;
 
-  const communitiesQuery = useCommunitiesQuery({ pollInterval: 3000 });
-  const communities = communitiesQuery?.data?.communities || [];
+  // const communitiesQuery = useCommunitiesQuery({ pollInterval: 3000 });
+  // const communities = communitiesQuery?.data?.communities || [];
 
   const uniqCountQuery = useUniqCountQuery({ pollInterval: 3000 });
   const uniqCount = uniqCountQuery?.data?.uniqCount || 0;
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex w-full justify-between items-center px-1 py-1 h-60px bg-surface">
+      <div className="flex w-full justify-between items-center py-2 min-h-60px bg-surface">
         <div className="ml-3">
           <span className="text-white">Online:</span>
           <span className="text-white ml-2">{uniqCount}</span>
         </div>
-        {/* <UserPanel /> */}
+        {/* <div className="bg-accent rounded-md text-white p-2 flex justify-center">Discord</div>
+        <div className="bg-accent rounded-md text-white p-2 flex justify-center">Supporter preview</div>
+        <div className="bg-accent rounded-md text-white p-2 flex justify-center">
+          <div>Search</div>
+        </div> */}
+        <div className="flex justify-center p-4 bg-accent rounded-md cursor-pointer">
+          <BellIcon />
+        </div>
+        <div className="bg-accent rounded-md text-white p-2 h-48px flex-col justify-center w-120px">
+          <div className="uppercase text-xs flex justify-between">
+            <div>Level 2:</div>
+            <div>Exp 20</div>
+          </div>
+          <div className="h-2 w-full bg-background rounded-full mt-2">
+            <div className="h-2 w-16 bg-primary rounded-full"></div>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-col w-full">

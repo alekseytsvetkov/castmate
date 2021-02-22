@@ -17,18 +17,18 @@ const FriendsInAppPanel: React.FC<{
   return (
     <Link href={`/${name}`}>
       <div
-        // className={`flex flex-shrink-0 items-center justify-center w-50px h-50px cursor-pointer hover:opacity-90 mt-3 ${
+        // className={`flex flex-shrink-0 items-center justify-center w-48px h-48px cursor-pointer hover:opacity-90 mt-3 ${
         //   name === community && 'bg-surface-light'
         // }`}
-        className={`flex flex-shrink-0 items-center justify-center w-50px h-50px cursor-pointer hover:opacity-90 mt-3`}
+        className={`flex flex-shrink-0 items-center justify-center w-48px h-48px cursor-pointer hover:opacity-90 mt-3`}
       >
-        <div className="relative rounded-full h-50px w-50px flex items-center justify-center">
+        <div className="relative rounded-md h-48px w-48px flex items-center justify-center">
           {avatar ? (
-            <img src={avatar} className="h-full rounded-full" alt={title} />
+            <img src={avatar} className="h-full rounded-md" alt={title} />
           ) : (
             <span className="text-gray-400 text-sm">{title[0]}</span>
           )}
-          <div className="absolute h-4 w-4 border-4 right-0 bottom-0 border-surface rounded-full bg-primary"></div>
+          <div className="absolute h-4 w-4 border-4 -bottom-0.5 -right-0.5 border-surface rounded-full bg-primary"></div>
         </div>
       </div>
     </Link>

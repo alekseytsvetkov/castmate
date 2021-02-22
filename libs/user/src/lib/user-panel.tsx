@@ -71,11 +71,11 @@ export const UserPanel = () => {
 
   return (
     <div
-      className="flex items-center justify-center w-50px h-50px cursor-pointer"
+      className="flex items-center justify-center w-48px h-48px cursor-pointer"
       onClick={() => logout()}
     >
-      <div className="rounded-full bg-background h-50px w-50px flex items-center justify-center">
-        <img src={avatar} alt={name} className="h-full w-full rounded-full border-2 border-primary" />
+      <div className="rounded-md bg-background h-48px w-48px flex items-center justify-center">
+        <img src={avatar} alt={name} className="h-full w-full rounded-md border-2 border-primary" />
       </div>
     </div>
   );
