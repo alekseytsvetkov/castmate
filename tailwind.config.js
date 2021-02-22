@@ -21,6 +21,7 @@ module.exports = {
         },
         surface: {
           light: lighen('#293042', 0.2),
+          dark: darken('#293042', 0.1),
           DEFAULT: '#293042',
         },
         background: '#181C23',

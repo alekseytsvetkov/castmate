@@ -12,7 +12,7 @@ body {
 }
 
 .btn-primary {
-    @apply bg-primary text-white text-sm py-2 px-3 rounded hover:bg-primary-light;
+    @apply bg-gradient-to-r from-primary to-primary-light text-white text-sm py-2 px-3 rounded hover:bg-primary-light;
 }
 
 #nprogress {

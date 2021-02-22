@@ -18,7 +18,7 @@ const Me = () => {
 
 export const AppUserPanel = () => {
   return (
-    <div className="h-screen flex flex-col flex-shrink-0 min-w-70px p-2 bg-surface overflow-hidden">
+    <div className="h-screen flex flex-col flex-shrink-0 min-w-70px p-2 bg-surface-dark overflow-hidden">
       <Me />
       <AppPanelFriends />
     </div>

@@ -5,5 +5,5 @@ export const CommunityWelcome = () => {
   const router = useRouter();
   const community = router.query?.community;
 
-  return <div className="w-full text-white">Welcome to {community}</div>;
+  return <div className="w-full text-white p-3">Welcome to {community}</div>;
 };

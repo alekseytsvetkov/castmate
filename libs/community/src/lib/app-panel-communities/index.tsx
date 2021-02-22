@@ -38,7 +38,7 @@ export const AppPanelCommunities = () => {
 
   return (
     <>
-      <div className="flex flex-1 w-full overflow-hidden border-t border-background">
+      <div className="flex flex-1 w-full overflow-hidden border-t border-surface-light">
         <SimpleBar className="w-full">
           {communities.map((community) => (
             <CommunityInAppPanel
