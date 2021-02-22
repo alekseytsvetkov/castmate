@@ -24,8 +24,16 @@ module.exports = {
           dark: darken('#293042', 0.1),
           DEFAULT: '#293042',
         },
-        background: '#181C23',
-        accent: '#1E2532',
+        background: {
+          light: lighen('#181C23', 0.2),
+          dark: darken('#181C23', 0.1),
+          DEFAULT: '#181C23',
+        },
+        accent: {
+          light: lighen('#1E2532', 0.2),
+          dark: darken('#1E2532', 0.1),
+          DEFAULT: '#1E2532',
+        },
         hr: darken('#FFFFFF', 0.1),
         text: '#EEEEEE',
         twitch: {
