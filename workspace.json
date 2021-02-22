@@ -30,9 +30,7 @@
             "outputPath": "dist/apps/castmate-api",
             "main": "apps/castmate-api/src/main.ts",
             "tsConfig": "apps/castmate-api/tsconfig.app.json",
-            "assets": [
-              "apps/castmate-api/src/assets"
-            ]
+            "assets": ["apps/castmate-api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -57,9 +55,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/castmate-api/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/castmate-api/**/*.ts"]
           }
         },
         "test": {
@@ -80,9 +76,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/prisma/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/prisma/**/*.ts"]
           }
         },
         "test": {
@@ -103,9 +97,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/containers/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/containers/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
@@ -125,16 +117,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/utils/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/utils/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/utils"
-          ],
+          "outputs": ["coverage/libs/utils"],
           "options": {
             "jestConfig": "libs/utils/jest.config.js",
             "passWithNoTests": true
@@ -150,16 +138,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/auth/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/auth/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/auth"
-          ],
+          "outputs": ["coverage/libs/auth"],
           "options": {
             "jestConfig": "libs/auth/jest.config.js",
             "passWithNoTests": true
@@ -175,16 +159,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/auth-api/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/auth-api/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/auth-api"
-          ],
+          "outputs": ["coverage/libs/auth-api"],
           "options": {
             "jestConfig": "libs/auth-api/jest.config.js",
             "passWithNoTests": true
@@ -200,16 +180,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/chat/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/chat/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/chat"
-          ],
+          "outputs": ["coverage/libs/chat"],
           "options": {
             "jestConfig": "libs/chat/jest.config.js",
             "passWithNoTests": true
@@ -225,16 +201,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/user-api/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/user-api/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/user-api"
-          ],
+          "outputs": ["coverage/libs/user-api"],
           "options": {
             "jestConfig": "libs/user-api/jest.config.js",
             "passWithNoTests": true
@@ -250,16 +222,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/connection-api/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/connection-api/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/connection-api"
-          ],
+          "outputs": ["coverage/libs/connection-api"],
           "options": {
             "jestConfig": "libs/connection-api/jest.config.js",
             "passWithNoTests": true
@@ -274,9 +242,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/next:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "root": "apps/castmate-client",
             "outputPath": "dist/apps/castmate-client"
@@ -307,16 +273,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/castmate-client/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["apps/castmate-client/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/castmate-client"
-          ],
+          "outputs": ["coverage/apps/castmate-client"],
           "options": {
             "jestConfig": "apps/castmate-client/jest.config.js",
             "passWithNoTests": true
@@ -332,16 +294,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/icons/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/icons/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/icons"
-          ],
+          "outputs": ["coverage/libs/icons"],
           "options": {
             "jestConfig": "libs/icons/jest.config.js",
             "passWithNoTests": true
@@ -357,16 +315,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/layouts/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/layouts/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/layouts"
-          ],
+          "outputs": ["coverage/libs/layouts"],
           "options": {
             "jestConfig": "libs/layouts/jest.config.js",
             "passWithNoTests": true
@@ -382,16 +336,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/user/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/user/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/user"
-          ],
+          "outputs": ["coverage/libs/user"],
           "options": {
             "jestConfig": "libs/user/jest.config.js",
             "passWithNoTests": true
@@ -407,16 +357,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/community-api/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/community-api/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/community-api"
-          ],
+          "outputs": ["coverage/libs/community-api"],
           "options": {
             "jestConfig": "libs/community-api/jest.config.js",
             "passWithNoTests": true
@@ -432,16 +378,12 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/community/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/community/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/community"
-          ],
+          "outputs": ["coverage/libs/community"],
           "options": {
             "jestConfig": "libs/community/jest.config.js",
             "passWithNoTests": true
@@ -462,9 +404,7 @@
             "outputPath": "dist/apps/castmate-electron",
             "main": "apps/castmate-electron/src/main.ts",
             "tsConfig": "apps/castmate-electron/tsconfig.app.json",
-            "assets": [
-              "apps/castmate-electron/src/assets"
-            ]
+            "assets": ["apps/castmate-electron/src/assets"]
           },
           "configurations": {
             "production": {
@@ -506,15 +446,64 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/castmate-electron/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/castmate-electron/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/castmate-electron/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "castmate-discord": {
+      "root": "apps/castmate-discord",
+      "sourceRoot": "apps/castmate-discord/src",
+      "projectType": "application",
+      "prefix": "castmate-discord",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/castmate-discord",
+            "main": "apps/castmate-discord/src/main.ts",
+            "tsConfig": "apps/castmate-discord/tsconfig.app.json",
+            "assets": ["apps/castmate-discord/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/castmate-discord/src/environments/environment.ts",
+                  "with": "apps/castmate-discord/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "castmate-discord:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/castmate-discord/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/castmate-discord"],
+          "options": {
+            "jestConfig": "apps/castmate-discord/jest.config.js",
             "passWithNoTests": true
           }
         }

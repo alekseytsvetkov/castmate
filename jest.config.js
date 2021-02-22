@@ -16,6 +16,8 @@ module.exports = {
     '<rootDir>/libs/auth',
     '<rootDir>/libs/user',
     '<rootDir>/libs/community-api',
-    '<rootDir>/libs/community',"<rootDir>/apps/castmate-electron"
+    '<rootDir>/libs/community',
+    '<rootDir>/apps/castmate-electron',
+    '<rootDir>/apps/castmate-discord',
   ],
 };
