@@ -28,7 +28,7 @@ const FriendsInAppPanel: React.FC<{
           ) : (
             <span className="text-gray-400 text-sm">{title[0]}</span>
           )}
-          <div className="absolute h-4 w-4 border-4 -bottom-0.5 -right-0.5 border-surface rounded-full bg-primary"></div>
+          <div className="absolute h-4 w-4 border-4 -bottom-0.5 -right-0.5 border-surface rounded-full bg-gradient-to-r from-primary to-primary-light"></div>
         </div>
       </div>
     </Link>

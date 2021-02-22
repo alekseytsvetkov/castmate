@@ -47,16 +47,18 @@ export const MainCommunities = () => {
         <div className="bg-accent rounded-md text-white p-2 flex justify-center">
           <div>Search</div>
         </div> */}
-        <div className="flex justify-center p-4 bg-accent rounded-md cursor-pointer">
-          <BellIcon />
-        </div>
-        <div className="bg-accent rounded-md text-white p-2 h-48px flex-col justify-center w-120px">
-          <div className="uppercase text-xs flex justify-between">
-            <div>Level 2:</div>
-            <div>Exp 20</div>
+        <div className="flex">
+          <div className="flex justify-center p-4 bg-accent rounded-md cursor-pointer ml-2">
+            <BellIcon />
           </div>
-          <div className="h-2 w-full bg-background rounded-full mt-2">
-            <div className="h-2 w-16 bg-primary rounded-full"></div>
+          <div className="bg-accent rounded-md text-white p-2 h-48px flex-col justify-center w-120px ml-2">
+            <div className="uppercase text-xs flex justify-between">
+              <div>Level 2:</div>
+              <div>Exp 20</div>
+            </div>
+            <div className="h-2 w-full bg-background rounded-full mt-2">
+              <div className="h-2 w-16 bg-gradient-to-r from-primary to-primary-light rounded-full"></div>
+            </div>
           </div>
         </div>
       </div>

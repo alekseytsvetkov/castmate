@@ -9,7 +9,7 @@ import { AppPanelCommunities } from '@castmate/community';
 const Logo = () => {
   return (
     <Link href="/">
-      <div className="flex items-center justify-center w-48px h-48px rounded-lg bg-primary cursor-pointer mb-3 hover:opacity-90"></div>
+      <div className="flex items-center justify-center w-48px h-48px rounded-lg bg-gradient-to-r from-primary to-primary-light cursor-pointer mb-3 hover:opacity-90"></div>
     </Link>
   );
 };
