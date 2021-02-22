@@ -43,7 +43,7 @@ export const AppPanelFriends = () => {
     <>
       <div className="flex flex-1 w-full overflow-hidden">
         <SimpleBar className="w-full">
-          <div className="flex justify-center mt-3 p-4 bg-accent rounded-md cursor-pointer">
+          <div className="flex justify-center mt-3 p-4 bg-accent-dark rounded-md cursor-pointer">
             <UserIcon />
           </div>
           {communities.map((community) => (
@@ -54,7 +54,7 @@ export const AppPanelFriends = () => {
               avatar={community.avatar}
             />
           ))}
-          <div className="flex justify-center mt-3 p-4 bg-accent rounded-md cursor-pointer">
+          <div className="flex justify-center mt-3 p-4 bg-accent-dark rounded-md cursor-pointer">
             <UserAddIcon />
           </div>
           {communities.map((community) => (
