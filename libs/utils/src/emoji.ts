@@ -1,4 +1,9 @@
-const emojiList = new Set(['MorshuPls', 'catJAM', 'Pog', '2Head']);
+const emojiList = new Set(['MorshuPls', 'catJAM', 'Pog', '2Head', '4HEader', '5Head',
+'AlienPls', 'AYAYA', 'Clap', 'coffinPls', 'ddHuh', 'EZY', 'gachiBASS', 'GuitarTime',
+'HACKERMANS', 'KEKW', 'lickL', 'lickR', 'LULW', 'MLADY', 'monkaHmm', 'nymnCorn', 'OMEGALUL',
+'peepoHappy', 'peepoPoo', 'peepoRun', 'Pepega', 'PepeHands', 'pepeJAM', 'Pogey', 'POGGERS',
+'PogTasty', 'popCat', 'pugPls', 'ricardoFlick', 'sadCat', 'Sadge', 'sumSmash', 'TriDance',
+'weirdChamp', 'YEP']);
 
 // Ebalo -> <eid:Ebalo:ebalo>
 export const convertTextToEmojiCode = (text: string) => {
