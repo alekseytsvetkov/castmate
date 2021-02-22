@@ -25,7 +25,7 @@ const UserPanelForGuest = () => {
       }}
       passHref
     >
-      <div className="flex items-center justify-center w-48px h-48px bg-surface cursor-pointer">
+      <div className="flex items-center justify-center w-48px h-48px bg-primary hover:bg-primary-light rounded-md cursor-pointer">
         <UserCircleIcon />
       </div>
     </Link>
