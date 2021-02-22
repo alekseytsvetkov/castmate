@@ -15,11 +15,11 @@ import { splitTextToEmojiArray } from '@castmate/utils/emoji';
 interface IProps {
   id?: string;
   name: string;
-}
+}``
 
 export const Emoji: React.FC<IProps> = ({ name, id }) => (
   <img
-    className="object-contain h-6 w-6"
+    className="object-contain h-8 w-8"
     alt={`${name} `}
     src={`/emojis/${id ? id : name}.gif`}
   />
