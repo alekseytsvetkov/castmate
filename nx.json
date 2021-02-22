@@ -1,35 +1,80 @@
 {
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "npmScope": "castmate",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
+      }
     }
   },
   "projects": {
-    "castmate-api": { "tags": [] },
-    "prisma": { "tags": [] },
-    "containers": { "tags": [] },
-    "utils": { "tags": [] },
-    "chat": { "tags": [] },
-    "auth-api": { "tags": [] },
-    "user-api": { "tags": [] },
-    "connection-api": { "tags": [] },
-    "castmate-client": { "tags": [] },
-    "icons": { "tags": [] },
-    "layouts": { "tags": [] },
-    "auth": { "tags": [] },
-    "user": { "tags": [] },
-    "community-api": { "tags": [] },
-    "community": { "tags": [] }
+    "castmate-api": {
+      "tags": []
+    },
+    "prisma": {
+      "tags": []
+    },
+    "containers": {
+      "tags": []
+    },
+    "utils": {
+      "tags": []
+    },
+    "chat": {
+      "tags": []
+    },
+    "auth-api": {
+      "tags": []
+    },
+    "user-api": {
+      "tags": []
+    },
+    "connection-api": {
+      "tags": []
+    },
+    "castmate-client": {
+      "tags": []
+    },
+    "icons": {
+      "tags": []
+    },
+    "layouts": {
+      "tags": []
+    },
+    "auth": {
+      "tags": []
+    },
+    "user": {
+      "tags": []
+    },
+    "community-api": {
+      "tags": []
+    },
+    "community": {
+      "tags": []
+    },
+    "castmate-electron": {
+      "tags": []
+    }
   }
 }
