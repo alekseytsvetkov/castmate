@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player';
 
 export const CommunityContent = () => {
   return (
-    <div className="h-screen w-full flex flex-1">
+    <div className="h-screen w-full flex flex-1 flex-col">
       <ReactPlayer
         url="https://youtu.be/ubfQLNALIic"
         height="100%"
@@ -20,6 +20,10 @@ export const CommunityContent = () => {
           },
         }}
       />
+      <div>
+        <div>Add media</div>
+        <div>Channel playlist:</div>
+      </div>
     </div>
   );
 };
