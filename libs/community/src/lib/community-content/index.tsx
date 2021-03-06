@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import {ChannelPlaylist} from './channel-playlist'
 
 export const CommunityContent = () => {
   return (
@@ -20,10 +21,7 @@ export const CommunityContent = () => {
           },
         }}
       />
-      <div>
-        <div>Add media</div>
-        <div>Channel playlist:</div>
-      </div>
+      <ChannelPlaylist />
     </div>
   );
 };
