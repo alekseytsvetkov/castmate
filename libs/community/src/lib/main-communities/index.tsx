@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import SimpleBar from 'simplebar-react';
 import { useCommunitiesQuery, useUniqCountQuery } from '../api';
 import { BellIcon } from '@castmate/icons/bell';
-import { FeedbackFish } from '@feedback-fish/react';
 
 const CommunityCard: React.FC<{
   title: string;
@@ -43,9 +42,6 @@ export const MainCommunities = () => {
           <span className="text-white">Online:</span>
           <span className="text-white ml-2">{uniqCount}</span>
         </div>
-        <FeedbackFish projectId="...">
-          <button>Send feedback</button>
-        </FeedbackFish>
         {/* <div className="bg-accent rounded-md text-white p-2 flex justify-center">Discord</div>
         <div className="bg-accent rounded-md text-white p-2 flex justify-center">Supporter preview</div>
         <div className="bg-accent rounded-md text-white p-2 flex justify-center">
